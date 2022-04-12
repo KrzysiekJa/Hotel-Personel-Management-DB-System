@@ -54,14 +54,14 @@ CREATE TABLE IF NOT EXISTS `Skills` (
 );
 
 CREATE TABLE IF NOT EXISTS `WorkPlan` (
-	`shift_id` INT NOT NULL,
-	`hotel_employee_id` INT NOT NULL,
+	`shift_ID` INT NOT NULL AUTO_INCREMENT,
+	`hotel_employee_ID` INT NOT NULL,
 	`starting_date` DATETIME NOT NULL,
 	`ending_date` DATETIME NOT NULL,
 	`status` CHAR(50) NOT NULL,
 	`last_edition_date` DATE,
 	PRIMARY KEY (`shift_id`),
-	FOREIGN KEY (`employees_ID`) REFERENCES Employees(`employees_ID`)
+	FOREIGN KEY (`hotel_employee_ID`) REFERENCES HotelsEmployees(`hotel_employee_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `EmployeesSkills`(
