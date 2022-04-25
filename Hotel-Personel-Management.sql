@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `Employees` (
 	`name` CHAR(100) NOT NULL,
 	`surname` CHAR(100) NOT NULL,
 	`adress` CHAR(200) NOT NULL,
-	`sex` CHAR(1) NOT NULL,
+	`sex` CHAR(40) NOT NULL,
 	`date_of_birth` DATE NOT NULL,
 	`telephone` INT NOT NULL,
 	`email` CHAR(200),

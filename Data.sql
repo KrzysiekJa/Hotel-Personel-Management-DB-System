@@ -1,15 +1,15 @@
 USE `Hotel-Personel-Management`;
 
 INSERT INTO `Hotels` (`hotel_ID`, `name`, `adress`, `telephone`, `email`, `standard`, `rooms_number`, `creation_date`) VALUES
-(1, 'Blue Hotel', '28 Christine Lane, Hartland,wi, 53029  United States', 351206201, 'bluehotel@colorful.com', '5 star', 871, 2011-01-03),
-(2, 'Red Hotel', '14 160th Street SE, Sultan,wa, 98294  United States', 245475195, 'redhotel@colorful.com', '4 star', 456, 2013-01-22),
-(3, 'Yellow Hotel', '33 Pine Street, East Moriches,ny, 11940  United States', 245475195, 'yellowhotel@colorful.com', '4 star', 713, 2013-07-10),
-(4, 'Green Hotel', '17 Glen Orchard Drive, Farmington,mi, 48336  United States', 245475195, 'greenhotel@colorful.com', '5 star', 1012, 2019-08-19),
-(5, 'White Hotel', '4 Musick Court, Kasilof,ak, 99610  United States', 782607368, 'whitehotel@colorful.com', '3 star', 348, 2020-02-04),
-(6, 'Grey Hotel', '34 S Downing Circle, Denver,co, 80210  United States', 506226989, 'greyhotel@colorful.com', '5 star', 653, 2021-05-10),
-(7, 'Orange Hotel', '31 Columbus Circle, Eastchester,ny, 10309  United States', 794836394, 'orangehotel@colorful.com', '5 star', 700, 2022-12-28);
+(1, 'Blue Hotel', '28 Christine Lane, Hartland,wi, 53029  United States', 351206201, 'bluehotel@colorful.com', '5 stars', 871, '2011-01-03'),
+(2, 'Red Hotel', '14 160th Street SE, Sultan,wa, 98294  United States', 245475195, 'redhotel@colorful.com', '4 stars', 456, '2013-01-22'),
+(3, 'Yellow Hotel', '33 Pine Street, East Moriches,ny, 11940  United States', 245475195, 'yellowhotel@colorful.com', '4 stars', 713, '2013-07-10'),
+(4, 'Green Hotel', '17 Glen Orchard Drive, Farmington,mi, 48336  United States', 245475195, 'greenhotel@colorful.com', '5 stars', 1012, '2019-08-19'),
+(5, 'White Hotel', '4 Musick Court, Kasilof,ak, 99610  United States', 782607368, 'whitehotel@colorful.com', '3 stars', 348, '2020-02-04'),
+(6, 'Grey Hotel', '34 S Downing Circle, Denver,co, 80210  United States', 506226989, 'greyhotel@colorful.com', '5 stars', 653, '2021-05-10'),
+(7, 'Orange Hotel', '31 Columbus Circle, Eastchester,ny, 10309  United States', 794836394, 'orangehotel@colorful.com', '5 stars', 700, '2022-12-28');
 
-INSERT INTO Employees (employees_ID, name, surname, adress, gender, date_of_birth, telephone, email, number_of_vacation_days, date_of_employment) VALUES
+INSERT INTO `Employees` (`employees_ID`, `name`, `surname`, `adress`, `sex`, `date_of_birth`, `telephone`, `email`, `number_of_vacation_days`, `date_of_employment`) VALUES
 (1, 'Gail', 'Campione', '3407 Schmedeman Point, FL, 33543, United States', 'Male', '1989-07-17', 923784032, 'gcampione0@yelp.com', 11, '2015-05-21'),
 (2, 'Balduin', 'Barthropp', '22634 Schlimgen Alley, SC, 29579, United States', 'Male', '1969-05-12', 826021954, 'bbarthropp1@joomla.org', 12, '2017-11-13'),
 (3, 'Free', 'Pardoe', '0 Westport Road, NY, 10014, United States', 'Male', '1981-01-18', 650654224, 'fpardoe2@cisco.com', 2, '2012-04-06'),
