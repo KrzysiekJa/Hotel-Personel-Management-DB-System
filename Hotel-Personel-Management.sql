@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS `Hotels` (
 	`name` CHAR(200) NOT NULL,
 	`adress` CHAR(200) NOT NULL,
 	`telephone` INT,
-	`email` CHAR,
-	`type` CHAR(40) NOT NULL,
+	`email` CHAR(40),
+	`standard` CHAR(40) NOT NULL,
 	`rooms_number` INT NOT NULL,
 	`creation_date` DATE NOT NULL,
 	PRIMARY KEY (`hotel_ID`)
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `Employees` (
 	`telephone` INT NOT NULL,
 	`email` CHAR(200),
 	`number_of_vacation_days` INT NOT NULL,
-	`date_of_employment` DATETIME NOT NULL,
+	`date_of_employment` DATE NOT NULL,
 	PRIMARY KEY (`employees_ID`)
 );
 
@@ -54,14 +54,14 @@ CREATE TABLE IF NOT EXISTS `Skills` (
 );
 
 CREATE TABLE IF NOT EXISTS `WorkPlan` (
-	`shift_ID` INT NOT NULL AUTO_INCREMENT,
-	`hotel_employee_ID` INT NOT NULL,
+	`shift_id` INT NOT NULL,
+	`hotel_employee_id` INT NOT NULL,
 	`starting_date` DATETIME NOT NULL,
 	`ending_date` DATETIME NOT NULL,
 	`status` CHAR(50) NOT NULL,
 	`last_edition_date` DATE,
 	PRIMARY KEY (`shift_id`),
-	FOREIGN KEY (`hotel_employee_ID`) REFERENCES HotelsEmployees(`hotel_employee_ID`)
+	FOREIGN KEY (`hotel_employee_id`) REFERENCES Employees(`employees_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `EmployeesSkills`(
