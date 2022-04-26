@@ -499,7 +499,7 @@ CREATE TABLE IF NOT EXISTS `HotelsEmployees` (
 	FOREIGN KEY (`employees_ID`) REFERENCES Employees(`employees_ID`)
 );
 
-CREATE TABLE IF NOT EXISTS `Position` (
+CREATE TABLE IF NOT EXISTS `Positions` (
 	`position_ID` INT NOT NULL AUTO_INCREMENT,
 	`employees_ID` INT NOT NULL,
 	`name` CHAR(100) NOT NULL,
@@ -516,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `Skills` (
 );
 
 CREATE TABLE IF NOT EXISTS `WorkPlan` (
-	`shift_id` INT NOT NULL,
+	`shift_id` INT NOT NULL AUTO_INCREMENT,
 	`hotel_employee_id` INT NOT NULL,
 	`starting_date` DATETIME NOT NULL,
 	`ending_date` DATETIME NOT NULL,
