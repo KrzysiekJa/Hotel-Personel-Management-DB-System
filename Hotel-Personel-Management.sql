@@ -472,7 +472,7 @@ CREATE TABLE IF NOT EXISTS `Hotels` (
 	`email` CHAR(40),
 	`standard` CHAR(40) NOT NULL,
 	`rooms_number` INT NOT NULL,
-	`creation_date` DATE NOT NULL,
+	`creation_date` DATETIME NOT NULL,
 	PRIMARY KEY (`hotel_ID`)
 );
 
@@ -522,7 +522,8 @@ CREATE TABLE IF NOT EXISTS `WorkPlan` (
 	`starting_date` DATETIME NOT NULL,
 	`ending_date` DATETIME NOT NULL,
 	`status` CHAR(50) NOT NULL,
-	`last_edition_date` DATE,
+    `creation_date` DATETIME NOT NULL,
+	`last_edition_date` DATETIME,
 	PRIMARY KEY (`shift_id`),
 	FOREIGN KEY (`hotel_employee_id`) REFERENCES HotelsEmployees(`hotel_employee_ID`)
 );
