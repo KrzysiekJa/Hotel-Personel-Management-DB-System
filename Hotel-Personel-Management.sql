@@ -477,7 +477,8 @@ CREATE TABLE IF NOT EXISTS `Hotels` (
 );
 
 CREATE TABLE IF NOT EXISTS `Employees` (
-	`employees_ID` INT NOT NULL AUTO_INCREMENT,
+	`employee_ID` INT NOT NULL AUTO_INCREMENT,
+    `position_ID` INT NOT NULL,
 	`name` CHAR(100) NOT NULL,
 	`surname` CHAR(100) NOT NULL,
 	`adress` CHAR(200) NOT NULL,
@@ -487,32 +488,32 @@ CREATE TABLE IF NOT EXISTS `Employees` (
 	`email` CHAR(200),
 	`number_of_vacation_days` INT NOT NULL,
 	`date_of_employment` DATE NOT NULL,
-	PRIMARY KEY (`employees_ID`)
+    `creation_date` DATETIME NOT NULL,
+	PRIMARY KEY (`employee_ID`),
+    FOREIGN KEY (`position_ID`) REFERENCES Positions(`position_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `HotelsEmployees` (
 	`hotel_employee_ID` INT NOT NULL AUTO_INCREMENT,
 	`hotel_ID` INT NOT NULL,
-	`employees_ID` INT NOT NULL,
+	`employee_ID` INT NOT NULL,
 	PRIMARY KEY (`hotel_employee_ID`),
 	FOREIGN KEY (`hotel_ID`) REFERENCES Hotels(`hotel_ID`),
-	FOREIGN KEY (`employees_ID`) REFERENCES Employees(`employees_ID`)
+	FOREIGN KEY (`employee_ID`) REFERENCES Employees(`employee_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `Positions` (
 	`position_ID` INT NOT NULL AUTO_INCREMENT,
-	`employees_ID` INT NOT NULL,
 	`name` CHAR(100) NOT NULL,
 	`description` CHAR(200) NOT NULL,
-	PRIMARY KEY (`position_ID`),
-	FOREIGN KEY (`employees_ID`) REFERENCES Employees(`employees_ID`)
+	PRIMARY KEY (`position_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `Skills` (
-	`skills_ID` INT NOT NULL AUTO_INCREMENT,
+	`skill_ID` INT NOT NULL AUTO_INCREMENT,
 	`name` CHAR(100) NOT NULL,
 	`description` CHAR(200) NOT NULL,
-	PRIMARY KEY (`skills_ID`)
+	PRIMARY KEY (`skill_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `WorkPlan` (
@@ -523,14 +524,14 @@ CREATE TABLE IF NOT EXISTS `WorkPlan` (
 	`status` CHAR(50) NOT NULL,
 	`last_edition_date` DATE,
 	PRIMARY KEY (`shift_id`),
-	FOREIGN KEY (`hotel_employee_id`) REFERENCES Employees(`employees_ID`)
+	FOREIGN KEY (`hotel_employee_id`) REFERENCES HotelsEmployees(`hotel_employee_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `EmployeesSkills`(
-	`employees_skills_ID` INT NOT NULL AUTO_INCREMENT,
-	`employees_ID` INT NOT NULL,
-	`skills_ID` INT NOT NULL,
-	PRIMARY KEY (`employees_skills_ID`),
-	FOREIGN KEY (`employees_ID`) REFERENCES Employees(`employees_ID`),
-	FOREIGN KEY (`skills_ID`) REFERENCES Skills(`skills_ID`)
+	`employee_skill_ID` INT NOT NULL AUTO_INCREMENT,
+	`employee_ID` INT NOT NULL,
+	`skill_ID` INT NOT NULL,
+	PRIMARY KEY (`employee_skill_ID`),
+	FOREIGN KEY (`employee_ID`) REFERENCES Employees(`employee_ID`),
+	FOREIGN KEY (`skill_ID`) REFERENCES Skills(`skill_ID`)
 );
