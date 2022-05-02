@@ -197,15 +197,11 @@ DROP TABLE IF EXISTS `WorkPlan`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `WorkPlan` (
   `shift_id` int(11) NOT NULL AUTO_INCREMENT,
-  `hotel_employee_id` int(11) NOT NULL,
   `starting_date` datetime NOT NULL,
   `ending_date` datetime NOT NULL,
   `status` char(50) COLLATE utf8_polish_ci NOT NULL,
-  `creation_date` datetime NOT NULL,
   `last_edition_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`shift_id`),
-  KEY `hotel_employee_id` (`hotel_employee_id`),
-  CONSTRAINT `workplan_ibfk_1` FOREIGN KEY (`hotel_employee_id`) REFERENCES `hotelsemployees` (`hotel_employee_ID`)
+  PRIMARY KEY (`shift_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -217,6 +213,35 @@ LOCK TABLES `WorkPlan` WRITE;
 /*!40000 ALTER TABLE `WorkPlan` DISABLE KEYS */;
 /*!40000 ALTER TABLE `WorkPlan` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `WorkPlanEmployees`
+--
+
+DROP TABLE IF EXISTS `WorkPlanEmployees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `WorkPlanEmployees` (
+  `work_plan_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `hotel_employee_ID` int(11) NOT NULL,
+  `shift_id` int(11) NOT NULL,
+  PRIMARY KEY (`work_plan_ID`),
+  KEY `hotel_employee_ID` (`hotel_employee_ID`),
+  KEY `shift_id` (`shift_id`),
+  CONSTRAINT `workplanemployees_ibfk_1` FOREIGN KEY (`hotel_employee_ID`) REFERENCES `HotelsEmployees` (`hotel_employee_ID`),
+  CONSTRAINT `workplanemployees_ibfk_2` FOREIGN KEY (`shift_id`) REFERENCES `WorkPlan` (`shift_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WorkPlanEmployees`
+--
+
+LOCK TABLES `WorkPlanEmployees` WRITE;
+/*!40000 ALTER TABLE `WorkPlanEmployees` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WorkPlanEmployees` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Dumping events for database 'Hotel-Personel-Management'

@@ -31,6 +31,29 @@ INSERT INTO `Positions` (`position_ID`, `name`, `description`) VALUES
 (19, 'Food and beverage manager', 'These professionals are responsible for overseeing all food and beverages that are produced and served to hotel patrons. They source quality ingredients and supplies, assist in developing menus and oversee alcoholic beverage licensing.'),
 (20, 'Event planner', 'An event planner coordinates with vendors and hotel staff to execute special events in the hotel-s rental spaces. They book spaces for hosts, delegate setup tasks, make agendas, reserve entertainment and collaborate with the executive chef and caterers to determine food and beverage services.');
 
+INSERT INTO `WorkPlan` (`shift_id`, `starting_date`, `ending_date`, `status`, `last_edition_date`) VALUES
+(1,'2022-05-23 07:00:00', '2022-05-23 15:00:00', 'Completed', NOW()),
+(2,'2022-05-23 15:00:00', '2022-05-23 23:00:00', 'Completed', NOW()),
+(3,'2022-05-23 23:00:00', '2022-05-24 07:00:00', 'Completed', NOW()),
+(4,'2022-05-24 07:00:00', '2022-05-24 15:00:00', 'In progress', NOW()),
+(5,'2022-05-24 15:00:00', '2022-05-24 23:00:00', 'Planned', NOW()),
+(6,'2022-05-24 23:00:00', '2022-05-25 07:00:00', 'Planned', NOW()),
+(7,'2022-05-25 07:00:00', '2022-05-25 15:00:00', 'Planned', NOW()),
+(8,'2022-05-25 15:00:00', '2022-05-25 23:00:00', 'Planned', NOW()),
+(9,'2022-05-25 23:00:00', '2022-05-26 07:00:00', 'Planned', NOW()),
+(10,'2022-05-26 07:00:00', '2022-05-26 15:00:00', 'Planned', NOW()),
+(11,'2022-05-26 15:00:00', '2022-05-26 23:00:00', 'Planned', NOW()),
+(12,'2022-05-26 23:00:00', '2022-05-27 07:00:00', 'Planned', NOW()),
+(13,'2022-05-27 07:00:00', '2022-05-27 15:00:00', 'Planned', NOW()),
+(14,'2022-05-27 15:00:00', '2022-05-27 23:00:00', 'Planned', NOW()),
+(15,'2022-05-27 23:00:00', '2022-05-28 07:00:00', 'Planned', NOW()),
+(16,'2022-05-28 07:00:00', '2022-05-28 15:00:00', 'Planned', NOW()),
+(17,'2022-05-28 15:00:00', '2022-05-28 23:00:00', 'Planned', NOW()),
+(18,'2022-05-28 23:00:00', '2022-05-29 07:00:00', 'Planned', NOW()),
+(19,'2022-05-29 07:00:00', '2022-05-29 15:00:00', 'Planned', NOW()),
+(20,'2022-05-29 15:00:00', '2022-05-29 23:00:00', 'Planned', NOW()),
+(21,'2022-05-29 23:00:00', '2022-05-30 07:00:00', 'Planned', NOW());
+
 INSERT INTO `Skills` (`skill_ID`, `name`, `description`) VALUES
 (1, 'English A1', 'Beginner'),
 (2, 'English A2', 'Elementary'),
