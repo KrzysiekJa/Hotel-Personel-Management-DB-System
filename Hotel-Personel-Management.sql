@@ -38,7 +38,7 @@ CREATE TABLE `Employees` (
   `email` char(200) COLLATE utf8_polish_ci DEFAULT NULL,
   `number_of_vacation_days` int(11) NOT NULL,
   `date_of_employment` date NOT NULL,
-  `creation_date` datetime NOT NULL,
+  `last_changed` datetime NOT NULL,
   PRIMARY KEY (`employee_ID`),
   KEY `position_ID` (`position_ID`),
   CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`position_ID`) REFERENCES `positions` (`position_ID`)
@@ -97,7 +97,8 @@ CREATE TABLE `Hotels` (
   `email` char(40) COLLATE utf8_polish_ci DEFAULT NULL,
   `standard` char(40) COLLATE utf8_polish_ci NOT NULL,
   `rooms_number` int(11) NOT NULL,
-  `creation_date` datetime NOT NULL,
+  `creation_date` date NOT NULL,
+  `last_changed` datetime NOT NULL,
   PRIMARY KEY (`hotel_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -149,7 +150,7 @@ DROP TABLE IF EXISTS `Positions`;
 CREATE TABLE `Positions` (
   `position_ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(100) COLLATE utf8_polish_ci NOT NULL,
-  `description` char(200) COLLATE utf8_polish_ci NOT NULL,
+  `description` text(500) COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY (`position_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -275,10 +276,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_hotel`(
 	IN `telephone` INT,
 	IN `email` CHAR(40),
 	IN `standard` CHAR(40),
-	IN `rooms_number` INT)
+	IN `rooms_number` INT,
+	IN `creation_date` date)
 BEGIN
 	INSERT INTO `Hotels` 
-    VALUES( NULL, name, adress, telephone, email, standard, rooms_number, NOW());
+    VALUES( NULL, name, adress, telephone, email, standard, rooms_number, creation_date, NOW());
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -297,7 +299,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_position`(
 	IN `name` CHAR(100),
-	IN `description` CHAR(200))
+	IN `description` text(500))
 BEGIN
 	INSERT INTO `Positions` 
     VALUES( NULL, name, description);
