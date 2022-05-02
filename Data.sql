@@ -9,6 +9,54 @@ INSERT INTO `Hotels` (`hotel_ID`, `name`, `adress`, `telephone`, `email`, `stand
 (6, 'Grey Hotel', '34 S Downing Circle, Denver,co, 80210  United States', 506226989, 'greyhotel@colorful.com', '5 stars', 653, '2021-05-10', NOW()),
 (7, 'Orange Hotel', '31 Columbus Circle, Eastchester,ny, 10309  United States', 794836394, 'orangehotel@colorful.com', '5 stars', 700, '2022-12-28', NOW());
 
+INSERT INTO `Positions` (`position_ID`, `name`, `description`) VALUES
+(1, 'Assistant hotel manager', 'An assistant hotel manager supports the hotel manager by completing administrative duties, training new staff, managing correspondence, delegating tasks and supervising staff while the hotel manager is unavailable.'),
+(2, 'Hotel manager', 'A hotel manager oversees all operations of a hotel, including hiring and training staff, setting standards for guest services, handling complex tasks and conflicts and establishing and enforcing policies. They also collaborate with other administrators to manage budgets, purchasing, vendor relationships, inventory and sales.'),
+(3, 'Director of purchasing', 'A director of purchasing is in charge of selecting and buying the best products and supplies for the hotel, including linens and towels, guest room amenities, food, office supplies and more. They oversee inventory management and budgeting for supply purchasing, too.'),
+(4, 'Director of sales and marketing', 'A director of sales and marketing is responsible for setting advertising, marketing and sales goals for the hotel. They also oversee marketing teams in creating ads and promotional materials, create and manage a marketing budget and collaborate with the hotel manager to ensure the hotel-s profitability.'),
+(5, 'Room attendant', 'A room attendant is responsible for keeping guest rooms clean and stocked with amenities. They may also assist housekeepers in replacing linens and towels and readying rooms before guests check in.'),
+(6, 'Night auditor', 'The night auditor is the first point of contact for guests during the late-night shift, acting as both the concierge and front desk receptionist. They-re responsible for checking in guests, preparing invoices for guests checking out the next morning, coordinating emergency repairs and resolving guest conflicts.'),
+(7, 'Parking attendant', 'A parking attendant supervises a hotel parking lot or garage, ensuring security, charging guests for parking and keeping the lot or garage clean.'),
+(8, 'Hotel receptionist', 'A hotel receptionist, also referred to as a front desk clerk, handles the front desk and is in charge of greeting guests, assigning guests to rooms and providing keys, managing guest accounts, collecting payments, resolving conflicts for guests and delegating guest service tasks to other hotel staff.'),
+(9, 'Porter', 'A porter in a hotel is responsible for escorting guests to rooms, collecting and delivering luggage to guest rooms and keeping the hotel lobby and other public spaces clean and organized. In some hotels, they may also assist the concierge in making transportation reservations.'),
+(10, 'Spa manager', 'A spa manager oversees the operation of a spa inside a hotel or resort. They hire and train staff, solve customer service conflicts, manage a budget and supply inventory, enforce safety policies according to local regulations and lead promotional efforts for the spa.'),
+(11, 'Hotel housekeeper', 'A housekeeper cleans guest rooms between check-ins, ensuring linens and towels are fresh, amenities are stocked, beds are made and the room is pristine. They also vacuum, dust and otherwise clean hallways, public spaces, conference rooms, ballrooms and the lobby.'),
+(12, 'Housekeeping manager', 'A housekeeping manager oversees the housekeeping staff at a hotel and is responsible for hiring and training staff, setting cleaning timelines and schedules, enforcing policies on cleanliness, inspecting housekeepers- work and managing the inventory of cleaning supplies, linens, towels and room amenities.'),
+(13, 'Maintenance technician', 'A maintenance technician responds to repair needs throughout the hotel and regularly inspects hotel facilities, elevators, electrical and light fixtures and more to ensure the hotel is in working order and patrons and staff remain safe.'),
+(14, 'Maintenance supervisor', ' Also referred to as a maintenance manager, this professional oversees a team of maintenance technicians in the hotel, hiring and training staff, setting timelines and schedules for inspections, corresponding with hotel administrators to understand repair needs, delegating repair tasks to technicians and monitoring the inventory and quality of tools and supplies.'),
+(15, 'Host/hostess', 'A host or hostess greets patrons, seats them at tables, provides menus and introduces them to their waitstaff. They are also responsible for managing the reservation calendar, organizing patrons according to staffing availability, collaborating with room service servers to deliver food to guest rooms and communicating patron needs to restaurant servers.'),
+(16, 'Server', 'A server works in the restaurant of a hotel, greeting patrons, providing menu recommendations, reviewing the specials, taking food and beverage orders, delivering food to tables and regularly tending to patrons- needs throughout their visit.'),
+(17, 'Cook', 'A cook prepares meals made in the hotel kitchen or for the hotel restaurant. They follow recipes and guest preferences, monitor different cooking stations, prepare and use a variety of ingredients and spices and plate meals attractively to be delivered to patrons.'),
+(18, 'Executive chef', 'An executive chef leads a hotel kitchen by creating recipes and menus, overseeing food preparation and cooking, completing complex cooking tasks, testing meals before they go to patrons and monitoring ingredient inventory.'),
+(19, 'Food and beverage manager', 'These professionals are responsible for overseeing all food and beverages that are produced and served to hotel patrons. They source quality ingredients and supplies, assist in developing menus and oversee alcoholic beverage licensing.'),
+(20, 'Event planner', 'An event planner coordinates with vendors and hotel staff to execute special events in the hotel-s rental spaces. They book spaces for hosts, delegate setup tasks, make agendas, reserve entertainment and collaborate with the executive chef and caterers to determine food and beverage services.');
+
+INSERT INTO `Skills` (`skill_ID`, `name`, `description`) VALUES
+(1, 'English A1', 'Beginner'),
+(2, 'English A2', 'Elementary'),
+(3, 'English B1', 'Pre-Intermediate'),
+(4, 'English B2', 'Intermediate'),
+(5, 'English C1', 'Upper-Intermediate'),
+(6, 'English C2', 'Advanced'),
+(7, 'German A1', 'Beginner'),
+(8, 'German A2', 'Elementary'),
+(9, 'German B1', 'Pre-Intermediate'),
+(10, 'German B2', 'Intermediate'),
+(11, 'German C1', 'Upper-Intermediate'),
+(12, 'German C2', 'Advanced'),
+(13, 'French A1', 'Beginner'),
+(14, 'French A2', 'Elementary'),
+(15, 'French B1', 'Pre-Intermediate'),
+(16, 'French B2', 'Intermediate'),
+(17, 'French C1', 'Upper-Intermediate'),
+(18, 'French C2', 'Advanced'),
+(19, 'Spanish A1', 'Beginner'),
+(20, 'Spanish A2', 'Elementary'),
+(21, 'Spanish B1', 'Pre-Intermediate'),
+(22, 'Spanish B2', 'Intermediate'),
+(23, 'Spanish C1', 'Upper-Intermediate'),
+(24, 'Spanish C2', 'Advanced');
+
 INSERT INTO `Employees` (`employee_ID`, `name`, `surname`, `adress`, `sex`, `date_of_birth`, `telephone`, `email`, `number_of_vacation_days`, `date_of_employment`, `position_ID`, `last_changed`) VALUES
 (1, 'Adolph', 'Coxen', '58 Graedel Junction, WA, 99205, United States', 'Male', '1989-08-01', 721857482, 'acoxen0@jimdo.com', 15, '2013-09-02', 17, NOW()),
 (2, 'Emmye', 'Done', '21336 Debs Circle, OH, 45233, United States', 'Female', '1975-11-19', 255214410, 'edone1@addtoany.com', 11, '2019-07-09', 17, NOW()),
@@ -1010,27 +1058,3 @@ INSERT INTO `Employees` (`employee_ID`, `name`, `surname`, `adress`, `sex`, `dat
 (998, 'Alia', 'Arrigucci', '64223 Arkansas Park, CA, 94544, United States', 'Female', '1970-07-22', 497247499, 'aarriguccirp@parallels.com', 17, '2015-07-23', 8, NOW()),
 (999, 'Cherrita', 'Beney', '94477 Buhler Point, VA, 24503, United States', 'Female', '1997-01-20', 583522298, 'cbeneyrq@amazon.de', 17, '2017-05-06', 14, NOW()),
 (1000, 'Leelah', 'Baggaley', '0268 Manufacturers Circle, AZ, 85083, United States', 'Female', '1973-07-07', 964430601, 'lbaggaleyrr@123-reg.co.uk', 6, '2014-04-10', 9, NOW());
-
-
-
-INSERT INTO `Positions` (`position_ID`, `name`, `description`) VALUES
-(1, 'Assistant hotel manager', 'An assistant hotel manager supports the hotel manager by completing administrative duties, training new staff, managing correspondence, delegating tasks and supervising staff while the hotel manager is unavailable.'),
-(2, 'Hotel manager', 'A hotel manager oversees all operations of a hotel, including hiring and training staff, setting standards for guest services, handling complex tasks and conflicts and establishing and enforcing policies. They also collaborate with other administrators to manage budgets, purchasing, vendor relationships, inventory and sales.'),
-(3, 'Director of purchasing', 'A director of purchasing is in charge of selecting and buying the best products and supplies for the hotel, including linens and towels, guest room amenities, food, office supplies and more. They oversee inventory management and budgeting for supply purchasing, too.'),
-(4, 'Director of sales and marketing', 'A director of sales and marketing is responsible for setting advertising, marketing and sales goals for the hotel. They also oversee marketing teams in creating ads and promotional materials, create and manage a marketing budget and collaborate with the hotel manager to ensure the hotel-s profitability.'),
-(5, 'Room attendant', 'A room attendant is responsible for keeping guest rooms clean and stocked with amenities. They may also assist housekeepers in replacing linens and towels and readying rooms before guests check in.'),
-(6, 'Night auditor', 'The night auditor is the first point of contact for guests during the late-night shift, acting as both the concierge and front desk receptionist. They-re responsible for checking in guests, preparing invoices for guests checking out the next morning, coordinating emergency repairs and resolving guest conflicts.'),
-(7, 'Parking attendant', 'A parking attendant supervises a hotel parking lot or garage, ensuring security, charging guests for parking and keeping the lot or garage clean.'),
-(8, 'Hotel receptionist', 'A hotel receptionist, also referred to as a front desk clerk, handles the front desk and is in charge of greeting guests, assigning guests to rooms and providing keys, managing guest accounts, collecting payments, resolving conflicts for guests and delegating guest service tasks to other hotel staff.'),
-(9, 'Porter', 'A porter in a hotel is responsible for escorting guests to rooms, collecting and delivering luggage to guest rooms and keeping the hotel lobby and other public spaces clean and organized. In some hotels, they may also assist the concierge in making transportation reservations.'),
-(10, 'Spa manager', 'A spa manager oversees the operation of a spa inside a hotel or resort. They hire and train staff, solve customer service conflicts, manage a budget and supply inventory, enforce safety policies according to local regulations and lead promotional efforts for the spa.'),
-(11, 'Hotel housekeeper', 'A housekeeper cleans guest rooms between check-ins, ensuring linens and towels are fresh, amenities are stocked, beds are made and the room is pristine. They also vacuum, dust and otherwise clean hallways, public spaces, conference rooms, ballrooms and the lobby.'),
-(12, 'Housekeeping manager', 'A housekeeping manager oversees the housekeeping staff at a hotel and is responsible for hiring and training staff, setting cleaning timelines and schedules, enforcing policies on cleanliness, inspecting housekeepers- work and managing the inventory of cleaning supplies, linens, towels and room amenities.'),
-(13, 'Maintenance technician', 'A maintenance technician responds to repair needs throughout the hotel and regularly inspects hotel facilities, elevators, electrical and light fixtures and more to ensure the hotel is in working order and patrons and staff remain safe.'),
-(14, 'Maintenance supervisor', ' Also referred to as a maintenance manager, this professional oversees a team of maintenance technicians in the hotel, hiring and training staff, setting timelines and schedules for inspections, corresponding with hotel administrators to understand repair needs, delegating repair tasks to technicians and monitoring the inventory and quality of tools and supplies.'),
-(15, 'Host/hostess', 'A host or hostess greets patrons, seats them at tables, provides menus and introduces them to their waitstaff. They are also responsible for managing the reservation calendar, organizing patrons according to staffing availability, collaborating with room service servers to deliver food to guest rooms and communicating patron needs to restaurant servers.'),
-(16, 'Server', 'A server works in the restaurant of a hotel, greeting patrons, providing menu recommendations, reviewing the specials, taking food and beverage orders, delivering food to tables and regularly tending to patrons- needs throughout their visit.'),
-(17, 'Cook', 'A cook prepares meals made in the hotel kitchen or for the hotel restaurant. They follow recipes and guest preferences, monitor different cooking stations, prepare and use a variety of ingredients and spices and plate meals attractively to be delivered to patrons.'),
-(18, 'Executive chef', 'An executive chef leads a hotel kitchen by creating recipes and menus, overseeing food preparation and cooking, completing complex cooking tasks, testing meals before they go to patrons and monitoring ingredient inventory.'),
-(19, 'Food and beverage manager', 'These professionals are responsible for overseeing all food and beverages that are produced and served to hotel patrons. They source quality ingredients and supplies, assist in developing menus and oversee alcoholic beverage licensing.'),
-(20, 'Event planner', 'An event planner coordinates with vendors and hotel staff to execute special events in the hotel-s rental spaces. They book spaces for hosts, delegate setup tasks, make agendas, reserve entertainment and collaborate with the executive chef and caterers to determine food and beverage services.');
