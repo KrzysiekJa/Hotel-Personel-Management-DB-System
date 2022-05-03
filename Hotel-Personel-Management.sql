@@ -28,14 +28,14 @@ DROP TABLE IF EXISTS `Employees`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Employees` (
   `employee_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `position_ID` int(11),
-  `name` char(100) COLLATE utf8_polish_ci NOT NULL,
-  `surname` char(100) COLLATE utf8_polish_ci NOT NULL,
-  `adress` char(200) COLLATE utf8_polish_ci NOT NULL,
-  `sex` char(40) COLLATE utf8_polish_ci NOT NULL,
+  `position_ID` int(11) DEFAULT NULL,
+  `name` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `surname` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `adress` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `sex` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `date_of_birth` date NOT NULL,
   `telephone` int(11) NOT NULL,
-  `email` char(200) COLLATE utf8_polish_ci DEFAULT NULL,
+  `email` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci DEFAULT NULL,
   `number_of_vacation_days` int(11) NOT NULL,
   `date_of_employment` date NOT NULL,
   `last_changed` datetime NOT NULL,
@@ -66,10 +66,7 @@ CREATE TABLE `EmployeesSkills` (
   `employee_ID` int(11) NOT NULL,
   `skill_ID` int(11) NOT NULL,
   PRIMARY KEY (`employee_skill_ID`),
-  KEY `employee_ID` (`employee_ID`),
-  KEY `skill_ID` (`skill_ID`),
-  CONSTRAINT `employeesskills_ibfk_1` FOREIGN KEY (`employee_ID`) REFERENCES `employees` (`employee_ID`),
-  CONSTRAINT `employeesskills_ibfk_2` FOREIGN KEY (`skill_ID`) REFERENCES `skills` (`skill_ID`)
+  KEY `employeesskills_ibfk_1_idx` (`employee_ID`,`skill_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -91,11 +88,11 @@ DROP TABLE IF EXISTS `Hotels`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Hotels` (
   `hotel_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(200) COLLATE utf8_polish_ci NOT NULL,
-  `adress` char(200) COLLATE utf8_polish_ci NOT NULL,
+  `name` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `adress` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `telephone` int(11) DEFAULT NULL,
-  `email` char(40) COLLATE utf8_polish_ci DEFAULT NULL,
-  `standard` char(40) COLLATE utf8_polish_ci NOT NULL,
+  `email` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci DEFAULT NULL,
+  `standard` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `rooms_number` int(11) NOT NULL,
   `creation_date` date NOT NULL,
   `last_changed` datetime NOT NULL,
@@ -149,8 +146,8 @@ DROP TABLE IF EXISTS `Positions`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Positions` (
   `position_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(100) COLLATE utf8_polish_ci NOT NULL,
-  `description` text(500) COLLATE utf8_polish_ci NOT NULL,
+  `name` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY (`position_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -173,8 +170,8 @@ DROP TABLE IF EXISTS `Skills`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Skills` (
   `skill_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(100) COLLATE utf8_polish_ci NOT NULL,
-  `description` char(200) COLLATE utf8_polish_ci NOT NULL,
+  `name` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `description` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY (`skill_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -196,12 +193,12 @@ DROP TABLE IF EXISTS `WorkPlan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `WorkPlan` (
-  `shift_id` int(11) NOT NULL AUTO_INCREMENT,
+  `shift_ID` int(11) NOT NULL AUTO_INCREMENT,
   `starting_date` datetime NOT NULL,
   `ending_date` datetime NOT NULL,
-  `status` char(50) COLLATE utf8_polish_ci NOT NULL,
+  `status` char(50) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `last_edition_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`shift_id`)
+  PRIMARY KEY (`shift_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -222,14 +219,14 @@ DROP TABLE IF EXISTS `WorkPlanEmployees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `WorkPlanEmployees` (
-  `work_plan_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `work_plan_Employees_ID` int(11) NOT NULL AUTO_INCREMENT,
   `hotel_employee_ID` int(11) NOT NULL,
-  `shift_id` int(11) NOT NULL,
-  PRIMARY KEY (`work_plan_ID`),
+  `shift_ID` int(11) NOT NULL,
+  PRIMARY KEY (`work_plan_Employees_ID`),
   KEY `hotel_employee_ID` (`hotel_employee_ID`),
-  KEY `shift_id` (`shift_id`),
-  CONSTRAINT `workplanemployees_ibfk_1` FOREIGN KEY (`hotel_employee_ID`) REFERENCES `HotelsEmployees` (`hotel_employee_ID`),
-  CONSTRAINT `workplanemployees_ibfk_2` FOREIGN KEY (`shift_id`) REFERENCES `WorkPlan` (`shift_id`)
+  KEY `shift_id` (`shift_ID`),
+  CONSTRAINT `workplanemployees_ibfk_1` FOREIGN KEY (`hotel_employee_ID`) REFERENCES `hotelsemployees` (`hotel_employee_ID`),
+  CONSTRAINT `workplanemployees_ibfk_2` FOREIGN KEY (`shift_ID`) REFERENCES `workplan` (`shift_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -241,7 +238,6 @@ LOCK TABLES `WorkPlanEmployees` WRITE;
 /*!40000 ALTER TABLE `WorkPlanEmployees` DISABLE KEYS */;
 /*!40000 ALTER TABLE `WorkPlanEmployees` ENABLE KEYS */;
 UNLOCK TABLES;
-
 
 --
 -- Dumping events for database 'Hotel-Personel-Management'
@@ -274,7 +270,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employee`(
 BEGIN
 	DECLARE position_id INT DEFAULT NULL;
 	
-    SELECT * INTO position_id FROM `Positions` WHERE Positions.name = position_name LIMIT 1;
+    SELECT position_ID INTO position_id FROM `Positions` 
+    WHERE Positions.name = position_name 
+    LIMIT 1;
 	
 	INSERT INTO `Employees` 
     VALUES( NULL, position_id, name, surname, adress, sex, date_of_birth, 
@@ -345,31 +343,12 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_shift`(
-	IN `hotel_name` CHAR(200),
-    IN `employee_name` CHAR(100),
-    IN `employee_surname` CHAR(100),
 	IN `starting_date` DATETIME,
 	IN `ending_date` DATETIME,
 	IN `status` CHAR(50))
 BEGIN
-	DECLARE hotel_employee_id INT DEFAULT NULL;
-    DECLARE hotel_id INT DEFAULT NULL;
-    DECLARE employee_id INT DEFAULT NULL;
-	
-    SELECT * INTO hotel_id FROM `Hotels` 
-    WHERE Hotels.name = hotel_name 
-    LIMIT 1;
-    
-    SELECT * INTO employee_id FROM `Employees` 
-    WHERE Employees.name = employee_name AND  Employees.surname = employee_surname 
-    LIMIT 1;
-    
-    SELECT * INTO hotel_employee_id FROM `HotelsEmployees` 
-    WHERE HotelsEmployees.hotel_ID = hotel_id AND HotelsEmployees.employee_ID = employee_id 
-    LIMIT 1;
-    
 	INSERT INTO `WorkPlan` 
-    VALUES( NULL, hotel_employee_id, starting_date, ending_date, status, NOW(), NOW());
+    VALUES( NULL, starting_date, ending_date, status, NOW());
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -402,18 +381,30 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_employee`(
-	IN `name` CHAR(100),
-	IN `surname` CHAR(100))
+	IN `employee_ID` INT)
 BEGIN
+	DELETE FROM `WorkPlanEmployees`
+	WHERE hotel_employee_ID in
+	(
+		SELECT hotel_employee_ID FROM `HotelsEmployees` 
+		WHERE HotelsEmployees.employee_ID = employee_ID
+	);
+
+	DELETE FROM `HotelsEmployees`
+	WHERE HotelsEmployees.employee_ID = employee_ID;
+    
+    DELETE FROM `EmployeesSkills`
+	WHERE EmployeesSkills.employee_ID = employee_ID;
+    
 	DELETE FROM `Employees`
-	WHERE Employees.name = name AND Employees.surname = surname;
+	WHERE Employees.employee_ID = employee_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -424,17 +415,27 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_hotel`(
-	IN `name` CHAR(200))
+	IN `hotel_ID` INT)
 BEGIN
+	DELETE FROM `WorkPlanEmployees`
+	WHERE hotel_employee_ID in
+	(
+		SELECT hotel_employee_ID FROM `HotelsEmployees` 
+		WHERE HotelsEmployees.hotel_ID = hotel_ID
+	);
+	
+	DELETE FROM `HotelsEmployees`
+	WHERE HotelsEmployees.hotel_ID = hotel_ID;
+    
 	DELETE FROM `Hotels`
-	WHERE Hotels.name = name;
+	WHERE Hotels.hotel_ID = hotel_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -452,10 +453,14 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_position`(
-	IN `name` CHAR(100))
+	IN `position_ID` INT)
 BEGIN
 	DELETE FROM `Positions` 
-	WHERE Position.name = name;
+	WHERE Positions.position_ID = position_ID;
+    
+    UPDATE `Employees`
+    SET position_ID = NULL
+    WHERE Employees.position_ID = position_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -473,10 +478,13 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_shift`(
-	IN `shift_id` INT)
+	IN `shift_ID` INT)
 BEGIN
+	DELETE FROM `WorkPlanEmployees`
+	WHERE WorkPlanEmployees.shift_ID = shift_ID;
+	
 	DELETE FROM `WorkPlan` 
-	WHERE WorkPlan.shift_id = shift_id;
+	WHERE WorkPlan.shift_ID = shift_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -494,10 +502,13 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_skill`(
-	IN `name` CHAR(100))
+	IN `skill_ID` INT)
 BEGIN
+	DELETE FROM `EmployeesSkills`
+	WHERE EmployeesSkills.skill_ID = skill_ID;
+	
 	DELETE FROM `Skills` 
-	WHERE Skills.name = name;
+	WHERE Skills.skill_ID = skill_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -514,4 +525,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-29  2:41:42
+-- Dump completed on 2022-05-03 19:04:08
