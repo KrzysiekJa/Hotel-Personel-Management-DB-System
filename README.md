@@ -9,5 +9,5 @@ Hotel Personel Management DB System App
 - Maven compiler 3.8.1,
 - JDBC plugin,
 - Lombok plugin,
-- Mysql 8 (used Mysql 8.15).
+- Mysql 8 (used Mysql 8.0.15).
 ```
