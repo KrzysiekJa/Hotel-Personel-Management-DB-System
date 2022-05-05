@@ -31,7 +31,7 @@ CREATE TABLE `Employees` (
   `position_ID` int(11) DEFAULT NULL,
   `name` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `surname` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `adress` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `address` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `sex` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `date_of_birth` date NOT NULL,
   `telephone` int(11) NOT NULL,
@@ -89,7 +89,7 @@ DROP TABLE IF EXISTS `Hotels`;
 CREATE TABLE `Hotels` (
   `hotel_ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `adress` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `address` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `telephone` int(11) DEFAULT NULL,
   `email` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci DEFAULT NULL,
   `standard` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
@@ -260,7 +260,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employee`(
 	IN `name` CHAR(100),
 	IN `surname` CHAR(100),
     IN `position_name` CHAR(100),
-	IN `adress` CHAR(200),
+	IN `address` CHAR(200),
 	IN `sex` CHAR(40),
 	IN `date_of_birth` DATE,
 	IN `telephone` INT,
@@ -275,7 +275,7 @@ BEGIN
     LIMIT 1;
 	
 	INSERT INTO `Employees` 
-    VALUES( NULL, position_id, name, surname, adress, sex, date_of_birth, 
+    VALUES( NULL, position_id, name, surname, address, sex, date_of_birth, 
 			telephone, email, number_of_vacation_days, date_of_employment, NOW());
 END ;;
 DELIMITER ;
@@ -295,7 +295,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_hotel`(
 	IN `name` CHAR(200),
-	IN `adress` CHAR(200),
+	IN `address` CHAR(200),
 	IN `telephone` INT,
 	IN `email` CHAR(40),
 	IN `standard` CHAR(40),
@@ -303,7 +303,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_hotel`(
 	IN `creation_date` date)
 BEGIN
 	INSERT INTO `Hotels` 
-    VALUES( NULL, name, adress, telephone, email, standard, rooms_number, creation_date, NOW());
+    VALUES( NULL, name, address, telephone, email, standard, rooms_number, creation_date, NOW());
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;

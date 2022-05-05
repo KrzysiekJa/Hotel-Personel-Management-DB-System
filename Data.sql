@@ -1,6 +1,6 @@
 USE `Hotel-Personel-Management`;
 
-INSERT INTO `Hotels` (`hotel_ID`, `name`, `adress`, `telephone`, `email`, `standard`, `rooms_number`, `creation_date`, `last_changed`) VALUES
+INSERT INTO `Hotels` (`hotel_ID`, `name`, `address`, `telephone`, `email`, `standard`, `rooms_number`, `creation_date`, `last_changed`) VALUES
 (1, 'Blue Hotel', '28 Christine Lane, Hartland,wi, 53029  United States', 351206201, 'bluehotel@colorful.com', '5 stars', 871, '2011-01-03', NOW()),
 (2, 'Red Hotel', '14 160th Street SE, Sultan,wa, 98294  United States', 245475195, 'redhotel@colorful.com', '4 stars', 456, '2013-01-22', NOW()),
 (3, 'Yellow Hotel', '33 Pine Street, East Moriches,ny, 11940  United States', 245475195, 'yellowhotel@colorful.com', '4 stars', 713, '2013-07-10', NOW()),
@@ -80,7 +80,7 @@ INSERT INTO `Skills` (`skill_ID`, `name`, `description`) VALUES
 (23, 'Spanish C1', 'Upper-Intermediate'),
 (24, 'Spanish C2', 'Advanced');
 
-INSERT INTO `Employees` (`employee_ID`, `name`, `surname`, `adress`, `sex`, `date_of_birth`, `telephone`, `email`, `number_of_vacation_days`, `date_of_employment`, `position_ID`, `last_changed`) VALUES
+INSERT INTO `Employees` (`employee_ID`, `name`, `surname`, `address`, `sex`, `date_of_birth`, `telephone`, `email`, `number_of_vacation_days`, `date_of_employment`, `position_ID`, `last_changed`) VALUES
 (1, 'Adolph', 'Coxen', '58 Graedel Junction, WA, 99205, United States', 'Male', '1989-08-01', 721857482, 'acoxen0@jimdo.com', 15, '2013-09-02', 17, NOW()),
 (2, 'Emmye', 'Done', '21336 Debs Circle, OH, 45233, United States', 'Female', '1975-11-19', 255214410, 'edone1@addtoany.com', 11, '2019-07-09', 17, NOW()),
 (3, 'Pattie', 'Mulrean', '886 Northview Park, DC, 20016, United States', 'Female', '1969-01-25', 146254849, 'pmulrean2@google.de', 10, '2017-03-06', 11, NOW()),
