@@ -24,10 +24,17 @@ public class ApiControllerExceptionHandler extends ResponseEntityExceptionHandle
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+<<<<<<< HEAD
     public ResponseEntity<Object> handleExceptionBadRequest(Exception exception) {
         //ResponseEntity - a class that stores a message-string and an httpStatus
         HttpStatus badRequestStatus = HttpStatus.BAD_REQUEST;
         ResponseEntity<Object> requestError = new ResponseEntity<>(
+=======
+    public ResponseEntity<Object> handleException(Exception exception) {
+        //ResponseEntity - a class that stores a message-string and an httpStatus
+        HttpStatus badRequestStatus = HttpStatus.BAD_REQUEST;
+        ResponseEntity<Object> requestError = new ResponseEntity<Object>(
+>>>>>>> 7564543ca63e63ea40bbe1848ce676ba68b65c95
                 badRequestStatus, HttpStatus.valueOf(exception.getMessage()));
         return ResponseEntity.status(badRequestStatus).body(requestError);
     }
