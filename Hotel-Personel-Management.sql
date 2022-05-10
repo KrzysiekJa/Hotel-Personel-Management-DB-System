@@ -257,9 +257,9 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employee`(
-	IN `name` CHAR(100),
+	IN `position_id` INT,
+    IN `name` CHAR(100),
 	IN `surname` CHAR(100),
-    IN `position_name` CHAR(100),
 	IN `address` CHAR(200),
 	IN `sex` CHAR(40),
 	IN `date_of_birth` DATE,
@@ -268,12 +268,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employee`(
 	IN `number_of_vacation_days` INT,
 	IN `date_of_employment` DATE)
 BEGIN
-	DECLARE position_id INT DEFAULT NULL;
-	
-    SELECT position_ID INTO position_id FROM `Positions` 
-    WHERE Positions.name = position_name 
-    LIMIT 1;
-	
 	INSERT INTO `Employees` 
     VALUES( NULL, position_id, name, surname, address, sex, date_of_birth, 
 			telephone, email, number_of_vacation_days, date_of_employment, NOW());
@@ -624,4 +618,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-03 20:04:28
+-- Dump completed on 2022-05-10  2:30:22

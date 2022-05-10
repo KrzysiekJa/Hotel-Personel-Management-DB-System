@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 
 @Data
@@ -18,6 +18,6 @@ public class Hotel {
     private String email;
     private String standard;
     private int rooms_number;
-    private LocalDate creation_date;
-    //private LocalDateTime last_changed;
+    private Date creation_date;
+    //private DateTime last_changed;
 }
