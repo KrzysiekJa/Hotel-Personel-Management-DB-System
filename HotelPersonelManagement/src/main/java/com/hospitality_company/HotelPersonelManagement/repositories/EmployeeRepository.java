@@ -52,7 +52,7 @@ public class EmployeeRepository {
     public Employee deleteEmployee(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call delete_employee(?)}");
-        callableStatement.setInt("employee_id", (int) id);
+        callableStatement.setInt("employee_ID", (int) id);
         return (Employee) callableStatement.executeQuery();
     }
 }

@@ -2,6 +2,7 @@ package com.hospitality_company.HotelPersonelManagement;
 
 
 import com.hospitality_company.HotelPersonelManagement.models.Employee;
+import com.hospitality_company.HotelPersonelManagement.models.Hotel;
 import com.hospitality_company.HotelPersonelManagement.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -81,6 +82,51 @@ public class ApiController {
     }
 
     /********** Hotel endpoints **********/
+    @GetMapping("/hotels")
+    public ResponseEntity<List<Hotel>> getAllHotels(){
+        try{
+            List<Hotel> hotelList = hotelRepository.getAllHotels();
+            return new ResponseEntity<>(hotelList, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exc){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/hotel/{id}")
+    public ResponseEntity<Hotel> getHotelById(@PathVariable("id") long id){
+        try{
+            Hotel hotel = hotelRepository.getById(id);
+            return new ResponseEntity<>(hotel, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exc){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/hotel")
+    public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel){
+        try {
+            Hotel createdHotel = hotelRepository.addHotel(hotel);
+            return new ResponseEntity<>(createdHotel, HttpStatus.CREATED);
+        }catch (Exception exc){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/hotel/{id}")
+    public ResponseEntity<Hotel> deleteHotel(@PathVariable("id") long id){
+        try{
+            Hotel deletedHotel = hotelRepository.deleteHotel(id);
+            return new ResponseEntity<>(deletedHotel, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exc){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     /********** Position endpoints **********/
 
