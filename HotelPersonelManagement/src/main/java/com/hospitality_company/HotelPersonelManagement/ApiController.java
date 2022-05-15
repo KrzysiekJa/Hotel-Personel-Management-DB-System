@@ -1,8 +1,7 @@
 package com.hospitality_company.HotelPersonelManagement;
 
 
-import com.hospitality_company.HotelPersonelManagement.models.Employee;
-import com.hospitality_company.HotelPersonelManagement.models.Hotel;
+import com.hospitality_company.HotelPersonelManagement.models.*;
 import com.hospitality_company.HotelPersonelManagement.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -130,7 +129,85 @@ public class ApiController {
 
     /********** Position endpoints **********/
 
+    @PostMapping("/position")
+    public ResponseEntity<Position> addPosition(@RequestBody Position position){
+        try {
+            Position createdPosition = positionRepository.addPosition(position);
+            return new ResponseEntity<>(createdPosition, HttpStatus.CREATED);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/position/{id}")
+    public ResponseEntity<Position> deletePosition(@PathVariable("id") long id){
+        try {
+            Position deletedPosition = positionRepository.deletePosition(id);
+            return new ResponseEntity<>(deletedPosition, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /********** Shift endpoints **********/
 
+    @GetMapping("/shift")
+    public ResponseEntity<List<Shift>> getWorkPlan(){
+        try{
+            List<Shift> workplan = shiftRepository.getWorkPlan();
+            return new ResponseEntity<>(workplan, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exc){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/shift")
+    public ResponseEntity<Shift> addShift(@RequestBody Shift shift){
+        try {
+            Shift createdShift = shiftRepository.addShift(shift);
+            return new ResponseEntity<>(createdShift, HttpStatus.CREATED);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/shift/{id}")
+    public ResponseEntity<Shift> deleteShift(@PathVariable("id") long id){
+        try {
+            Shift deletedShift = shiftRepository.deleteShift(id);
+            return new ResponseEntity<>(deletedShift, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /********** Skill endpoints **********/
+
+    @PostMapping("/skill")
+    public ResponseEntity<Skill> addSkill(@RequestBody Skill skill){
+        try {
+            Skill createdSkill = skillRepository.addSkill(skill);
+            return new ResponseEntity<>(createdSkill, HttpStatus.CREATED);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/skill/{id}")
+    public ResponseEntity<Skill> deleteSkill(@PathVariable("id") long id){
+        try {
+            Skill deletedSkill = skillRepository.deleteSkill(id);
+            return new ResponseEntity<>(deletedSkill, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
