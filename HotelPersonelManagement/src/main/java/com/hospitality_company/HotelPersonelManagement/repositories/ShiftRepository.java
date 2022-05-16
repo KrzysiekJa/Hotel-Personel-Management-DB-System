@@ -39,4 +39,11 @@ public class ShiftRepository {
         CallableStatement callableStatement = connection.prepareCall("{call get_work_plan}");
         return (List<Shift>) callableStatement.executeQuery();
     }
+
+    public Shift getById(long id) throws SQLException {
+        Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call get_shift_by_id(?)}");
+        callableStatement.setInt("shift_ID", (int) id);
+        return (Shift) callableStatement.executeQuery();
+    }
 }

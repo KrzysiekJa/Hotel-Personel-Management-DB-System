@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -30,5 +31,18 @@ public class SkillRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_skill(?)}");
         callableStatement.setInt("skill_ID", (int) id);
         return (Skill) callableStatement.executeQuery();
+    }
+
+    public Skill getById(long id) throws SQLException {
+        Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call get_skill_by_id(?)}");
+        callableStatement.setInt("skill_ID", (int) id);
+        return (Skill) callableStatement.executeQuery();
+    }
+
+    public List<Skill> getAllSkills() throws SQLException {
+        Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call get_skills}");
+        return (List<Skill>) callableStatement.executeQuery();
     }
 }
