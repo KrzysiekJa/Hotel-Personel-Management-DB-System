@@ -146,7 +146,7 @@ const App = () => {
         </table>
       </form>
 
-      <h2>Add a Contact</h2>
+      <h3>Add a Contact</h3>
       <form onSubmit={handleAddFormSubmit}>
         <input
           type="text"
@@ -176,7 +176,7 @@ const App = () => {
           placeholder="Enter an email..."
           onChange={handleAddFormChange}
         />
-        <button type="submit">Add</button>
+        <button type="submit" class="button-8">Add</button>
       </form>
     </div>
   );
