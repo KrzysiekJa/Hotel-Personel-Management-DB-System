@@ -1,11 +1,12 @@
 import React, { useState, Fragment } from "react";
 import { nanoid } from "nanoid";
-import "./App.css";
+import "./FrontApp.css";
 import data from "./mock-data.json";
 import ReadOnlyRow from "./components/ReadOnlyRow";
 import EditableRow from "./components/EditableRow";
 
-const App = () => {
+
+const FrontApp = () => {
   const [contacts, setContacts] = useState(data);
   const [addFormData, setAddFormData] = useState({
     fullName: "",
@@ -129,15 +130,15 @@ const App = () => {
               <Fragment>
                 {editContactId === contact.id ? (
                   <EditableRow
-                    editFormData={editFormData}
-                    handleEditFormChange={handleEditFormChange}
-                    handleCancelClick={handleCancelClick}
+                    editFormData = {editFormData}
+                    handleEditFormChange = {handleEditFormChange}
+                    handleCancelClick = {handleCancelClick}
                   />
                 ) : (
                   <ReadOnlyRow
-                    contact={contact}
-                    handleEditClick={handleEditClick}
-                    handleDeleteClick={handleDeleteClick}
+                    contact = {contact}
+                    handleEditClick = {handleEditClick}
+                    handleDeleteClick = {handleDeleteClick}
                   />
                 )}
               </Fragment>
@@ -182,4 +183,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default FrontApp;
