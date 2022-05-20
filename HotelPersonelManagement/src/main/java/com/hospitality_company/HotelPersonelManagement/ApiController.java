@@ -27,6 +27,12 @@ public class ApiController {
     private ShiftRepository shiftRepository;
     @Autowired
     private SkillRepository skillRepository;
+    @Autowired
+    private EmployeesSkillsRepository employeesSkillsRepository;
+    @Autowired
+    private  HotelsEmployeesRepository hotelsEmployeesRepository;
+    @Autowired
+    private  WorkPlanEmployeesRepository workPlanEmployeesRepository;
 
 
     @GetMapping("/test")
@@ -271,4 +277,77 @@ public class ApiController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    /********** EmployeesSkill endpoints **********/
+
+    @PostMapping("/employeesskills")
+    public ResponseEntity<EmployeesSkills> addEmployeesSkills(@RequestBody EmployeesSkills employeesSkills){
+        try {
+            EmployeesSkills createdEmployeesSkills = employeesSkillsRepository.addEmployeesSkills(employeesSkills);
+            return new ResponseEntity<>(createdEmployeesSkills, HttpStatus.CREATED);
+        }catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/employeesskills/{id}")
+    public ResponseEntity<EmployeesSkills> deleteEmployeesSkills(@PathVariable("id") long id){
+        try{
+            EmployeesSkills deletedEmployeesSkills = employeesSkillsRepository.deleteEmployeesSkills(id);
+            return new ResponseEntity<>(deletedEmployeesSkills, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /********** HotelsEmployees endpoints **********/
+
+    @PostMapping("/hotelsemployees")
+    public ResponseEntity<HotelsEmployees> addHotelsEmployees(@RequestBody HotelsEmployees hotelsEmployees){
+        try {
+            HotelsEmployees createdHotelsEmployees = hotelsEmployeesRepository.addHotelsEmployees(hotelsEmployees);
+            return new ResponseEntity<>(createdHotelsEmployees, HttpStatus.CREATED);
+        }catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/hotelsemployees/{id}")
+    public ResponseEntity<HotelsEmployees> deleteHotelsEmployees(@PathVariable("id") long id){
+        try{
+            HotelsEmployees deletedHotelsEmployees = hotelsEmployeesRepository.deleteHotelsEmployees(id);
+            return new ResponseEntity<>(deletedHotelsEmployees, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /********** WorkPlanEmployees endpoints **********/
+
+    @PostMapping("/workplanemployees")
+    public ResponseEntity<WorkPlanEmployees> addWorkPlanEmployees(@RequestBody WorkPlanEmployees workPlanEmployees){
+        try {
+            WorkPlanEmployees createdWorkPlanEmployees = workPlanEmployeesRepository.addWorkPlanEmployees(workPlanEmployees);
+            return new ResponseEntity<>(createdWorkPlanEmployees, HttpStatus.CREATED);
+        }catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/workplanemployees/{id}")
+    public ResponseEntity<WorkPlanEmployees> deleteWorkPlanEmployees(@PathVariable("id") long id){
+        try{
+            WorkPlanEmployees deletedWorkPlanEmployees = workPlanEmployeesRepository.deleteWorkPlanEmployees(id);
+            return new ResponseEntity<>(deletedWorkPlanEmployees, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
