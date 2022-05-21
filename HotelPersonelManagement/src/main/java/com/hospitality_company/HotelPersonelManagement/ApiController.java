@@ -87,6 +87,18 @@ public class ApiController {
         }
     }
 
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") long id, @RequestBody Employee employee){
+        try {
+            Employee updatedEmployee = employeeRepository.updateEmployee(id, employee);
+            return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /********** Hotel endpoints **********/
     @GetMapping("/hotels")
     public ResponseEntity<List<Hotel>> getAllHotels(){
@@ -134,6 +146,18 @@ public class ApiController {
         }
     }
 
+    @PutMapping("/hotel/{id}")
+    public ResponseEntity<Hotel> updateHotel(@PathVariable("id") long id, @RequestBody Hotel hotel){
+        try {
+            Hotel updatedHotel = hotelRepository.updateHotel(id, hotel);
+            return new ResponseEntity<>(updatedHotel, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /********** Position endpoints **********/
 
     @PostMapping("/position")
@@ -175,6 +199,18 @@ public class ApiController {
         try{
             List<Position> positionsList = positionRepository.getAllPositions();
             return new ResponseEntity<>(positionsList, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/position/{id}")
+    public ResponseEntity<Position> updatePosition(@PathVariable("id") long id, @RequestBody Position position){
+        try {
+            Position updatedPosition = positionRepository.updatePosition(id, position);
+            return new ResponseEntity<>(updatedPosition, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
@@ -230,6 +266,18 @@ public class ApiController {
         }
     }
 
+    @PutMapping("/shift/{id}")
+    public ResponseEntity<Shift> updateShift(@PathVariable("id") long id, @RequestBody Shift shift){
+        try {
+            Shift updatedShift = shiftRepository.updateShift(id, shift);
+            return new ResponseEntity<>(updatedShift, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /********** Skill endpoints **********/
 
     @PostMapping("/skill")
@@ -271,6 +319,18 @@ public class ApiController {
         try{
             List<Skill> skillsList = skillRepository.getAllSkills();
             return new ResponseEntity<>(skillsList, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/skill/{id}")
+    public ResponseEntity<Skill> updateSkill(@PathVariable("id") long id, @RequestBody Skill skill){
+        try {
+            Skill updatedSkill = skillRepository.updateSkill(id, skill);
+            return new ResponseEntity<>(updatedSkill, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
