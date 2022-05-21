@@ -20,7 +20,7 @@ public class PositionRepository {
 
     public Position addPosition(Position position) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call add_hotel(?,?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call add_position(?,?)}");
         callableStatement.setString("name", position.getName());
         callableStatement.setString("description", position.getDescription());
         return (Position) callableStatement.executeQuery();
@@ -28,7 +28,7 @@ public class PositionRepository {
 
     public Position deletePosition(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call delete_hotel(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call delete_position(?)}");
         callableStatement.setInt("position_ID", (int) id);
         return (Position) callableStatement.executeQuery();
     }
@@ -43,6 +43,15 @@ public class PositionRepository {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call get_position_by_id(?)}");
         callableStatement.setInt("position_ID", (int) id);
+        return (Position) callableStatement.executeQuery();
+    }
+
+    public Position updatePosition(long id, Position position) throws SQLException {
+        Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call update_position(?,?,?)}");
+        callableStatement.setInt("position_ID", (int) id);
+        callableStatement.setString("name", position.getName());
+        callableStatement.setString("description", position.getDescription());
         return (Position) callableStatement.executeQuery();
     }
 }

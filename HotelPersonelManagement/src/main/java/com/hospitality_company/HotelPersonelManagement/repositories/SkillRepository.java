@@ -45,4 +45,13 @@ public class SkillRepository {
         CallableStatement callableStatement = connection.prepareCall("{call get_skills}");
         return (List<Skill>) callableStatement.executeQuery();
     }
+
+    public Skill updateSkill(long id, Skill skill) throws SQLException {
+        Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call update_skill(?,?,?)}");
+        callableStatement.setInt("skill_ID", (int) id);
+        callableStatement.setString("name", skill.getName());
+        callableStatement.setString("description", skill.getDescription());
+        return (Skill) callableStatement.executeQuery();
+    }
 }

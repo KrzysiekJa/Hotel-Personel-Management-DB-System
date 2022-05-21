@@ -52,4 +52,18 @@ public class HotelRepository {
         callableStatement.setInt("hotel_ID", (int) id);
         return (Hotel) callableStatement.executeQuery();
     }
+
+    public Hotel updateHotel(long id, Hotel hotel) throws SQLException {
+        Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call update_hotel(?,?,?,?,?,?,?,?)}");
+        callableStatement.setInt("hotel_ID", (int) id);
+        callableStatement.setString("name", hotel.getName());
+        callableStatement.setString("address", hotel.getAddress());
+        callableStatement.setInt("telephone", hotel.getTelephone());
+        callableStatement.setString("email", hotel.getEmail());
+        callableStatement.setString("standard", hotel.getStandard());
+        callableStatement.setInt("rooms_number", hotel.getRooms_number());
+        callableStatement.setDate("creation_date", (Date) hotel.getCreation_date());
+        return (Hotel) callableStatement.executeQuery();
+    }
 }
