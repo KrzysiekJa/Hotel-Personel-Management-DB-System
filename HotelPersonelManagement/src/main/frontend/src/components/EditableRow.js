@@ -36,7 +36,7 @@ const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) 
       </td>
       <td>
         <input
-          type="email"
+          type="text"
           required="required"
           placeholder="Enter an email..."
           name="email"
@@ -45,7 +45,7 @@ const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) 
         ></input>
       </td>
       <td>
-        <button type="submit" class="button-8">
+        <button type="button" class="button-8">
           Save
         </button>
         <button type="button" class="button-8" onClick = {handleCancelClick}>

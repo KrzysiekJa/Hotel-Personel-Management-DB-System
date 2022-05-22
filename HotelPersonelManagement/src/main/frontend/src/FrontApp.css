@@ -40,6 +40,13 @@ form * {
   font-size: 14px;
 }
 
+.buttons {
+  width: 380px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+}
+
 .button-8 {
   background-color: #e1ecf4;
   border-radius: 3px;
@@ -83,21 +90,6 @@ form * {
 }
 
 input[type=text] {
-  padding: 5px 12px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #24292e;
-  vertical-align: middle;
-  background-color: #ffffff;
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
-  outline: none;
-  box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
-}
-
-input[type=email] {
   padding: 5px 12px;
   font-size: 14px;
   line-height: 20px;

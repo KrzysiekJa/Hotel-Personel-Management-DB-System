@@ -86,6 +86,53 @@ const ContactTableBody = () => {
 };
 
 
+const ContactMainForm = () => {
+    const [contacts, setContacts] = useState(data);
+    const [editFormData] = useState({
+        fullName: "",
+        address: "",
+        phoneNumber: "",
+        email: "",
+    });
+    const [editContactId, setEditContactId] = useState(null);
+
+    const handleEditFormSubmit = (event) => {
+        event.preventDefault();
+
+        const editedContact = {
+        id: editContactId,
+        fullName: editFormData.fullName,
+        address: editFormData.address,
+        phoneNumber: editFormData.phoneNumber,
+        email: editFormData.email,
+        };
+
+        const newContacts = [...contacts];
+        const index = contacts.findIndex((contact) => contact.id === editContactId);
+        newContacts[index] = editedContact;
+        setContacts(newContacts);
+        setEditContactId(null);
+    };
+
+    return(
+        <form onSubmit={handleEditFormSubmit}>
+        <table>
+          <thead>
+            <Fragment>
+              <ContactHeadRow/>
+            </Fragment>
+          </thead>
+          <tbody>
+            <Fragment>
+              <ContactTableBody/>
+            </Fragment>
+          </tbody>
+        </table>
+      </form>
+    );
+};
+
+
 const ContactAddFormSubmit = () => {
 
     const [contacts, setContacts] = useState(data);
@@ -146,7 +193,7 @@ const ContactAddFormSubmit = () => {
           onChange={handleAddFormChange}
         />
         <input
-          type="email"
+          type="text"
           name="email"
           required="required"
           placeholder="Enter an email..."
@@ -158,4 +205,4 @@ const ContactAddFormSubmit = () => {
 };
 
 
-export {ContactHeadRow, ContactTableBody, ContactAddFormSubmit};
+export {ContactMainForm, ContactAddFormSubmit};
