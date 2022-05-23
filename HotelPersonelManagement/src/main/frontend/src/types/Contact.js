@@ -86,7 +86,7 @@ const ContactTableBody = () => {
 };
 
 
-const ContactMainForm = () => {
+const ContactTableForm = () => {
     const [contacts, setContacts] = useState(data);
     const [editFormData] = useState({
         fullName: "",
@@ -199,10 +199,26 @@ const ContactAddFormSubmit = () => {
           placeholder="Enter an email..."
           onChange={handleAddFormChange}
         />
-        <button type="submit" class="button-8">Add</button>
+        <button type="button" className="button-8">Add</button>
       </form>
     );
 };
 
 
-export {ContactMainForm, ContactAddFormSubmit};
+
+const ContactMainHandler = () => {
+    return(
+        <div>
+          <Fragment>
+            <ContactTableForm/>
+          </Fragment>
+    
+          <h3>Add a Contact</h3>
+          <Fragment>
+            <ContactAddFormSubmit/>
+          </Fragment>
+        </div>
+    );
+};
+
+export default ContactMainHandler;

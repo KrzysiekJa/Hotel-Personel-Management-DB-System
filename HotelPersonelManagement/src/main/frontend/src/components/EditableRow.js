@@ -45,10 +45,10 @@ const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) 
         ></input>
       </td>
       <td>
-        <button type="button" class="button-8">
+        <button type="button" className="button-8">
           Save
         </button>
-        <button type="button" class="button-8" onClick = {handleCancelClick}>
+        <button type="button" className="button-8" onClick = {handleCancelClick}>
           Cancel
         </button>
       </td>

@@ -1,33 +1,59 @@
-import React, {Fragment } from "react";
+import React, {useState, Fragment} from "react";
 import "./FrontApp.css";
-import { ContactMainForm, ContactAddFormSubmit } from "./types/Contact";
+import ContactMainHandler from "./types/Contact";
 
 
 const FrontApp = () => {
+  const [controlValue, setControlValue] = useState(0);
 
   return (
     <div className="app-container">
       <div class="buttons">
         <div class="buttons">
-          <button type="button" class="button-8">Employees</button>
-          <button type="button" class="button-8">Hotels</button>
-          <button type="button" class="button-8">Positions</button>
-          <button type="button" class="button-8">Skills</button>
-          <button type="button" class="button-8">WorkPlan</button>
+          <button type="button" className="button-8" onClick={() => setControlValue(1)}>
+            Employees
+          </button>
+          <button type="button" className="button-8" onClick={() => setControlValue(2)}>
+            Hotels
+          </button>
+          <button type="button" className="button-8" onClick={() => setControlValue(3)}>
+            Positions
+          </button>
+          <button type="button" className="button-8" onClick={() => setControlValue(4)}>
+            Skills
+          </button>
+          <button type="button" className="button-8" onClick={() => setControlValue(5)}>
+            WorkPlan
+          </button>
         </div>
       </div>
-
-      <Fragment>
-        <ContactMainForm/>
-      </Fragment>
-
-      <h3>Add a Contact</h3>
-      <Fragment>
-        <ContactAddFormSubmit/>
-      </Fragment>
+        {controlValue === 1 &&
+            <Fragment>
+              <ContactMainHandler/>
+            </Fragment>
+        }
+        {controlValue === 2 &&
+            <h3>
+              Api!!!!
+            </h3>
+        }
+        {controlValue === 3 &&
+            <h3>
+              Is!!!!
+            </h3>
+        }
+        {controlValue === 4 &&
+            <h3>
+              Working!!!!
+            </h3>
+        }
+        {controlValue === 5 &&
+            <h3>
+              :D
+            </h3>
+        }
     </div>
   );
 };
-
 
 export default FrontApp;
