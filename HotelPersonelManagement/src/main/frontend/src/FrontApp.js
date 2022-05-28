@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, { useState, Fragment } from "react";
 import "./FrontApp.css";
 import ContactMainHandler from "./types/Contact";
 
@@ -8,8 +8,8 @@ const FrontApp = () => {
 
   return (
     <div className="app-container">
-      <div class="buttons">
-        <div class="buttons">
+      <div className="buttons">
+        <div className="buttons">
           <button type="button" className="button-8" onClick={() => setControlValue(1)}>
             Employees
           </button>
@@ -28,29 +28,29 @@ const FrontApp = () => {
         </div>
       </div>
         {controlValue === 1 &&
-            <Fragment>
-              <ContactMainHandler/>
-            </Fragment>
+          <Fragment>
+            <ContactMainHandler/>
+          </Fragment>
         }
         {controlValue === 2 &&
-            <h3>
-              Api!!!!
-            </h3>
+          <h3>
+            Api!!!!
+          </h3>
         }
         {controlValue === 3 &&
-            <h3>
-              Is!!!!
-            </h3>
+          <h3>
+            Is!!!!
+          </h3>
         }
         {controlValue === 4 &&
-            <h3>
-              Working!!!!
-            </h3>
+          <h3>
+            Working!!!!
+          </h3>
         }
         {controlValue === 5 &&
-            <h3>
-              :D
-            </h3>
+          <h3>
+            :D
+          </h3>
         }
     </div>
   );
