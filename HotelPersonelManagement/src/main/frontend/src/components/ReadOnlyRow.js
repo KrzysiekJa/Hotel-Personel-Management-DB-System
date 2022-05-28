@@ -1,18 +1,29 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 
-const ReadOnlyRow = ({ contact, handleEditClick, handleDeleteClick }) => {
+const ReadOnlyRow = ({ container, editFormData, handleEditClick, handleDeleteClick }) => {
+  
+  const renderRow = (container, keysList) => {
+    let tdList = [];
+    
+    for(const key of Object.keys(keysList)){
+      tdList.push(
+        <td key={key}>{ container[key] }</td>
+      );
+    }
+    return tdList;
+  };
+
   return (
     <tr>
-      <td>{contact.fullName}</td>
-      <td>{contact.address}</td>
-      <td>{contact.phoneNumber}</td>
-      <td>{contact.email}</td>
+      <Fragment>
+        {renderRow(container, editFormData)}
+      </Fragment>
       <td>
-        <button type="button" className="button-8" onClick = {(event) => handleEditClick(event, contact)}>
+        <button type="button" className="button-8" onClick={(event) => handleEditClick(event, container)}>
           Edit
         </button>
-        <button type="button" className="button-8" onClick = {() => handleDeleteClick(contact.id)}>
+        <button type="button" className="button-8" onClick={() => handleDeleteClick(container.id)}>
           Delete
         </button>
       </td>
