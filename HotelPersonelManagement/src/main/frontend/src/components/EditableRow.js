@@ -10,7 +10,7 @@ const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) 
             <input
               type="text"
               required="required"
-              placeholder={"Enter a ".concat({key})}
+              placeholder={ "Enter ".concat(key, '...') }
               name={key}
               value={value}
               onChange={handleEditFormChange}

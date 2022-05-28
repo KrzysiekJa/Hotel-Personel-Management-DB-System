@@ -5,7 +5,6 @@ const ReadOnlyRow = ({ container, editFormData, handleEditClick, handleDeleteCli
   
   const renderRow = (container, keysList) => {
     let tdList = [];
-    
     for(const key of Object.keys(keysList)){
       tdList.push(
         <td key={key}>{ container[key] }</td>

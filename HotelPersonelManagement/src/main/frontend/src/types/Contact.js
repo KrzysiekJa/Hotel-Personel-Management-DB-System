@@ -128,6 +128,7 @@ const ContactTableForm = () => {
 
 
 const ContactAddFormSubmit = () => {
+  const contactNames = ['fullName', 'address', 'phoneNumber', 'email'];
 
   const [contacts, setContacts] = useState(data);
   const [addFormData, setAddFormData] = useState({
@@ -165,34 +166,17 @@ const ContactAddFormSubmit = () => {
 
   return (
     <form onSubmit={handleAddFormSubmit}>
-      <input
-        type="text"
-        name="fullName"
-        required="required"
-        placeholder="Enter a name..."
-        onChange={handleAddFormChange}
-      />
-      <input
-        type="text"
-        name="address"
-        required="required"
-        placeholder="Enter an addres..."
-        onChange={handleAddFormChange}
-      />
-      <input
-        type="text"
-        name="phoneNumber"
-        required="required"
-        placeholder="Enter a phone number..."
-        onChange={handleAddFormChange}
-      />
-      <input
-        type="text"
-        name="email"
-        required="required"
-        placeholder="Enter an email..."
-        onChange={handleAddFormChange}
-      />
+      <Fragment>
+        {Object.entries(contactNames).map(([key, value]) => (
+          <input
+            type="text"
+            name={value}
+            required="required"
+            placeholder={ "Enter ".concat(value, '...') }
+            onChange={handleAddFormChange}
+          ></input>
+        ))}
+      </Fragment>
       <button type="button" className="button-8">Add</button>
     </form>
   );

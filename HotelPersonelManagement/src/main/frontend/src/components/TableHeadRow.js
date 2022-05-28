@@ -5,7 +5,7 @@ const TableHeadRow = ({ headRowNames }) => {
     return (
       <tr>
         {headRowNames.map((rowName) => (
-          <th>{rowName}</th>
+            <th>{ rowName }</th>
         ))}
         <th>Operations</th>
       </tr>
