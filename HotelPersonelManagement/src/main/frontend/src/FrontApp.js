@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import "./FrontApp.css";
 import ContactMainHandler from "./types/Contact";
+import HotelMainHandler from "./types/Hotel";
 
 
 const FrontApp = () => {
@@ -33,9 +34,9 @@ const FrontApp = () => {
           </Fragment>
         }
         {controlValue === 2 &&
-          <h3>
-            Api!!!!
-          </h3>
+          <Fragment>
+            <HotelMainHandler/>
+          </Fragment>
         }
         {controlValue === 3 &&
           <h3>

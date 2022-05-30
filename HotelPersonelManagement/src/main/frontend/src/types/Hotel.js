@@ -1,27 +1,29 @@
 import React, { useState , Fragment } from "react";
 import { nanoid } from "nanoid";
 import "../FrontApp.css";
-import data from "../mock-data.json";
+import data from "../hotel-data.json";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 
 
 
-const ContactTableBody = () => {
+const HotelTableBody = () => {
 
-  const [contacts, setContacts] = useState(data);
+  const [hotels, setHotels] = useState(data);
+  const [editHotelId, setEditHotelId] = useState(null);
   const [editFormData, setEditFormData] = useState({
-    fullName: "",
+    name: "",
     address: "",
-    phoneNumber: "",
+    telephone: "",
     email: "",
+    standard: "",
+    rooms_number: "",
+    creation_date: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...editFormData };
@@ -29,34 +31,36 @@ const ContactTableBody = () => {
     setEditFormData(newFormData);
   };
 
-  const handleEditClick = (event, contact) => {
+  const handleEditClick = (event, hotel) => {
     event.preventDefault();
-    setEditContactId(contact.id);
-
-    const formValues = {
-      fullName: contact.fullName,
-      address: contact.address,
-      phoneNumber: contact.phoneNumber,
-      email: contact.email,
+    setEditHotelId(hotel.id);
+    const newFormValues = {
+      name: hotel.name,
+      address: hotel.address,
+      telephone: hotel.telephone,
+      email: hotel.email,
+      standard: hotel.standard,
+      rooms_number: hotel.rooms_number,
+      creation_date: hotel.creation_date,
     };
-    setEditFormData(formValues);
+    setEditFormData(newFormValues);
   };
 
   const handleCancelClick = () => {
-    setEditContactId(null);
+    setEditHotelId(null);
   };
 
-  const handleDeleteClick = (contactId) => {
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === contactId);
-    newContacts.splice(index, 1);
-    setContacts(newContacts);
+  const handleDeleteClick = (hotelId) => {
+    const newHotels = [...hotels];
+    const index = hotels.findIndex((hotel) => hotel.id === hotelId);
+    newHotels.splice(index, 1);
+    setHotels(newHotels);
   };
 
   return(
-    contacts.map((contact) => (
+    hotels.map((hotel) => (
       <Fragment>
-        {editContactId === contact.id ? (
+        {editHotelId === hotel.id ? (
           <EditableRow
             editFormData = {editFormData}
             handleEditFormChange = {handleEditFormChange}
@@ -64,7 +68,7 @@ const ContactTableBody = () => {
           />
         ) : (
           <ReadOnlyRow
-            container = {contact}
+            container = {hotel}
             editFormData = {editFormData}
             handleEditClick = {handleEditClick}
             handleDeleteClick = {handleDeleteClick}
@@ -76,34 +80,38 @@ const ContactTableBody = () => {
 };
 
 
-const ContactTableForm = () => {
-  const contactHeadNames = ['Name', 'Address', 'Phone Number', 'Email'];
+const HotelTableForm = () => {
+  const hotelHeadNames = ['Name', 'Address', 'Telephone', 'Email', 'Standard', 'Rooms number', 'Creation date'];
 
-  const [contacts, setContacts] = useState(data);
+  const [hotels, setHotels] = useState(data);
+  const [editHotelId, setEditHotelId] = useState(null);
   const [editFormData] = useState({
-    fullName: "",
+    name: "",
     address: "",
-    phoneNumber: "",
+    telephone: "",
     email: "",
+    standard: "",
+    rooms_number: "",
+    creation_date: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
-
-    const editedContact = {
-      id: editContactId,
-      fullName: editFormData.fullName,
+    const editedHotel = {
+      id: editHotelId,
+      name: editFormData.name,
       address: editFormData.address,
-      phoneNumber: editFormData.phoneNumber,
+      telephone: editFormData.telephone,
       email: editFormData.email,
+      standard: editFormData.standard,
+      rooms_number: editFormData.rooms_number,
+      creation_date: editFormData.creation_date,
     };
-
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === editContactId);
-    newContacts[index] = editedContact;
-    setContacts(newContacts);
-    setEditContactId(null);
+    const newHotels = [...hotels];
+    const index = hotels.findIndex((hotel) => hotel.id === editHotelId);
+    newHotels[index] = editedHotel;
+    setHotels(newHotels);
+    setEditHotelId(null);
   };
 
   return(
@@ -112,13 +120,13 @@ const ContactTableForm = () => {
         <thead>
           <Fragment>
             <TableHeadRow
-              headRowNames = {contactHeadNames}
+              headRowNames = {hotelHeadNames}
             />
           </Fragment>
         </thead>
         <tbody>
           <Fragment>
-            <ContactTableBody/>
+            <HotelTableBody/>
           </Fragment>
         </tbody>
       </table>
@@ -127,36 +135,38 @@ const ContactTableForm = () => {
 };
 
 
-const ContactAddFormSubmit = () => {
-  const contactNames = ['fullName', 'address', 'phoneNumber', 'email'];
+const HotelAddFormSubmit = () => {
+  const hotelNames = ['name', 'address', 'telephone', 'email', 'standard', 'rooms_number', 'creation_date'];
 
-  const [contacts, setContacts] = useState(data);
+  const [hotels, setHotels] = useState(data);
   const [addFormData, setAddFormData] = useState({
-    fullName: "",
+    name: "",
     address: "",
-    phoneNumber: "",
+    telephone: "",
     email: "",
+    standard: "",
+    rooms_number: "",
+    creation_date: "",
   });
-
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
-
-    const newContact = {
+    const newHotel = {
       id: nanoid(),
-      fullName: addFormData.fullName,
+      name: addFormData.name,
       address: addFormData.address,
-      phoneNumber: addFormData.phoneNumber,
+      telephone: addFormData.telephone,
       email: addFormData.email,
+      standard: addFormData.standard,
+      rooms_number: addFormData.rooms_number,
+      creation_date: addFormData.creation_date,
     };
-
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
+    const newHotels = [...hotels, newHotel];
+    setHotels(newHotels);
   };
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...addFormData };
@@ -167,8 +177,8 @@ const ContactAddFormSubmit = () => {
   return (
     <form onSubmit={handleAddFormSubmit}>
       <Fragment>
-        {Object.entries(contactNames).map(([key, value]) => (
-          <input
+        {Object.entries(hotelNames).map(([key, value]) => (
+          <input key = {key}
             type="text"
             name={value}
             required="required"
@@ -184,19 +194,19 @@ const ContactAddFormSubmit = () => {
 
 
 
-const ContactMainHandler = () => {
+const HotelMainHandler = () => {
   return(
     <div>
       <Fragment>
-        <ContactTableForm/>
+        <HotelTableForm/>
       </Fragment>
 
-      <h3>Add a Contact</h3>
+      <h3>Add a Hotel:</h3>
       <Fragment>
-        <ContactAddFormSubmit/>
+        <HotelAddFormSubmit/>
       </Fragment>
     </div>
   );
 };
 
-export default ContactMainHandler;
+export default HotelMainHandler;
