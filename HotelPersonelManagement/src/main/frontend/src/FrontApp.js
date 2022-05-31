@@ -29,9 +29,9 @@ const FrontApp = () => {
         </div>
       </div>
         {controlValue === 1 &&
-          <Fragment>
-            <ContactMainHandler/>
-          </Fragment>
+          <h3>
+            Is!!!!
+          </h3>
         }
         {controlValue === 2 &&
           <Fragment>
@@ -39,9 +39,9 @@ const FrontApp = () => {
           </Fragment>
         }
         {controlValue === 3 &&
-          <h3>
-            Is!!!!
-          </h3>
+          <Fragment>
+            <ContactMainHandler/>
+          </Fragment>
         }
         {controlValue === 4 &&
           <h3>

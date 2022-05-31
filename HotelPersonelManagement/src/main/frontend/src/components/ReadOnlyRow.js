@@ -22,7 +22,7 @@ const ReadOnlyRow = ({ container, editFormData, handleEditClick, handleDeleteCli
         <button type="button" className="button-8" onClick={(event) => handleEditClick(event, container)}>
           Edit
         </button>
-        <button type="button" className="button-8" onClick={() => handleDeleteClick(container.id)}>
+        <button type="button" className="button-8" onClick={() => handleDeleteClick(container)}>
           Delete
         </button>
       </td>

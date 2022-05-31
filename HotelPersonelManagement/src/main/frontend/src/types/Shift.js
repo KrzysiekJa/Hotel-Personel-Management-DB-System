@@ -7,16 +7,15 @@ import EditableRow from "../components/EditableRow";
 
 
 
-const ContactTableBody = () => {
+const ShiftTableBody = () => {
 
-  const [contacts, setContacts] = useState(data);
+  const [shifts, setShifts] = useState(data);
   const [editFormData, setEditFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    starting_date: "",
+    ending_date: "",
+    status: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
+  const [editShiftId, setEditShiftId] = useState(null);
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
@@ -28,34 +27,33 @@ const ContactTableBody = () => {
     setEditFormData(newFormData);
   };
 
-  const handleEditClick = (event, contact) => {
+  const handleEditClick = (event, shift) => {
     event.preventDefault();
-    setEditContactId(contact.id);
+    setEditShiftId(shift.shift_ID);
 
     const formValues = {
-      fullName: contact.fullName,
-      address: contact.address,
-      phoneNumber: contact.phoneNumber,
-      email: contact.email,
+        starting_date: shift.starting_date,
+        ending_date: shift.ending_date,
+        status: shift.status,
     };
     setEditFormData(formValues);
   };
 
   const handleCancelClick = () => {
-    setEditContactId(null);
+    setEditShiftId(null);
   };
 
-  const handleDeleteClick = (targetContact) => {
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === targetContact.id);
-    newContacts.splice(index, 1);
-    setContacts(newContacts);
+  const handleDeleteClick = (targetShift) => {
+    const newShifts = [...shifts];
+    const index = shifts.findIndex((shift) => shift.shift_ID === targetShift.shift_ID);
+    newShifts.splice(index, 1);
+    setShifts(newShifts);
   };
 
   return(
-    contacts.map((contact) => (
+    shifts.map((shift) => (
       <Fragment>
-        {editContactId === contact.id ? (
+        {editShiftId === shift.shift_ID ? (
           <EditableRow
             editFormData = {editFormData}
             handleEditFormChange = {handleEditFormChange}
@@ -63,7 +61,7 @@ const ContactTableBody = () => {
           />
         ) : (
           <ReadOnlyRow
-            container = {contact}
+            container = {shift}
             editFormData = {editFormData}
             handleEditClick = {handleEditClick}
             handleDeleteClick = {handleDeleteClick}
@@ -75,34 +73,32 @@ const ContactTableBody = () => {
 };
 
 
-const ContactTableForm = () => {
-  const contactHeadNames = ['Name', 'Address', 'Phone Number', 'Email'];
+const ShiftTableForm = () => {
+  const shiftHeadNames = ['Starting date', 'Ending date', 'Status'];
 
-  const [contacts, setContacts] = useState(data);
+  const [shifts, setShifts] = useState(data);
   const [editFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    starting_date: "",
+    ending_date: "",
+    status: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
+  const [editShiftId, setEditShiftId] = useState(null);
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
 
-    const editedContact = {
-      id: editContactId,
-      fullName: editFormData.fullName,
-      address: editFormData.address,
-      phoneNumber: editFormData.phoneNumber,
-      email: editFormData.email,
+    const editedShift = {
+        shift_ID: editShiftId,
+        starting_date: editFormData.starting_date,
+        ending_date: editFormData.ending_date,
+        status: editFormData.status,
     };
 
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === editContactId);
-    newContacts[index] = editedContact;
-    setContacts(newContacts);
-    setEditContactId(null);
+    const newShifts = [...shifts];
+    const index = shifts.findIndex((shift) => shift.shift_ID === editShiftId);
+    newShifts[index] = editedShift;
+    setShifts(newShifts);
+    setEditShiftId(null);
   };
 
   return(
@@ -111,13 +107,13 @@ const ContactTableForm = () => {
         <thead>
           <Fragment>
             <TableHeadRow
-              headRowNames = {contactHeadNames}
+              headRowNames = {shiftHeadNames}
             />
           </Fragment>
         </thead>
         <tbody>
           <Fragment>
-            <ContactTableBody/>
+            <ShiftTableBody/>
           </Fragment>
         </tbody>
       </table>
@@ -126,31 +122,29 @@ const ContactTableForm = () => {
 };
 
 
-const ContactAddFormSubmit = () => {
-  const contactNames = ['fullName', 'address', 'phoneNumber', 'email'];
+const ShiftAddFormSubmit = () => {
+  const shiftNames = ['starting_date', 'ending_date', 'status'];
 
-  const [contacts, setContacts] = useState(data);
+  const [shifts, setShifts] = useState(data);
   const [addFormData, setAddFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    starting_date: "",
+    ending_date: "",
+    status: "",
   });
 
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
-    const newContact = {
-      id: Math.floor(Math.random() * Math.pow(10, 15)),
-      fullName: addFormData.fullName,
-      address: addFormData.address,
-      phoneNumber: addFormData.phoneNumber,
-      email: addFormData.email,
+    const newShift = {
+        shift_ID: Math.floor(Math.random() * Math.pow(10, 15)),
+        starting_date: addFormData.starting_date,
+        ending_date: addFormData.ending_date,
+        status: addFormData.status,
     };
 
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
+    const newShifts = [...shifts, newShift];
+    setShifts(newShifts);
   };
 
   const handleAddFormChange = (event) => {
@@ -166,7 +160,7 @@ const ContactAddFormSubmit = () => {
   return (
     <form onSubmit={handleAddFormSubmit}>
       <Fragment>
-        {Object.entries(contactNames).map(([key, value]) => (
+        {Object.entries(shiftNames).map(([key, value]) => (
           <input
             type="text"
             name={value}
@@ -176,26 +170,26 @@ const ContactAddFormSubmit = () => {
           ></input>
         ))}
       </Fragment>
-      <button type="submit" className="button-8">Add</button>
+      <button type="button" className="button-8">Add</button>
     </form>
   );
 };
 
 
 
-const ContactMainHandler = () => {
+const ShiftMainHandler = () => {
   return(
     <div>
       <Fragment>
-        <ContactTableForm/>
+        <ShiftTableForm/>
       </Fragment>
 
-      <h3>Add a Contact</h3>
+      <h3>Add a Shift</h3>
       <Fragment>
-        <ContactAddFormSubmit/>
+        <ShiftAddFormSubmit/>
       </Fragment>
     </div>
   );
 };
 
-export default ContactMainHandler;
+export default ShiftMainHandler;

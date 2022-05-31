@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -48,7 +49,11 @@ public class ApiController {
             return new ResponseEntity<>(employeeList, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exc){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

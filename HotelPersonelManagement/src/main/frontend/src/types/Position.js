@@ -7,16 +7,14 @@ import EditableRow from "../components/EditableRow";
 
 
 
-const ContactTableBody = () => {
+const PositionTableBody = () => {
 
-  const [contacts, setContacts] = useState(data);
+  const [positions, setPositions] = useState(data);
   const [editFormData, setEditFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    name: "",
+    description: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
+  const [editPositionId, setEditPositionId] = useState(null);
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
@@ -28,34 +26,32 @@ const ContactTableBody = () => {
     setEditFormData(newFormData);
   };
 
-  const handleEditClick = (event, contact) => {
+  const handleEditClick = (event, position) => {
     event.preventDefault();
-    setEditContactId(contact.id);
+    setEditPositionId(position.position_ID);
 
     const formValues = {
-      fullName: contact.fullName,
-      address: contact.address,
-      phoneNumber: contact.phoneNumber,
-      email: contact.email,
+        name: position.name,
+        description: position.description,
     };
     setEditFormData(formValues);
   };
 
   const handleCancelClick = () => {
-    setEditContactId(null);
+    setEditPositionId(null);
   };
 
-  const handleDeleteClick = (targetContact) => {
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === targetContact.id);
-    newContacts.splice(index, 1);
-    setContacts(newContacts);
+  const handleDeleteClick = (targetPosition) => {
+    const newPositions = [...positions];
+    const index = positions.findIndex((position) => position.position_ID === targetPosition.position_ID);
+    newPositions.splice(index, 1);
+    setPositions(newPositions);
   };
 
   return(
-    contacts.map((contact) => (
+    positions.map((position) => (
       <Fragment>
-        {editContactId === contact.id ? (
+        {editPositionId === position.position_ID ? (
           <EditableRow
             editFormData = {editFormData}
             handleEditFormChange = {handleEditFormChange}
@@ -63,7 +59,7 @@ const ContactTableBody = () => {
           />
         ) : (
           <ReadOnlyRow
-            container = {contact}
+            container = {position}
             editFormData = {editFormData}
             handleEditClick = {handleEditClick}
             handleDeleteClick = {handleDeleteClick}
@@ -75,34 +71,30 @@ const ContactTableBody = () => {
 };
 
 
-const ContactTableForm = () => {
-  const contactHeadNames = ['Name', 'Address', 'Phone Number', 'Email'];
+const PositionTableForm = () => {
+  const positionHeadNames = ['Name', 'Description'];
 
-  const [contacts, setContacts] = useState(data);
+  const [positions, setPositions] = useState(data);
   const [editFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    name: "",
+    description: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
+  const [editPositionId, setEditPositionId] = useState(null);
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
 
-    const editedContact = {
-      id: editContactId,
-      fullName: editFormData.fullName,
-      address: editFormData.address,
-      phoneNumber: editFormData.phoneNumber,
-      email: editFormData.email,
+    const editedPosition = {
+        position_ID: editPositionId,
+        name: editFormData.name,
+        description: editFormData.description,
     };
 
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === editContactId);
-    newContacts[index] = editedContact;
-    setContacts(newContacts);
-    setEditContactId(null);
+    const newPositions = [...positions];
+    const index = positions.findIndex((position) => position.position_ID === editPositionId);
+    newPositions[index] = editedPosition;
+    setPositions(newPositions);
+    setEditPositionId(null);
   };
 
   return(
@@ -111,13 +103,13 @@ const ContactTableForm = () => {
         <thead>
           <Fragment>
             <TableHeadRow
-              headRowNames = {contactHeadNames}
+              headRowNames = {positionHeadNames}
             />
           </Fragment>
         </thead>
         <tbody>
           <Fragment>
-            <ContactTableBody/>
+            <PositionTableBody/>
           </Fragment>
         </tbody>
       </table>
@@ -126,31 +118,27 @@ const ContactTableForm = () => {
 };
 
 
-const ContactAddFormSubmit = () => {
-  const contactNames = ['fullName', 'address', 'phoneNumber', 'email'];
+const PositionAddFormSubmit = () => {
+  const positionNames = ['name', 'description'];
 
-  const [contacts, setContacts] = useState(data);
+  const [positions, setPositions] = useState(data);
   const [addFormData, setAddFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    name: "",
+    description: "",
   });
 
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
-    const newContact = {
-      id: Math.floor(Math.random() * Math.pow(10, 15)),
-      fullName: addFormData.fullName,
-      address: addFormData.address,
-      phoneNumber: addFormData.phoneNumber,
-      email: addFormData.email,
+    const newPosition = {
+        position_ID: Math.floor(Math.random() * Math.pow(10, 15)),
+        name: addFormData.name,
+        description: addFormData.description,
     };
 
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
+    const newPositions = [...positions, newPosition];
+    setPositions(newPositions);
   };
 
   const handleAddFormChange = (event) => {
@@ -166,7 +154,7 @@ const ContactAddFormSubmit = () => {
   return (
     <form onSubmit={handleAddFormSubmit}>
       <Fragment>
-        {Object.entries(contactNames).map(([key, value]) => (
+        {Object.entries(positionNames).map(([key, value]) => (
           <input
             type="text"
             name={value}
@@ -176,26 +164,26 @@ const ContactAddFormSubmit = () => {
           ></input>
         ))}
       </Fragment>
-      <button type="submit" className="button-8">Add</button>
+      <button type="button" className="button-8">Add</button>
     </form>
   );
 };
 
 
 
-const ContactMainHandler = () => {
+const PositionMainHandler = () => {
   return(
     <div>
       <Fragment>
-        <ContactTableForm/>
+        <PositionTableForm/>
       </Fragment>
 
-      <h3>Add a Contact</h3>
+      <h3>Add a Position</h3>
       <Fragment>
-        <ContactAddFormSubmit/>
+        <PositionAddFormSubmit/>
       </Fragment>
     </div>
   );
 };
 
-export default ContactMainHandler;
+export default PositionMainHandler;

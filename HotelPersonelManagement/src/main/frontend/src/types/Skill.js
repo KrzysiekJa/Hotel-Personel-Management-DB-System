@@ -7,16 +7,14 @@ import EditableRow from "../components/EditableRow";
 
 
 
-const ContactTableBody = () => {
+const SkillTableBody = () => {
 
-  const [contacts, setContacts] = useState(data);
+  const [skills, setSkills] = useState(data);
   const [editFormData, setEditFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    name: "",
+    description: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
+  const [editSkillId, setEditSkillId] = useState(null);
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
@@ -28,34 +26,32 @@ const ContactTableBody = () => {
     setEditFormData(newFormData);
   };
 
-  const handleEditClick = (event, contact) => {
+  const handleEditClick = (event, skill) => {
     event.preventDefault();
-    setEditContactId(contact.id);
+    setEditSkillId(skill.skill_ID);
 
     const formValues = {
-      fullName: contact.fullName,
-      address: contact.address,
-      phoneNumber: contact.phoneNumber,
-      email: contact.email,
+        name: skill.name,
+        description: skill.description,
     };
     setEditFormData(formValues);
   };
 
   const handleCancelClick = () => {
-    setEditContactId(null);
+    setEditSkillId(null);
   };
 
-  const handleDeleteClick = (targetContact) => {
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === targetContact.id);
-    newContacts.splice(index, 1);
-    setContacts(newContacts);
+  const handleDeleteClick = (targetSkill) => {
+    const newSkills = [...skills];
+    const index = skills.findIndex((skill) => skill.skill_ID === targetSkill.skill_ID);
+    newSkills.splice(index, 1);
+    setSkills(newSkills);
   };
 
   return(
-    contacts.map((contact) => (
+    skills.map((skill) => (
       <Fragment>
-        {editContactId === contact.id ? (
+        {editSkillId === skill.skill_ID ? (
           <EditableRow
             editFormData = {editFormData}
             handleEditFormChange = {handleEditFormChange}
@@ -63,7 +59,7 @@ const ContactTableBody = () => {
           />
         ) : (
           <ReadOnlyRow
-            container = {contact}
+            container = {skill}
             editFormData = {editFormData}
             handleEditClick = {handleEditClick}
             handleDeleteClick = {handleDeleteClick}
@@ -75,34 +71,30 @@ const ContactTableBody = () => {
 };
 
 
-const ContactTableForm = () => {
-  const contactHeadNames = ['Name', 'Address', 'Phone Number', 'Email'];
+const SkillTableForm = () => {
+  const skillHeadNames = ['Name', 'Description'];
 
-  const [contacts, setContacts] = useState(data);
+  const [skills, setSkills] = useState(data);
   const [editFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    name: "",
+    description: "",
   });
-  const [editContactId, setEditContactId] = useState(null);
+  const [editSkillId, setEditSkillId] = useState(null);
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
 
-    const editedContact = {
-      id: editContactId,
-      fullName: editFormData.fullName,
-      address: editFormData.address,
-      phoneNumber: editFormData.phoneNumber,
-      email: editFormData.email,
+    const editedSkill = {
+        skill_ID: editSkillId,
+        name: editFormData.name,
+        description: editFormData.description,
     };
 
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === editContactId);
-    newContacts[index] = editedContact;
-    setContacts(newContacts);
-    setEditContactId(null);
+    const newSkills = [...skills];
+    const index = skills.findIndex((skill) => skill.skill_ID === editSkillId);
+    newSkills[index] = editedSkill;
+    setSkills(newSkills);
+    setEditSkillId(null);
   };
 
   return(
@@ -111,13 +103,13 @@ const ContactTableForm = () => {
         <thead>
           <Fragment>
             <TableHeadRow
-              headRowNames = {contactHeadNames}
+              headRowNames = {skillHeadNames}
             />
           </Fragment>
         </thead>
         <tbody>
           <Fragment>
-            <ContactTableBody/>
+            <SkillTableBody/>
           </Fragment>
         </tbody>
       </table>
@@ -126,31 +118,27 @@ const ContactTableForm = () => {
 };
 
 
-const ContactAddFormSubmit = () => {
-  const contactNames = ['fullName', 'address', 'phoneNumber', 'email'];
+const SkillAddFormSubmit = () => {
+  const skillNames = ['name', 'description'];
 
-  const [contacts, setContacts] = useState(data);
+  const [skills, setSkills] = useState(data);
   const [addFormData, setAddFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
+    name: "",
+    description: "",
   });
 
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
-    const newContact = {
-      id: Math.floor(Math.random() * Math.pow(10, 15)),
-      fullName: addFormData.fullName,
-      address: addFormData.address,
-      phoneNumber: addFormData.phoneNumber,
-      email: addFormData.email,
+    const newSkill = {
+        skill_ID: Math.floor(Math.random() * Math.pow(10, 15)),
+        name: addFormData.name,
+        description: addFormData.description,
     };
 
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
+    const newSkills = [...skills, newSkill];
+    setSkills(newSkills);
   };
 
   const handleAddFormChange = (event) => {
@@ -166,7 +154,7 @@ const ContactAddFormSubmit = () => {
   return (
     <form onSubmit={handleAddFormSubmit}>
       <Fragment>
-        {Object.entries(contactNames).map(([key, value]) => (
+        {Object.entries(skillNames).map(([key, value]) => (
           <input
             type="text"
             name={value}
@@ -176,26 +164,26 @@ const ContactAddFormSubmit = () => {
           ></input>
         ))}
       </Fragment>
-      <button type="submit" className="button-8">Add</button>
+      <button type="button" className="button-8">Add</button>
     </form>
   );
 };
 
 
 
-const ContactMainHandler = () => {
+const SkillMainHandler = () => {
   return(
     <div>
       <Fragment>
-        <ContactTableForm/>
+        <SkillTableForm/>
       </Fragment>
 
-      <h3>Add a Contact</h3>
+      <h3>Add a Skill</h3>
       <Fragment>
-        <ContactAddFormSubmit/>
+        <SkillAddFormSubmit/>
       </Fragment>
     </div>
   );
 };
 
-export default ContactMainHandler;
+export default SkillMainHandler;

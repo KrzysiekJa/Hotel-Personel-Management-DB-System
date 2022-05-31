@@ -1,6 +1,6 @@
 [
     {
-      "id": 1,
+      "hotel_ID": 1,
       "name": "Blue Hotel",
       "address": "28 Christine Lane, Hartland,wi, 53029  United States",
       "telephone": 351206201,
@@ -10,7 +10,7 @@
       "creation_date": "2011-01-03"
     },
     {
-      "id": 2,
+      "hotel_ID": 2,
       "name": "Red Hotel",
       "address": "14 160th Street SE, Sultan,wa, 98294  United States",
       "telephone": 245475195,
@@ -20,7 +20,7 @@
       "creation_date": "2013-01-22"
     },
     {
-      "id": 3,
+      "hotel_ID": 3,
       "name": "Yellow Hotel",
       "address": "33 Pine Street, East Moriches,ny, 11940  United States",
       "telephone": 245475195,

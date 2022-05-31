@@ -1,5 +1,4 @@
 import React, { useState , Fragment } from "react";
-import { nanoid } from "nanoid";
 import "../FrontApp.css";
 import data from "../hotel-data.json";
 import TableHeadRow from "../components/TableHeadRow";
@@ -33,7 +32,7 @@ const HotelTableBody = () => {
 
   const handleEditClick = (event, hotel) => {
     event.preventDefault();
-    setEditHotelId(hotel.id);
+    setEditHotelId(hotel.hotel_ID);
     const newFormValues = {
       name: hotel.name,
       address: hotel.address,
@@ -50,9 +49,9 @@ const HotelTableBody = () => {
     setEditHotelId(null);
   };
 
-  const handleDeleteClick = (hotelId) => {
+  const handleDeleteClick = (targetHotel) => {
     const newHotels = [...hotels];
-    const index = hotels.findIndex((hotel) => hotel.id === hotelId);
+    const index = hotels.findIndex((hotel) => hotel.hotel_ID === targetHotel.hotel_ID);
     newHotels.splice(index, 1);
     setHotels(newHotels);
   };
@@ -60,7 +59,7 @@ const HotelTableBody = () => {
   return(
     hotels.map((hotel) => (
       <Fragment>
-        {editHotelId === hotel.id ? (
+        {editHotelId === hotel.hotel_ID ? (
           <EditableRow
             editFormData = {editFormData}
             handleEditFormChange = {handleEditFormChange}
@@ -98,7 +97,7 @@ const HotelTableForm = () => {
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
     const editedHotel = {
-      id: editHotelId,
+      hotel_ID: editHotelId,
       name: editFormData.name,
       address: editFormData.address,
       telephone: editFormData.telephone,
@@ -108,7 +107,7 @@ const HotelTableForm = () => {
       creation_date: editFormData.creation_date,
     };
     const newHotels = [...hotels];
-    const index = hotels.findIndex((hotel) => hotel.id === editHotelId);
+    const index = hotels.findIndex((hotel) => hotel.hotel_ID === editHotelId);
     newHotels[index] = editedHotel;
     setHotels(newHotels);
     setEditHotelId(null);
@@ -152,7 +151,7 @@ const HotelAddFormSubmit = () => {
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
     const newHotel = {
-      id: nanoid(),
+      hotel_ID: Math.floor(Math.random() * Math.pow(10, 15)),
       name: addFormData.name,
       address: addFormData.address,
       telephone: addFormData.telephone,
