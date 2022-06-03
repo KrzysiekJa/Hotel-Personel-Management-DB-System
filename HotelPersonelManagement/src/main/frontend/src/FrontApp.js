@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import "./FrontApp.css";
 import ContactMainHandler from "./types/Contact";
 import HotelMainHandler from "./types/Hotel";
+import Hotel2MainHandler from './types/Hotel2';
 
 
 const FrontApp = () => {
@@ -49,9 +50,9 @@ const FrontApp = () => {
           </h3>
         }
         {controlValue === 5 &&
-          <h3>
-            :D
-          </h3>
+          <Fragment>
+            <Hotel2MainHandler/>
+          </Fragment>
         }
     </div>
   );
