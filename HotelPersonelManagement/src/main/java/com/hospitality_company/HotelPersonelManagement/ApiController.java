@@ -48,11 +48,9 @@ public class ApiController {
             List<Employee> employeeList = employeeRepository.getAllEmployees();
             return new ResponseEntity<>(employeeList, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exc){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (SQLException exc) {
             exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception exc){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exc) {
             exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -64,8 +62,10 @@ public class ApiController {
             Employee employee = employeeRepository.getById(id);
             return new ResponseEntity<>(employee, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -76,18 +76,21 @@ public class ApiController {
             Employee createdEmployee = employeeRepository.addEmployee(employee);
             return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
         }catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/employee/{id}")
-    public ResponseEntity<Employee> deleteEmployee(@PathVariable("id") long id){
+    public ResponseEntity<Boolean> deleteEmployee(@PathVariable("id") long id){
         try{
-            Employee deletedEmployee = employeeRepository.deleteEmployee(id);
-            return new ResponseEntity<>(deletedEmployee, HttpStatus.CREATED);
+            Boolean boolDeletedEmployee = employeeRepository.deleteEmployee(id);
+            return new ResponseEntity<>(boolDeletedEmployee, HttpStatus.CREATED);
         } catch (EmptyResultDataAccessException exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -98,8 +101,10 @@ public class ApiController {
             Employee updatedEmployee = employeeRepository.updateEmployee(id, employee);
             return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -111,8 +116,10 @@ public class ApiController {
             List<Hotel> hotelList = hotelRepository.getAllHotels();
             return new ResponseEntity<>(hotelList, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -123,8 +130,10 @@ public class ApiController {
             Hotel hotel = hotelRepository.getById(id);
             return new ResponseEntity<>(hotel, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -135,18 +144,21 @@ public class ApiController {
             Hotel createdHotel = hotelRepository.addHotel(hotel);
             return new ResponseEntity<>(createdHotel, HttpStatus.CREATED);
         }catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/hotel/{id}")
-    public ResponseEntity<Hotel> deleteHotel(@PathVariable("id") long id){
+    public ResponseEntity<Boolean> deleteHotel(@PathVariable("id") long id){
         try{
-            Hotel deletedHotel = hotelRepository.deleteHotel(id);
-            return new ResponseEntity<>(deletedHotel, HttpStatus.CREATED);
+            Boolean boolDeletedHotel = hotelRepository.deleteHotel(id);
+            return new ResponseEntity<>(boolDeletedHotel, HttpStatus.CREATED);
         } catch (EmptyResultDataAccessException exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exc){
+            exc.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -157,8 +169,10 @@ public class ApiController {
             Hotel updatedHotel = hotelRepository.updateHotel(id, hotel);
             return new ResponseEntity<>(updatedHotel, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
