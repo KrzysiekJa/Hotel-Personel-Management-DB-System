@@ -62,7 +62,7 @@ public class PositionRepository {
     public Position updatePosition(long id, Position position) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call update_position(?,?,?)}");
-        callableStatement.setInt("position_ID", (int) id);
+        callableStatement.setInt("positions_ID", (int) id);
         callableStatement.setString("name", position.getName());
         callableStatement.setString("description", position.getDescription());
         callableStatement.executeUpdate();

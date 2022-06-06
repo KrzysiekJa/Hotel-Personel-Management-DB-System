@@ -82,7 +82,7 @@ public class EmployeeRepository {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call update_employee(?,?,?,?,?,?,?,?,?,?,?)}");
         callableStatement.setInt("employee_ID", (int) id);
-        callableStatement.setInt("position_name", (int) employee.getPosition_ID());
+        callableStatement.setInt("position_id", (int) employee.getPosition_ID());
         callableStatement.setString("name", employee.getName());
         callableStatement.setString("surname", employee.getSurname());
         callableStatement.setString("address", employee.getAddress());
