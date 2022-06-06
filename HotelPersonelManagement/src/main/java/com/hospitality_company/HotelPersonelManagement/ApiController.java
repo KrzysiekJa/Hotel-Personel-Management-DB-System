@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 
@@ -184,19 +183,22 @@ public class ApiController {
         try {
             Position createdPosition = positionRepository.addPosition(position);
             return new ResponseEntity<>(createdPosition, HttpStatus.CREATED);
-        } catch (Exception exception){
+        }catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/position/{id}")
-    public ResponseEntity<Position> deletePosition(@PathVariable("id") long id){
+    public ResponseEntity<Boolean> deletePosition(@PathVariable("id") long id){
         try {
-            Position deletedPosition = positionRepository.deletePosition(id);
+            Boolean deletedPosition = positionRepository.deletePosition(id);
             return new ResponseEntity<>(deletedPosition, HttpStatus.CREATED);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -213,14 +215,16 @@ public class ApiController {
         }
     }
 
-    @GetMapping("/position")
+    @GetMapping("/positions")
     public ResponseEntity<List<Position>> getAllPositions(){
         try{
             List<Position> positionsList = positionRepository.getAllPositions();
             return new ResponseEntity<>(positionsList, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -231,8 +235,10 @@ public class ApiController {
             Position updatedPosition = positionRepository.updatePosition(id, position);
             return new ResponseEntity<>(updatedPosition, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -244,9 +250,11 @@ public class ApiController {
         try{
             List<Shift> workplan = shiftRepository.getWorkPlan();
             return new ResponseEntity<>(workplan, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exc){
+        } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exc){
+        } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -256,19 +264,22 @@ public class ApiController {
         try {
             Shift createdShift = shiftRepository.addShift(shift);
             return new ResponseEntity<>(createdShift, HttpStatus.CREATED);
-        } catch (Exception exception){
+        }catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/shift/{id}")
-    public ResponseEntity<Shift> deleteShift(@PathVariable("id") long id){
+    public ResponseEntity<Boolean> deleteShift(@PathVariable("id") long id){
         try {
-            Shift deletedShift = shiftRepository.deleteShift(id);
+            Boolean deletedShift = shiftRepository.deleteShift(id);
             return new ResponseEntity<>(deletedShift, HttpStatus.CREATED);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -291,8 +302,10 @@ public class ApiController {
             Shift updatedShift = shiftRepository.updateShift(id, shift);
             return new ResponseEntity<>(updatedShift, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -305,18 +318,21 @@ public class ApiController {
             Skill createdSkill = skillRepository.addSkill(skill);
             return new ResponseEntity<>(createdSkill, HttpStatus.CREATED);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/skill/{id}")
-    public ResponseEntity<Skill> deleteSkill(@PathVariable("id") long id){
+    public ResponseEntity<Boolean> deleteSkill(@PathVariable("id") long id){
         try {
-            Skill deletedSkill = skillRepository.deleteSkill(id);
+            Boolean deletedSkill = skillRepository.deleteSkill(id);
             return new ResponseEntity<>(deletedSkill, HttpStatus.CREATED);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -339,8 +355,10 @@ public class ApiController {
             List<Skill> skillsList = skillRepository.getAllSkills();
             return new ResponseEntity<>(skillsList, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -351,8 +369,10 @@ public class ApiController {
             Skill updatedSkill = skillRepository.updateSkill(id, skill);
             return new ResponseEntity<>(updatedSkill, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception){
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

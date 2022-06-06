@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,14 +25,16 @@ public class SkillRepository {
         CallableStatement callableStatement = connection.prepareCall("{call add_skill(?,?)}");
         callableStatement.setString("name", skill.getName());
         callableStatement.setString("description", skill.getDescription());
-        return (Skill) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return skill;
     }
 
-    public Skill deleteSkill(long id) throws SQLException {
+    public boolean deleteSkill(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call delete_skill(?)}");
         callableStatement.setInt("skill_ID", (int) id);
-        return (Skill) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return true;
     }
 
     public Skill getById(long id) throws SQLException {
@@ -43,7 +47,16 @@ public class SkillRepository {
     public List<Skill> getAllSkills() throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call get_skills}");
-        return (List<Skill>) callableStatement.executeQuery();
+        ResultSet resultSet = callableStatement.executeQuery();
+        List<Skill> skillList = new ArrayList<>();
+        while (resultSet.next()){
+            long skill_ID = resultSet.getLong("skill_ID");
+            String name = resultSet.getString("name");
+            String description = resultSet.getString("description");
+            Skill skill = new Skill(skill_ID, name, description);
+            skillList.add(skill);
+        }
+        return skillList;
     }
 
     public Skill updateSkill(long id, Skill skill) throws SQLException {
@@ -52,6 +65,7 @@ public class SkillRepository {
         callableStatement.setInt("skill_ID", (int) id);
         callableStatement.setString("name", skill.getName());
         callableStatement.setString("description", skill.getDescription());
-        return (Skill) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return skill;
     }
 }

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,20 +25,31 @@ public class PositionRepository {
         CallableStatement callableStatement = connection.prepareCall("{call add_position(?,?)}");
         callableStatement.setString("name", position.getName());
         callableStatement.setString("description", position.getDescription());
-        return (Position) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return position;
     }
 
-    public Position deletePosition(long id) throws SQLException {
+    public boolean deletePosition(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call delete_position(?)}");
         callableStatement.setInt("position_ID", (int) id);
-        return (Position) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return true;
     }
 
     public List<Position> getAllPositions() throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call get_positions}");
-        return (List<Position>) callableStatement.executeQuery();
+        ResultSet resultSet = callableStatement.executeQuery();
+        List<Position> positionList = new ArrayList<>();
+        while (resultSet.next()){
+             long position_ID = resultSet.getLong("position_ID");
+             String name = resultSet.getString("name");
+             String description = resultSet.getString("description");
+             Position position = new Position(position_ID, name, description);
+             positionList.add(position);
+        }
+        return positionList;
     }
 
     public Position getById(long id) throws SQLException {
@@ -52,6 +65,7 @@ public class PositionRepository {
         callableStatement.setInt("position_ID", (int) id);
         callableStatement.setString("name", position.getName());
         callableStatement.setString("description", position.getDescription());
-        return (Position) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return position;
     }
 }
