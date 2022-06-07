@@ -224,7 +224,7 @@ CREATE TABLE `WorkPlanEmployees` (
   `shift_ID` int(11) NOT NULL,
   PRIMARY KEY (`work_plan_Employees_ID`),
   KEY `hotel_employee_ID` (`hotel_employee_ID`),
-  KEY `shift_id` (`shift_ID`),
+  KEY `shift_ID` (`shift_ID`),
   CONSTRAINT `workplanemployees_ibfk_1` FOREIGN KEY (`hotel_employee_ID`) REFERENCES `hotelsemployees` (`hotel_employee_ID`),
   CONSTRAINT `workplanemployees_ibfk_2` FOREIGN KEY (`shift_ID`) REFERENCES `workplan` (`shift_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
@@ -257,7 +257,7 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employee`(
-	IN `position_id` INT,
+	IN `position_ID` INT,
     IN `name` CHAR(100),
 	IN `surname` CHAR(100),
 	IN `address` CHAR(200),
@@ -269,7 +269,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employee`(
 	IN `date_of_employment` DATE)
 BEGIN
 	INSERT INTO `Employees` 
-    VALUES( NULL, position_id, name, surname, address, sex, date_of_birth, 
+    VALUES( NULL, position_ID, name, surname, address, sex, date_of_birth, 
 			telephone, email, number_of_vacation_days, date_of_employment, NOW());
 END ;;
 DELIMITER ;
@@ -528,7 +528,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_employee_by_id` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_employee_by_ID` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -538,11 +538,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_by_id`(
-	IN employee_id INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_by_ID`(
+	IN employee_ID INT)
 BEGIN
 	SELECT * FROM `Employees`
-    WHERE Employees.employee_ID = employee_id;
+    WHERE Employees.employee_ID = employee_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -568,7 +568,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_hotel_by_id` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_hotel_by_ID` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -578,11 +578,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_hotel_by_id`(
-	IN hotel_id INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_hotel_by_ID`(
+	IN hotel_ID INT)
 BEGIN
 	SELECT * FROM `Hotels`
-    WHERE Hotels.hotel_ID = hotel_id;
+    WHERE Hotels.hotel_ID = hotel_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -663,7 +663,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_skill_by_id` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_skill_by_ID` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -673,11 +673,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_skill_by_id`(
-	IN skill_id INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_skill_by_ID`(
+	IN skill_ID INT)
 BEGIN
 	SELECT * FROM `Skills`
-    WHERE Skills.skill_ID = skill_id;
+    WHERE Skills.skill_ID = skill_ID;
 END ;;
 
 DELIMITER ;
@@ -685,7 +685,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_position_by_id` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_position_by_ID` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -695,11 +695,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_position_by_id`(
-	IN position_id INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_position_by_ID`(
+	IN position_ID INT)
 BEGIN
 	SELECT * FROM `Positions`
-    WHERE Positions.position_ID = position_id;
+    WHERE Positions.position_ID = position_ID;
 END ;;
 
 DELIMITER ;
@@ -707,7 +707,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_shift_by_id` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_shift_by_ID` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -717,8 +717,8 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_shift_by_id`(
-	IN shift_id INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_shift_by_ID`(
+	IN shift_ID INT)
 BEGIN
 	SELECT * FROM `WorkPlan`
     WHERE WorkPlan.shift_ID = shift_ID;
@@ -871,13 +871,13 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_position`(
-	IN `positions_ID` INT,
+	IN `position_ID` INT,
 	IN `name` CHAR(100),
 	IN `description` text(500))
 BEGIN
 	UPDATE `Positions`
 	SET Positions.name = name, Positions.description = description
-	WHERE Positions.position_ID = positions_ID;
+	WHERE Positions.position_ID = position_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -959,7 +959,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_employee`(
 	IN `employee_ID` INT,
-	IN `position_id` INT,
+	IN `position_ID` INT,
     IN `name` CHAR(100),
 	IN `surname` CHAR(100),
 	IN `address` CHAR(200),
@@ -971,7 +971,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_employee`(
 	IN `date_of_employment` DATE)
 BEGIN
 	UPDATE `Employees`
-	SET Employees.position_id = position_id,
+	SET Employees.position_ID = position_ID,
 	Employees.name = name,
 	Employees.surname = surname,
 	Employees.address = address,
