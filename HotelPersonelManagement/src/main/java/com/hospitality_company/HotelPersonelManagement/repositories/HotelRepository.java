@@ -44,8 +44,8 @@ public class HotelRepository {
     // TODO: probably going to be deleted
     public Hotel getById(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call get_hotel_by_id(?)}");
-        callableStatement.setInt("hotel_id", (int) id);
+        CallableStatement callableStatement = connection.prepareCall("{call get_hotel_by_ID(?)}");
+        callableStatement.setInt("hotel_ID", (int) id);
         return (Hotel) callableStatement.executeQuery();
     }
 

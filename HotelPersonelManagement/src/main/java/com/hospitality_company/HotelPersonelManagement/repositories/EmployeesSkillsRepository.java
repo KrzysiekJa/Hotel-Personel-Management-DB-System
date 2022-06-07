@@ -21,13 +21,15 @@ public class EmployeesSkillsRepository {
         CallableStatement callableStatement = connection.prepareCall("{call add_employeesskills(?,?)}");
         callableStatement.setInt("employee_ID", (int) employeesSkills.getEmployee_skill_ID());
         callableStatement.setInt("skill_ID", (int) employeesSkills.getEmployee_skill_ID());
-        return (EmployeesSkills) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return employeesSkills;
     }
 
-    public EmployeesSkills deleteEmployeesSkills(long id) throws SQLException {
+    public boolean deleteEmployeesSkills(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call delete_employeesskills(?)}");
         callableStatement.setInt("employee_skill_ID", (int) id);
-        return (EmployeesSkills) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return true;
     }
 }

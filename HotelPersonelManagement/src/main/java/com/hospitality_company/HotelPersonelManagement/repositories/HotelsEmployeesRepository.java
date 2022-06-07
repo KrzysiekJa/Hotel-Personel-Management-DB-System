@@ -21,13 +21,15 @@ public class HotelsEmployeesRepository {
         CallableStatement callableStatement = connection.prepareCall("{call add_hotelsemployees(?,?)}");
         callableStatement.setInt("hotel_ID", (int) hotelsEmployees.getHotel_ID());
         callableStatement.setInt("employee_ID", (int) hotelsEmployees.getEmployee_ID());
-        return (HotelsEmployees) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return hotelsEmployees;
     }
 
-    public HotelsEmployees deleteHotelsEmployees(long id) throws SQLException {
+    public boolean deleteHotelsEmployees(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call delete_hotelsemployees(?)}");
         callableStatement.setInt("hotel_employee_ID", (int) id);
-        return (HotelsEmployees) callableStatement.executeQuery();
+        callableStatement.executeUpdate();
+        return true;
     }
 }

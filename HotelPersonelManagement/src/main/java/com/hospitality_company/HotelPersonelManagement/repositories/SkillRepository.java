@@ -39,7 +39,7 @@ public class SkillRepository {
 
     public Skill getById(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call get_skill_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call get_skill_by_ID(?)}");
         callableStatement.setInt("skill_ID", (int) id);
         return (Skill) callableStatement.executeQuery();
     }

@@ -49,7 +49,7 @@ public class EmployeeRepository {
     public Employee getById(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call get_employee_by_id(?)}");
-        callableStatement.setInt("employee_id", (int) id);
+        callableStatement.setInt("employee_ID", (int) id);
         return (Employee) callableStatement.executeQuery();
     }
 
@@ -82,7 +82,7 @@ public class EmployeeRepository {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call update_employee(?,?,?,?,?,?,?,?,?,?,?)}");
         callableStatement.setInt("employee_ID", (int) id);
-        callableStatement.setInt("position_id", (int) employee.getPosition_ID());
+        callableStatement.setInt("position_ID", (int) employee.getPosition_ID());
         callableStatement.setString("name", employee.getName());
         callableStatement.setString("surname", employee.getSurname());
         callableStatement.setString("address", employee.getAddress());
