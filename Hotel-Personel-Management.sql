@@ -724,6 +724,7 @@ BEGIN
     WHERE WorkPlan.shift_ID = shift_ID;
 END ;;
 
+DELIMITER ;
 /*!50003 DROP PROCEDURE IF EXISTS `add_employeesskills` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
