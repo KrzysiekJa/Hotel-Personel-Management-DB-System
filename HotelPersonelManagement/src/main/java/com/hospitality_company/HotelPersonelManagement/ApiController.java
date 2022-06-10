@@ -463,4 +463,19 @@ public class ApiController {
         }
     }
 
+    /********** EmployeeHotelPosition endpoints **********/
+
+    @GetMapping("/ehp")
+    public ResponseEntity<List<List>> getEmployeeHotelPosition(){
+        try{
+            List<List> list = hotelsEmployeesRepository.getEmployeeHotelPosition();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

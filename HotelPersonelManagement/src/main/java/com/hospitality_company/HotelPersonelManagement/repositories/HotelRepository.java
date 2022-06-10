@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class HotelRepository {
             String standard = resultSet.getString("standard");
             int rooms_number = resultSet.getInt("rooms_number");
             Date creation_date = resultSet.getDate("creation_date");
+            //LocalDateTime last_changed = (LocalDateTime) resultSet.getObject("last_changed");
 
             Hotel hotel = new Hotel(hotel_ID, name, address, telephone, email,
                     standard, rooms_number, creation_date);
@@ -41,12 +43,27 @@ public class HotelRepository {
         return hotelsList;
     }
 
-    // TODO: probably going to be deleted
     public Hotel getById(long id) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call get_hotel_by_ID(?)}");
         callableStatement.setInt("hotel_ID", (int) id);
-        return (Hotel) callableStatement.executeQuery();
+        ResultSet resultSet = callableStatement.executeQuery();;
+        resultSet.next();
+
+        long hotel_ID = resultSet.getLong("hotel_ID");
+        String name = resultSet.getString("name");
+        String address = resultSet.getString("address");
+        int telephone = resultSet.getInt("telephone");
+        String email = resultSet.getString("email");
+        String standard = resultSet.getString("standard");
+        int rooms_number = resultSet.getInt("rooms_number");
+        Date creation_date = resultSet.getDate("creation_date");
+        //LocalDateTime last_changed = (LocalDateTime) resultSet.getObject("last_changed");
+
+        Hotel hotel = new Hotel(hotel_ID, name, address, telephone, email,
+                    standard, rooms_number, creation_date);
+
+        return hotel;
     }
 
     public Hotel addHotel(Hotel hotel) throws SQLException {

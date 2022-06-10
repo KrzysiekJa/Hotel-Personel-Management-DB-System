@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -19,5 +20,5 @@ public class Hotel {
     private String standard;
     private int rooms_number;
     private Date creation_date;
-    //private DateTime last_changed;
+    //private LocalDateTime last_changed;
 }
