@@ -1,5 +1,6 @@
 import React, { useState , Fragment } from "react";
 import "../FrontApp.css";
+import { _withoutProperties } from "./utils";
 import data from "../mock-data.json";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
@@ -57,14 +58,16 @@ const ContactTableBody = () => {
       <Fragment>
         {editContactId === contact.id ? (
           <EditableRow
-            editFormData = {editFormData}
+            id = {null}
+            rowObject = {editFormData}
             handleEditFormChange = {handleEditFormChange}
+            handleSaveClick = {null}
             handleCancelClick = {handleCancelClick}
           />
         ) : (
           <ReadOnlyRow
             container = {contact}
-            editFormData = {editFormData}
+            keysList = {_withoutProperties(contact, ["id"])}
             handleEditClick = {handleEditClick}
             handleDeleteClick = {handleDeleteClick}
           />

@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 
 
-const ReadOnlyRow = ({ container, editFormData, handleEditClick, handleDeleteClick }) => {
+const ReadOnlyRow = ({ container, keysList, handleEditClick, handleDeleteClick }) => {
   
+  // container =/= keysList
   const renderRow = (container, keysList) => {
     let tdList = [];
     for(const key of Object.keys(keysList)){
@@ -16,7 +17,7 @@ const ReadOnlyRow = ({ container, editFormData, handleEditClick, handleDeleteCli
   return (
     <tr>
       <Fragment>
-        {renderRow(container, editFormData)}
+        {renderRow(container, keysList)}
       </Fragment>
       <td>
         <button type="button" className="button-8" onClick={(event) => handleEditClick(event, container)}>

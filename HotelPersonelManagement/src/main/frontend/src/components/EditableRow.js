@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 
 
-const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) => {
+const EditableRow = ({ id, rowObject, handleEditFormChange, handleSaveClick, handleCancelClick }) => {
   return (
     <tr>
       <Fragment>
-        {Object.entries(editFormData).map(([key, value]) => (
+        {Object.entries(rowObject).map(([key, value]) => (
           <td key={key}>
             <input
               type="text"
@@ -19,7 +19,7 @@ const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) 
         ))}
       </Fragment>
       <td>
-        <button type="button" className="button-8">
+        <button type="button" className="button-8" onClick={() => handleSaveClick(id)}>
           Save
         </button>
         <button type="button" className="button-8" onClick = {handleCancelClick}>
