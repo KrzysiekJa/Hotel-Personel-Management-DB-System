@@ -56,6 +56,9 @@ public class EmployeesSkillsRepository {
 
             list.add(Arrays.asList(nameE, surname, nameH, nameS));
         }
+        callableStatement.close();
+        connection.close();
+
         return list;
     }
 }

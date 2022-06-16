@@ -59,6 +59,9 @@ public class WorkPlanEmployeesRepository {
 
             list.add(Arrays.asList(nameE, surname, nameH, starting_date, ending_date, status));
         }
+        callableStatement.close();
+        connection.close();
+
         return list;
     }
 }
