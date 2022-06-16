@@ -23,6 +23,8 @@ public class HotelsEmployeesRepository {
         callableStatement.setInt("hotel_ID", (int) hotelsEmployees.getHotel_ID());
         callableStatement.setInt("employee_ID", (int) hotelsEmployees.getEmployee_ID());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return hotelsEmployees;
     }
 
@@ -31,6 +33,8 @@ public class HotelsEmployeesRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_hotelsemployees(?)}");
         callableStatement.setInt("hotel_employee_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 
@@ -49,6 +53,9 @@ public class HotelsEmployeesRepository {
 
             list.add(Arrays.asList(nameE, surname, nameH, nameP));
         }
+        callableStatement.close();
+        connection.close();
+
         return list;
     }
 }

@@ -26,6 +26,8 @@ public class SkillRepository {
         callableStatement.setString("name", skill.getName());
         callableStatement.setString("description", skill.getDescription());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return skill;
     }
 
@@ -34,6 +36,8 @@ public class SkillRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_skill(?)}");
         callableStatement.setInt("skill_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 
@@ -56,6 +60,9 @@ public class SkillRepository {
             Skill skill = new Skill(skill_ID, name, description);
             skillList.add(skill);
         }
+        callableStatement.close();
+        connection.close();
+
         return skillList;
     }
 
@@ -66,6 +73,8 @@ public class SkillRepository {
         callableStatement.setString("name", skill.getName());
         callableStatement.setString("description", skill.getDescription());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return skill;
     }
 }

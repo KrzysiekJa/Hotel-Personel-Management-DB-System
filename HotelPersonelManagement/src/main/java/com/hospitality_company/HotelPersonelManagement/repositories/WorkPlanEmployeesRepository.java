@@ -27,6 +27,8 @@ public class WorkPlanEmployeesRepository {
         callableStatement.setInt("hotel_employee_ID", (int) workPlanEmployees.getHotel_employee_ID());
         callableStatement.setInt("shift_ID", (int) workPlanEmployees.getShift_ID());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return workPlanEmployees;
     }
 
@@ -35,6 +37,8 @@ public class WorkPlanEmployeesRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_workplanemployees(?)}");
         callableStatement.setInt("work_plan_Employees_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 

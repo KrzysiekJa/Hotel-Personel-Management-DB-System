@@ -28,6 +28,8 @@ public class ShiftRepository {
         callableStatement.setObject("ending_date", shift.getEnding_date());
         callableStatement.setString("status", shift.getStatus());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return shift;
     }
 
@@ -36,6 +38,8 @@ public class ShiftRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_shift(?)}");
         callableStatement.setInt("shift_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 
@@ -52,6 +56,9 @@ public class ShiftRepository {
              Shift shift = new Shift(shift_ID, starting_date, ending_date, status);
              shiftList.add(shift);
         }
+        callableStatement.close();
+        connection.close();
+
         return shiftList;
     }
 
@@ -70,6 +77,8 @@ public class ShiftRepository {
         callableStatement.setObject("ending_date", shift.getEnding_date());
         callableStatement.setString("status", shift.getStatus());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return shift;
     }
 }

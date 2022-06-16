@@ -42,6 +42,9 @@ public class EmployeeRepository {
                     date_of_employment);
             employeesList.add(employee);
         }
+        callableStatement.close();
+        connection.close();
+
         return employeesList;
     }
 
@@ -67,6 +70,8 @@ public class EmployeeRepository {
         callableStatement.setInt("number_of_vacation_days", employee.getNumber_of_vacation_days());
         callableStatement.setDate("date_of_employment", employee.getDate_of_employment());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return employee;
     }
 
@@ -75,6 +80,8 @@ public class EmployeeRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_employee(?)}");
         callableStatement.setInt("employee_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 
@@ -93,6 +100,8 @@ public class EmployeeRepository {
         callableStatement.setInt("number_of_vacation_days", employee.getNumber_of_vacation_days());
         callableStatement.setDate("date_of_employment", employee.getDate_of_employment());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return employee;
     }
 }

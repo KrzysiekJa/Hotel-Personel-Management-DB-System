@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,12 +33,14 @@ public class HotelRepository {
             String standard = resultSet.getString("standard");
             int rooms_number = resultSet.getInt("rooms_number");
             Date creation_date = resultSet.getDate("creation_date");
-            //LocalDateTime last_changed = (LocalDateTime) resultSet.getObject("last_changed");
 
             Hotel hotel = new Hotel(hotel_ID, name, address, telephone, email,
                     standard, rooms_number, creation_date);
             hotelsList.add(hotel);
         }
+        callableStatement.close();
+        connection.close();
+
         return hotelsList;
     }
 
@@ -77,6 +78,8 @@ public class HotelRepository {
         callableStatement.setInt("rooms_number", hotel.getRooms_number());
         callableStatement.setDate("creation_date", hotel.getCreation_date());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return hotel;
     }
 
@@ -85,6 +88,8 @@ public class HotelRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_hotel(?)}");
         callableStatement.setInt("hotel_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 
@@ -100,6 +105,8 @@ public class HotelRepository {
         callableStatement.setInt("rooms_number", hotel.getRooms_number());
         callableStatement.setDate("creation_date", hotel.getCreation_date());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return hotel;
     }
 }

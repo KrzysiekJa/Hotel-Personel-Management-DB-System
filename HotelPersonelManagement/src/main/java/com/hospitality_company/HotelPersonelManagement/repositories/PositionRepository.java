@@ -26,6 +26,8 @@ public class PositionRepository {
         callableStatement.setString("name", position.getName());
         callableStatement.setString("description", position.getDescription());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return position;
     }
 
@@ -34,6 +36,8 @@ public class PositionRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_position(?)}");
         callableStatement.setInt("position_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 
@@ -49,6 +53,9 @@ public class PositionRepository {
              Position position = new Position(position_ID, name, description);
              positionList.add(position);
         }
+        callableStatement.close();
+        connection.close();
+
         return positionList;
     }
 
@@ -66,6 +73,8 @@ public class PositionRepository {
         callableStatement.setString("name", position.getName());
         callableStatement.setString("description", position.getDescription());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return position;
     }
 }
