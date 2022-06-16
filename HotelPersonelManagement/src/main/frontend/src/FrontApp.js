@@ -1,8 +1,11 @@
 import React, { useState, Fragment } from "react";
 import "./FrontApp.css";
-import ContactMainHandler from "./types/Contact";
+import EmployeeMainHandler from "./types/Employee";
 import HotelMainHandler from "./types/Hotel";
-import Hotel2MainHandler from './types/Hotel2';
+import PositionMainHandler from './types/Position';
+import SkillMainHandler from './types/Skill';
+import ShiftMainHandler from './types/Shift';
+
 
 
 const FrontApp = () => {
@@ -30,9 +33,9 @@ const FrontApp = () => {
         </div>
       </div>
         {controlValue === 1 &&
-          <h3>
-            Is!!!!
-          </h3>
+          <Fragment>
+            <EmployeeMainHandler/>
+          </Fragment>
         }
         {controlValue === 2 &&
           <Fragment>
@@ -41,17 +44,17 @@ const FrontApp = () => {
         }
         {controlValue === 3 &&
           <Fragment>
-            <ContactMainHandler/>
+            <PositionMainHandler/>
           </Fragment>
         }
         {controlValue === 4 &&
-          <h3>
-            Working!!!!
-          </h3>
+          <Fragment>
+            <SkillMainHandler/>
+          </Fragment>
         }
         {controlValue === 5 &&
           <Fragment>
-            <Hotel2MainHandler/>
+            <ShiftMainHandler/>
           </Fragment>
         }
     </div>

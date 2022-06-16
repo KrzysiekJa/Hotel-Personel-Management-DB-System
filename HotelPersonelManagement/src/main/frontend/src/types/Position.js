@@ -1,24 +1,23 @@
-import React, { useState , Fragment } from "react";
+import React, { useState , useEffect, Fragment } from "react";
+import axios from "axios";
+import { _withoutProperties } from "./utils";
 import "../FrontApp.css";
-import data from "../mock-data.json";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 
 
 
-const PositionTableBody = () => {
+const PositionTableBody = ({positions, setPositions}) => {
 
-  const [positions, setPositions] = useState(data);
+  const [editPositionId, setEditPositionId] = useState(null);
   const [editFormData, setEditFormData] = useState({
     name: "",
-    description: "",
+    description: ""
   });
-  const [editPositionId, setEditPositionId] = useState(null);
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...editFormData };
@@ -26,26 +25,46 @@ const PositionTableBody = () => {
     setEditFormData(newFormData);
   };
 
+  const handleCancelFormClick = () => {
+    setEditPositionId(null);
+  };
+
   const handleEditClick = (event, position) => {
     event.preventDefault();
     setEditPositionId(position.position_ID);
-
     const formValues = {
         name: position.name,
-        description: position.description,
+        description: position.description
     };
     setEditFormData(formValues);
   };
 
-  const handleCancelClick = () => {
+  function saveClickFunction(id) {
+    axios
+      .put(`http://localhost:8080/api/v1/position/${id}`,
+        editFormData,
+        {
+          headers: {"Content-Type": "application/json"}
+        }
+      )
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/positions").then(res =>{
+          setPositions(res.data);
+        });
+      });
     setEditPositionId(null);
   };
 
-  const handleDeleteClick = (targetPosition) => {
-    const newPositions = [...positions];
-    const index = positions.findIndex((position) => position.position_ID === targetPosition.position_ID);
-    newPositions.splice(index, 1);
-    setPositions(newPositions);
+  function deleteClickFunction(position) {
+    axios
+      .delete(`http://localhost:8080/api/v1/position/${position.position_ID}`)
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/positions").then(res =>{
+          setPositions(res.data);
+        });
+      });
   };
 
   return(
@@ -53,16 +72,18 @@ const PositionTableBody = () => {
       <Fragment>
         {editPositionId === position.position_ID ? (
           <EditableRow
-            editFormData = {editFormData}
+            id = {position.position_ID}
+            rowObject = {editFormData}
             handleEditFormChange = {handleEditFormChange}
-            handleCancelClick = {handleCancelClick}
+            handleSaveClick = {saveClickFunction}
+            handleCancelClick = {handleCancelFormClick}
           />
         ) : (
           <ReadOnlyRow
             container = {position}
-            editFormData = {editFormData}
+            keysList = {_withoutProperties(position, ["position_ID"])}
             handleEditClick = {handleEditClick}
-            handleDeleteClick = {handleDeleteClick}
+            handleDeleteClick = {deleteClickFunction}
           />
         )}
       </Fragment>
@@ -71,31 +92,37 @@ const PositionTableBody = () => {
 };
 
 
-const PositionTableForm = () => {
+const PositionTableForm = ({positions, setPositions}) => {
   const positionHeadNames = ['Name', 'Description'];
 
-  const [positions, setPositions] = useState(data);
+  const [editPositionId, setEditPositionId] = useState(null);
   const [editFormData] = useState({
     name: "",
-    description: "",
+    description: ""
   });
-  const [editPositionId, setEditPositionId] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/positions").then(res =>{
+      setPositions(res.data);
+    });
+  }, []);
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
-
     const editedPosition = {
-        position_ID: editPositionId,
-        name: editFormData.name,
-        description: editFormData.description,
+      position_ID: editPositionId,
+      name: editFormData.name,
+      description: editFormData.description
     };
-
     const newPositions = [...positions];
     const index = positions.findIndex((position) => position.position_ID === editPositionId);
     newPositions[index] = editedPosition;
     setPositions(newPositions);
     setEditPositionId(null);
   };
+
+  if (!positions) return null;
 
   return(
     <form onSubmit={handleEditFormSubmit}>
@@ -109,7 +136,10 @@ const PositionTableForm = () => {
         </thead>
         <tbody>
           <Fragment>
-            <PositionTableBody/>
+            <PositionTableBody
+              positions = {positions}
+              setPositions = {setPositions}
+            />
           </Fragment>
         </tbody>
       </table>
@@ -118,37 +148,47 @@ const PositionTableForm = () => {
 };
 
 
-const PositionAddFormSubmit = () => {
+const PositionAddFormSubmit = ({positions, setPositions}) => {
   const positionNames = ['name', 'description'];
 
-  const [positions, setPositions] = useState(data);
   const [addFormData, setAddFormData] = useState({
     name: "",
-    description: "",
+    description: ""
   });
-
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
-
     const newPosition = {
-        position_ID: Math.floor(Math.random() * Math.pow(10, 15)),
-        name: addFormData.name,
-        description: addFormData.description,
+      name: addFormData.name,
+      description: addFormData.description
     };
-
     const newPositions = [...positions, newPosition];
     setPositions(newPositions);
   };
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
     setAddFormData(newFormData);
+  };
+
+  function saveClickFunction() {
+    axios
+      .post("http://localhost:8080/api/v1/position",
+        addFormData,
+        {
+          headers: {"Content-Type": "application/json"}
+        }
+      )
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/positions").then(res =>{
+          setPositions(res.data);
+        });
+      });
   };
 
   return (
@@ -164,7 +204,9 @@ const PositionAddFormSubmit = () => {
           ></input>
         ))}
       </Fragment>
-      <button type="button" className="button-8">Add</button>
+      <button type="button" className="button-8" onClick={() => saveClickFunction()}>
+        Add
+      </button>
     </form>
   );
 };
@@ -172,15 +214,22 @@ const PositionAddFormSubmit = () => {
 
 
 const PositionMainHandler = () => {
+  const [positions, setPositions] = useState(null);
   return(
     <div>
       <Fragment>
-        <PositionTableForm/>
+        <PositionTableForm
+          positions = {positions}
+          setPositions = {setPositions}
+        />
       </Fragment>
 
       <h3>Add a Position</h3>
       <Fragment>
-        <PositionAddFormSubmit/>
+        <PositionAddFormSubmit
+          positions = {positions}
+          setPositions = {setPositions}
+        />
       </Fragment>
     </div>
   );

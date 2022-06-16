@@ -1,24 +1,22 @@
-import React, { useState , Fragment } from "react";
-import "../FrontApp.css";
-import data from "../mock-data.json";
+import React, { useState , useEffect, Fragment } from "react";
+import axios from "axios";
+import { _withoutProperties } from "./utils";import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 
 
 
-const SkillTableBody = () => {
+const SkillTableBody = ({skills, setSkills}) => {
 
-  const [skills, setSkills] = useState(data);
+  const [editSkillId, setEditSkillId] = useState(null);
   const [editFormData, setEditFormData] = useState({
     name: "",
-    description: "",
+    description: ""
   });
-  const [editSkillId, setEditSkillId] = useState(null);
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...editFormData };
@@ -26,26 +24,46 @@ const SkillTableBody = () => {
     setEditFormData(newFormData);
   };
 
+  const handleCancelFormClick = () => {
+    setEditSkillId(null);
+  };
+
   const handleEditClick = (event, skill) => {
     event.preventDefault();
     setEditSkillId(skill.skill_ID);
-
     const formValues = {
-        name: skill.name,
-        description: skill.description,
+      name: skill.name,
+      description: skill.description
     };
     setEditFormData(formValues);
   };
 
-  const handleCancelClick = () => {
+  function saveClickFunction(id) {
+    axios
+      .put(`http://localhost:8080/api/v1/skill/${id}`,
+        editFormData,
+        {
+          headers: {"Content-Type": "application/json"}
+        }
+      )
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/skills").then(res =>{
+          setSkills(res.data);
+        });
+      });
     setEditSkillId(null);
   };
 
-  const handleDeleteClick = (targetSkill) => {
-    const newSkills = [...skills];
-    const index = skills.findIndex((skill) => skill.skill_ID === targetSkill.skill_ID);
-    newSkills.splice(index, 1);
-    setSkills(newSkills);
+  function deleteClickFunction(skill) {
+    axios
+      .delete(`http://localhost:8080/api/v1/skill/${skill.skill_ID}`)
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/skills").then(res =>{
+          setSkills(res.data);
+        });
+      });
   };
 
   return(
@@ -53,16 +71,18 @@ const SkillTableBody = () => {
       <Fragment>
         {editSkillId === skill.skill_ID ? (
           <EditableRow
-            editFormData = {editFormData}
+            id = {skill.skill_ID}
+            rowObject = {editFormData}
             handleEditFormChange = {handleEditFormChange}
-            handleCancelClick = {handleCancelClick}
+            handleSaveClick = {saveClickFunction}
+            handleCancelClick = {handleCancelFormClick}
           />
         ) : (
           <ReadOnlyRow
             container = {skill}
-            editFormData = {editFormData}
+            keysList = {_withoutProperties(skill, ["skill_ID"])}
             handleEditClick = {handleEditClick}
-            handleDeleteClick = {handleDeleteClick}
+            handleDeleteClick = {deleteClickFunction}
           />
         )}
       </Fragment>
@@ -71,31 +91,37 @@ const SkillTableBody = () => {
 };
 
 
-const SkillTableForm = () => {
+const SkillTableForm = ({skills, setSkills}) => {
   const skillHeadNames = ['Name', 'Description'];
 
-  const [skills, setSkills] = useState(data);
+  const [editSkillId, setEditSkillId] = useState(null);
   const [editFormData] = useState({
     name: "",
-    description: "",
+    description: ""
   });
-  const [editSkillId, setEditSkillId] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/skills").then(res =>{
+      setSkills(res.data);
+    });
+  }, []);
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
-
     const editedSkill = {
-        skill_ID: editSkillId,
-        name: editFormData.name,
-        description: editFormData.description,
+      skill_ID: editSkillId,
+      name: editFormData.name,
+      description: editFormData.description
     };
-
     const newSkills = [...skills];
     const index = skills.findIndex((skill) => skill.skill_ID === editSkillId);
     newSkills[index] = editedSkill;
     setSkills(newSkills);
     setEditSkillId(null);
   };
+
+  if (!skills) return null;
 
   return(
     <form onSubmit={handleEditFormSubmit}>
@@ -109,7 +135,10 @@ const SkillTableForm = () => {
         </thead>
         <tbody>
           <Fragment>
-            <SkillTableBody/>
+            <SkillTableBody
+              skills = {skills}
+              setSkills = {setSkills}
+            />
           </Fragment>
         </tbody>
       </table>
@@ -118,37 +147,47 @@ const SkillTableForm = () => {
 };
 
 
-const SkillAddFormSubmit = () => {
+const SkillAddFormSubmit = ({skills, setSkills}) => {
   const skillNames = ['name', 'description'];
 
-  const [skills, setSkills] = useState(data);
   const [addFormData, setAddFormData] = useState({
     name: "",
-    description: "",
+    description: ""
   });
-
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
-
     const newSkill = {
-        skill_ID: Math.floor(Math.random() * Math.pow(10, 15)),
-        name: addFormData.name,
-        description: addFormData.description,
+      name: addFormData.name,
+      description: addFormData.description
     };
-
     const newSkills = [...skills, newSkill];
     setSkills(newSkills);
   };
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
     setAddFormData(newFormData);
+  };
+
+  function saveClickFunction() {
+    axios
+      .post("http://localhost:8080/api/v1/skill",
+        addFormData,
+        {
+          headers: {"Content-Type": "application/json"}
+        }
+      )
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/skills").then(res =>{
+          setSkills(res.data);
+        });
+      });
   };
 
   return (
@@ -164,7 +203,9 @@ const SkillAddFormSubmit = () => {
           ></input>
         ))}
       </Fragment>
-      <button type="button" className="button-8">Add</button>
+      <button type="button" className="button-8" onClick={() => saveClickFunction()}>
+        Add
+      </button>
     </form>
   );
 };
@@ -172,15 +213,22 @@ const SkillAddFormSubmit = () => {
 
 
 const SkillMainHandler = () => {
+  const [skills, setSkills] = useState(null);
   return(
     <div>
       <Fragment>
-        <SkillTableForm/>
+        <SkillTableForm
+          skills = {skills}
+          setSkills = {setSkills}
+        />
       </Fragment>
 
       <h3>Add a Skill</h3>
       <Fragment>
-        <SkillAddFormSubmit/>
+        <SkillAddFormSubmit
+          skills = {skills}
+          setSkills = {setSkills}
+        />
       </Fragment>
     </div>
   );

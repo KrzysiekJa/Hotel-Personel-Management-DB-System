@@ -1,53 +1,71 @@
-import React, { useState , Fragment } from "react";
+import React, { useState , useEffect, Fragment } from "react";
+import axios from "axios";
+import { _withoutProperties } from "./utils";
 import "../FrontApp.css";
-import data from "../mock-data.json";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 
 
 
-const ShiftTableBody = () => {
+const ShiftTableBody = ({shifts, setShifts}) => {
 
-  const [shifts, setShifts] = useState(data);
+  const [editShiftId, setEditShiftId] = useState(null);
   const [editFormData, setEditFormData] = useState({
     starting_date: "",
     ending_date: "",
-    status: "",
+    status: ""
   });
-  const [editShiftId, setEditShiftId] = useState(null);
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...editFormData };
     newFormData[fieldName] = fieldValue;
     setEditFormData(newFormData);
   };
+  const handleCancelFormClick = () => {
+    setEditShiftId(null);
+  };
 
   const handleEditClick = (event, shift) => {
     event.preventDefault();
     setEditShiftId(shift.shift_ID);
-
     const formValues = {
         starting_date: shift.starting_date,
         ending_date: shift.ending_date,
-        status: shift.status,
+        status: shift.status
     };
     setEditFormData(formValues);
   };
 
-  const handleCancelClick = () => {
+  function saveClickFunction(id) {
+    axios
+      .put(`http://localhost:8080/api/v1/shift/${id}`,
+        editFormData,
+        {
+          headers: {"Content-Type": "application/json"}
+        }
+      )
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/shifts").then(res =>{
+          setShifts(res.data);
+        });
+      });
     setEditShiftId(null);
   };
 
-  const handleDeleteClick = (targetShift) => {
-    const newShifts = [...shifts];
-    const index = shifts.findIndex((shift) => shift.shift_ID === targetShift.shift_ID);
-    newShifts.splice(index, 1);
-    setShifts(newShifts);
+  function deleteClickFunction(shift) {
+    axios
+      .delete(`http://localhost:8080/api/v1/shift/${shift.shift_ID}`)
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/shifts").then(res =>{
+          setShifts(res.data);
+        });
+      });
   };
 
   return(
@@ -55,16 +73,18 @@ const ShiftTableBody = () => {
       <Fragment>
         {editShiftId === shift.shift_ID ? (
           <EditableRow
-            editFormData = {editFormData}
+            id = {shift.shift_ID}
+            rowObject = {editFormData}
             handleEditFormChange = {handleEditFormChange}
-            handleCancelClick = {handleCancelClick}
+            handleSaveClick = {saveClickFunction}
+            handleCancelClick = {handleCancelFormClick}
           />
         ) : (
           <ReadOnlyRow
             container = {shift}
-            editFormData = {editFormData}
+            keysList = {_withoutProperties(shift, ["shift_ID"])}
             handleEditClick = {handleEditClick}
-            handleDeleteClick = {handleDeleteClick}
+            handleDeleteClick = {deleteClickFunction}
           />
         )}
       </Fragment>
@@ -73,33 +93,39 @@ const ShiftTableBody = () => {
 };
 
 
-const ShiftTableForm = () => {
+const ShiftTableForm = ({shifts, setShifts}) => {
   const shiftHeadNames = ['Starting date', 'Ending date', 'Status'];
 
-  const [shifts, setShifts] = useState(data);
+  const [editShiftId, setEditShiftId] = useState(null);
   const [editFormData] = useState({
     starting_date: "",
     ending_date: "",
-    status: "",
+    status: ""
   });
-  const [editShiftId, setEditShiftId] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/shifts").then(res =>{
+      setShifts(res.data);
+    });
+  }, []);
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
-
     const editedShift = {
-        shift_ID: editShiftId,
-        starting_date: editFormData.starting_date,
-        ending_date: editFormData.ending_date,
-        status: editFormData.status,
+      shift_ID: editShiftId,
+      starting_date: editFormData.starting_date,
+      ending_date: editFormData.ending_date,
+      status: editFormData.status
     };
-
     const newShifts = [...shifts];
     const index = shifts.findIndex((shift) => shift.shift_ID === editShiftId);
     newShifts[index] = editedShift;
     setShifts(newShifts);
     setEditShiftId(null);
   };
+
+  if (!shifts) return null;
 
   return(
     <form onSubmit={handleEditFormSubmit}>
@@ -113,7 +139,10 @@ const ShiftTableForm = () => {
         </thead>
         <tbody>
           <Fragment>
-            <ShiftTableBody/>
+            <ShiftTableBody
+              shifts = {shifts}
+              setShifts = {setShifts}
+            />
           </Fragment>
         </tbody>
       </table>
@@ -122,39 +151,49 @@ const ShiftTableForm = () => {
 };
 
 
-const ShiftAddFormSubmit = () => {
+const ShiftAddFormSubmit = ({shifts, setShifts}) => {
   const shiftNames = ['starting_date', 'ending_date', 'status'];
 
-  const [shifts, setShifts] = useState(data);
   const [addFormData, setAddFormData] = useState({
     starting_date: "",
     ending_date: "",
-    status: "",
+    status: ""
   });
-
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
-
     const newShift = {
-        shift_ID: Math.floor(Math.random() * Math.pow(10, 15)),
-        starting_date: addFormData.starting_date,
-        ending_date: addFormData.ending_date,
-        status: addFormData.status,
+      starting_date: addFormData.starting_date,
+      ending_date: addFormData.ending_date,
+      status: addFormData.status
     };
-
     const newShifts = [...shifts, newShift];
     setShifts(newShifts);
   };
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
     setAddFormData(newFormData);
+  };
+
+  function saveClickFunction() {
+    axios
+      .post("http://localhost:8080/api/v1/shift",
+        addFormData,
+        {
+          headers: {"Content-Type": "application/json"}
+        }
+      )
+      .then(() => {
+        axios
+          .get("http://localhost:8080/api/v1/shifts").then(res =>{
+          setShifts(res.data);
+        });
+      });
   };
 
   return (
@@ -170,7 +209,9 @@ const ShiftAddFormSubmit = () => {
           ></input>
         ))}
       </Fragment>
-      <button type="button" className="button-8">Add</button>
+      <button type="button" className="button-8" onClick={() => saveClickFunction()}>
+        Add
+      </button>
     </form>
   );
 };
@@ -178,15 +219,22 @@ const ShiftAddFormSubmit = () => {
 
 
 const ShiftMainHandler = () => {
+  const [shifts, setShifts] = useState(null);
   return(
     <div>
       <Fragment>
-        <ShiftTableForm/>
+        <ShiftTableForm
+          shifts = {shifts}
+          setShifts = {setShifts}
+        />
       </Fragment>
 
       <h3>Add a Shift</h3>
       <Fragment>
-        <ShiftAddFormSubmit/>
+        <ShiftAddFormSubmit
+          shifts = {shifts}
+          setShifts = {setShifts}
+        />
       </Fragment>
     </div>
   );

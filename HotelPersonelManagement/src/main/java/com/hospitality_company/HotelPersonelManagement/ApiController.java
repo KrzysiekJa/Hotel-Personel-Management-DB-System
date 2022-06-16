@@ -247,7 +247,7 @@ public class ApiController {
 
     /********** Shift endpoints **********/
 
-    @GetMapping("/shift")
+    @GetMapping("/shifts")
     public ResponseEntity<List<Shift>> getWorkPlan(){
         try{
             List<Shift> workplan = shiftRepository.getWorkPlan();

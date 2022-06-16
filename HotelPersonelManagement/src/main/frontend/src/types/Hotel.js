@@ -18,7 +18,7 @@ const HotelTableBody = ({hotels, setHotels}) => {
         email: "",
         standard: "",
         rooms_number: "",
-        creation_date: "",
+        creation_date: ""
     });
 
     const handleEditFormChange = (event) => {
@@ -44,7 +44,7 @@ const HotelTableBody = ({hotels, setHotels}) => {
             email: hotel.email,
             standard: hotel.standard,
             rooms_number: hotel.rooms_number,
-            creation_date: hotel.creation_date,
+            creation_date: hotel.creation_date
         };
         setEditFormData(newFormValues);
     };
@@ -113,7 +113,7 @@ const HotelTableForm = ({hotels, setHotels}) => {
         email: "",
         standard: "",
         rooms_number: "",
-        creation_date: "",
+        creation_date: ""
     });
 
     useEffect(() => {
@@ -133,7 +133,7 @@ const HotelTableForm = ({hotels, setHotels}) => {
             email: editFormData.email,
             standard: editFormData.standard,
             rooms_number: editFormData.rooms_number,
-            creation_date: editFormData.creation_date,
+            creation_date: editFormData.creation_date
         };
         const newHotels = [...hotels];
         const index = hotels.findIndex((hotel) => hotel.hotel_ID === editHotelId);
@@ -150,15 +150,15 @@ const HotelTableForm = ({hotels, setHotels}) => {
             <thead>
                 <Fragment>
                     <TableHeadRow
-                    headRowNames = {hotelHeadNames}
+                        headRowNames = {hotelHeadNames}
                     />
                 </Fragment>
             </thead>
             <tbody>
                 <Fragment>
                     <HotelTableBody
-                    hotels = {hotels}
-                    setHotels = {setHotels}
+                        hotels = {hotels}
+                        setHotels = {setHotels}
                     />
                 </Fragment>
             </tbody>
@@ -178,20 +178,19 @@ const HotelAddFormSubmit = ({hotels, setHotels}) => {
         email: "",
         standard: "",
         rooms_number: "",
-        creation_date: "",
+        creation_date: ""
     });
 
     const handleAddFormSubmit = (event) => {
         event.preventDefault();
         const newHotel = {
-            hotel_ID: Math.floor(Math.random() * Math.pow(10, 15)),
             name: addFormData.name,
             address: addFormData.address,
             telephone: addFormData.telephone,
             email: addFormData.email,
             standard: addFormData.standard,
             rooms_number: addFormData.rooms_number,
-            creation_date: addFormData.creation_date,
+            creation_date: addFormData.creation_date
         };
         const newHotels = [...hotels, newHotel];
         setHotels(newHotels);
@@ -250,16 +249,16 @@ const HotelMainHandler = () => {
         <div>
             <Fragment>
                 <HotelTableForm
-                hotels = {hotels}
-                setHotels = {setHotels}
+                    hotels = {hotels}
+                    setHotels = {setHotels}
                 />
             </Fragment>
 
             <h3>Add a Hotel:</h3>
             <Fragment>
                 <HotelAddFormSubmit
-                hotels = {hotels}
-                setHotels = {setHotels}
+                    hotels = {hotels}
+                    setHotels = {setHotels}
                 />
             </Fragment>
         </div>
