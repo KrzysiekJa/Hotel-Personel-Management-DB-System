@@ -22,6 +22,8 @@ public class EmployeesSkillsRepository {
         callableStatement.setInt("employee_ID", (int) employeesSkills.getEmployee_skill_ID());
         callableStatement.setInt("skill_ID", (int) employeesSkills.getEmployee_skill_ID());
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return employeesSkills;
     }
 
@@ -30,6 +32,8 @@ public class EmployeesSkillsRepository {
         CallableStatement callableStatement = connection.prepareCall("{call delete_employeesskills(?)}");
         callableStatement.setInt("employee_skill_ID", (int) id);
         callableStatement.executeUpdate();
+        callableStatement.close();
+        connection.close();
         return true;
     }
 }
