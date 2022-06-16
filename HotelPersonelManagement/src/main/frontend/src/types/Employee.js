@@ -255,6 +255,7 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
         type="date"
         name="date_of_birth"
         required="required"
+        placeholder="Birth"
         onChange={handleAddFormChange}
       ></input>
       <Fragment>
@@ -272,6 +273,7 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
         type="date"
         name="date_of_employment"
         required="required"
+        placeholder="Employment"
         onChange={handleAddFormChange}
       ></input>
       <button type="button" className="button-8" onClick={() => saveClickFunction()}>

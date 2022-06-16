@@ -238,6 +238,7 @@ const HotelAddFormSubmit = ({hotels, setHotels}) => {
                 type="date"
                 name="creation_date"
                 required="required"
+                placeholder="Creation"
                 onChange={handleAddFormChange}
             ></input>
             <button type="button" className="button-8" onClick={() => saveClickFunction()}>

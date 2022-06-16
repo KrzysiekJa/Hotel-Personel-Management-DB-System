@@ -107,7 +107,7 @@ input[type=text] {
 }
 
 input[type=date] {
-  min-width: 90px;
+  min-width: 100px;
   padding: 5px 12px;
   font-size: 14px;
   line-height: 20px;
@@ -121,6 +121,14 @@ input[type=date] {
   outline: none;
   box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
 }
+
+input[type="date"]::before { 
+  content: attr(placeholder);
+  width: 100%;
+}
+
+input[type="date"]:focus::before,
+input[type="date"]:valid::before { display: none }
 
 input[type=datetime-local] {
   padding: 5px 12px;
