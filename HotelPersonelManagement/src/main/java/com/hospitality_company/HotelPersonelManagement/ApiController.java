@@ -410,6 +410,20 @@ public class ApiController {
         }
     }
 
+    @GetMapping("/employeesskillshotels")
+    public ResponseEntity<List<List>> getEmployeeSkillsHotels(){
+        try{
+            List<List> list = employeesSkillsRepository.getEmployeeHotelSkills();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /********** HotelsEmployees endpoints **********/
 
     @PostMapping("/hotelsemployees")
@@ -427,6 +441,20 @@ public class ApiController {
         try{
             Boolean deletedHotelsEmployees = hotelsEmployeesRepository.deleteHotelsEmployees(id);
             return new ResponseEntity<>(deletedHotelsEmployees, HttpStatus.CREATED);
+        } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/hotelsemployeespositions")
+    public ResponseEntity<List<List>> getEmployeeHotelPosition(){
+        try{
+            List<List> list = hotelsEmployeesRepository.getEmployeeHotelPosition();
+            return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
             exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -463,12 +491,10 @@ public class ApiController {
         }
     }
 
-    /********** EmployeeHotelPosition endpoints **********/
-
-    @GetMapping("/ehp")
-    public ResponseEntity<List<List>> getEmployeeHotelPosition(){
+    @GetMapping("/workplanemployees")
+    public ResponseEntity<List<List>> getWorkPlanEmployees(){
         try{
-            List<List> list = hotelsEmployeesRepository.getEmployeeHotelPosition();
+            List<List> list = workPlanEmployeesRepository.getWorkPlanEmployees();
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
             exception.printStackTrace();
@@ -478,4 +504,5 @@ public class ApiController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
 }
