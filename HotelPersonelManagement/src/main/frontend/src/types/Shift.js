@@ -152,7 +152,6 @@ const ShiftTableForm = ({shifts, setShifts}) => {
 
 
 const ShiftAddFormSubmit = ({shifts, setShifts}) => {
-  const shiftNames = ['starting_date', 'ending_date', 'status'];
 
   const [addFormData, setAddFormData] = useState({
     starting_date: "",
@@ -198,17 +197,28 @@ const ShiftAddFormSubmit = ({shifts, setShifts}) => {
 
   return (
     <form onSubmit={handleAddFormSubmit}>
-      <Fragment>
-        {Object.entries(shiftNames).map(([key, value]) => (
-          <input
-            type="text"
-            name={value}
-            required="required"
-            placeholder={ "Enter ".concat(value, '...') }
-            onChange={handleAddFormChange}
-          ></input>
-        ))}
-      </Fragment>
+      <input
+        type="datetime-local"
+        name="starting_date"
+        required="required"
+        onChange={handleAddFormChange}
+      ></input>
+      <input
+        type="datetime-local"
+        name="ending_date"
+        required="required"
+        onChange={handleAddFormChange}
+      ></input>
+      <select
+        type="text"
+        name="status"
+        required="required"
+        onChange={handleAddFormChange}
+      >
+        <option value="Planned">Planned</option>
+        <option value="In progress">In progress</option>
+        <option value="Completed">Completed</option>
+      </select>
       <button type="button" className="button-8" onClick={() => saveClickFunction()}>
         Add
       </button>

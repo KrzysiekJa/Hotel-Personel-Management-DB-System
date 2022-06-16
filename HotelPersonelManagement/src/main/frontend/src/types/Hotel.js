@@ -170,7 +170,7 @@ const HotelTableForm = ({hotels, setHotels}) => {
 
 const HotelAddFormSubmit = ({hotels, setHotels}) => {
     const hotelNames = ['name', 'address', 'telephone', 'email', 'standard', 'rooms_number', 'creation_date'];
-
+    
     const [addFormData, setAddFormData] = useState({
         name: "",
         address: "",
@@ -224,7 +224,7 @@ const HotelAddFormSubmit = ({hotels, setHotels}) => {
     return (
         <form onSubmit={handleAddFormSubmit}>
             <Fragment>
-                {Object.entries(hotelNames).map(([key, value]) => (
+                {Object.entries(hotelNames.slice(0,-1)).map(([key, value]) => (
                 <input key = {key}
                     type="text"
                     name={value}
@@ -234,6 +234,12 @@ const HotelAddFormSubmit = ({hotels, setHotels}) => {
                 ></input>
                 ))}
             </Fragment>
+            <input key = {'creation_date'}
+                type="date"
+                name="creation_date"
+                required="required"
+                onChange={handleAddFormChange}
+            ></input>
             <button type="button" className="button-8" onClick={() => saveClickFunction()}>
                 Add
             </button>

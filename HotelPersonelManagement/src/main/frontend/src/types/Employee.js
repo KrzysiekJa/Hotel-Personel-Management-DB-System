@@ -241,7 +241,7 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
   return (
     <form onSubmit={handleAddFormSubmit}>
       <Fragment>
-        {Object.entries(employeeNames).map(([key, value]) => (
+        {Object.entries(employeeNames.slice(0,5)).map(([key, value]) => (
           <input
             type="text"
             name={value}
@@ -251,6 +251,29 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
           ></input>
         ))}
       </Fragment>
+      <input
+        type="date"
+        name="date_of_birth"
+        required="required"
+        onChange={handleAddFormChange}
+      ></input>
+      <Fragment>
+        {Object.entries(employeeNames.slice(6,-1)).map(([key, value]) => (
+          <input
+            type="text"
+            name={value}
+            required="required"
+            placeholder={ "Enter ".concat(value, '...') }
+            onChange={handleAddFormChange}
+          ></input>
+        ))}
+      </Fragment>
+      <input
+        type="date"
+        name="date_of_employment"
+        required="required"
+        onChange={handleAddFormChange}
+      ></input>
       <button type="button" className="button-8" onClick={() => saveClickFunction()}>
         Add
       </button>
