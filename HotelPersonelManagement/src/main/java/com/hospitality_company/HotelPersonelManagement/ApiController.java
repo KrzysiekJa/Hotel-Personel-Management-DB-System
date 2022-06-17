@@ -33,6 +33,8 @@ public class ApiController {
     private  HotelsEmployeesRepository hotelsEmployeesRepository;
     @Autowired
     private  WorkPlanEmployeesRepository workPlanEmployeesRepository;
+    @Autowired
+    private AllDataRepository allDataRepository;
 
 
     @GetMapping("/test")
@@ -495,6 +497,22 @@ public class ApiController {
     public ResponseEntity<List<List>> getWorkPlanEmployees(){
         try{
             List<List> list = workPlanEmployeesRepository.getWorkPlanEmployees();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (EmptyResultDataAccessException exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception exception){
+            exception.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /********** AllData endpoints **********/
+
+    @GetMapping("/alldata")
+    public ResponseEntity<List<AllData>> getAllData(){
+        try{
+            List<AllData> list = allDataRepository.getAllData();
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (EmptyResultDataAccessException exception){
             exception.printStackTrace();
