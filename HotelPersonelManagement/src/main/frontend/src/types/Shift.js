@@ -4,7 +4,7 @@ import { _withoutProperties } from "./utils";
 import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
-import EditableRow from "../components/EditableRow";
+import EditableRowShift from "../components/EditableRowShift";
 
 
 
@@ -72,7 +72,7 @@ const ShiftTableBody = ({shifts, setShifts}) => {
     shifts.map((shift) => (
       <Fragment>
         {editShiftId === shift.shift_ID ? (
-          <EditableRow
+          <EditableRowShift
             id = {shift.shift_ID}
             rowObject = {editFormData}
             handleEditFormChange = {handleEditFormChange}
