@@ -4,6 +4,7 @@ import { _withoutProperties } from "./utils";import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRowEmployee from "../components/ReadOnlyRowEmployee";
 import EditableRowEmployee from "../components/EditableRowEmployee";
+import SortTable from "../components/SortTable";
 
 
 
@@ -232,7 +233,6 @@ const EmployeeAddFormSubmit = ({employees, setEmployees, positions}) => {
     addFormData['position_ID'] = positions.filter(obj => {
         return obj.name === addFormData['position_ID']; }
       )[0]['position_ID']
-    console.log(addFormData)
     axios
       .post("http://localhost:8080/api/v1/employee",
         addFormData,
@@ -349,6 +349,15 @@ const EmployeeMainHandler = () => {
           employees = {employees}
           setEmployees = {setEmployees}
           positions = {positions}
+        />
+      </Fragment>
+
+      <h3>Sort:</h3>
+      <Fragment>
+        <SortTable
+          items = {employees}
+          setItems = {setEmployees}
+          strToDel = {"employee_ID"}
         />
       </Fragment>
     </div>

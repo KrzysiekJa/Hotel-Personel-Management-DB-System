@@ -5,6 +5,7 @@ import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
+import SortTable from "../components/SortTable";
 
 
 
@@ -229,6 +230,15 @@ const PositionMainHandler = () => {
         <PositionAddFormSubmit
           positions = {positions}
           setPositions = {setPositions}
+        />
+      </Fragment>
+
+      <h3>Sort:</h3>
+      <Fragment>
+        <SortTable
+          items = {positions}
+          setItems = {setPositions}
+          strToDel = {"position_ID"}
         />
       </Fragment>
     </div>
