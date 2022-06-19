@@ -2,12 +2,12 @@ import React, { useState , useEffect, Fragment } from "react";
 import axios from "axios";
 import { _withoutProperties } from "./utils";import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
-import ReadOnlyRow from "../components/ReadOnlyRow";
-import EditableRow from "../components/EditableRow";
+import ReadOnlyRowEmployee from "../components/ReadOnlyRowEmployee";
+import EditableRowEmployee from "../components/EditableRowEmployee";
 
 
 
-const EmployeeTableBody = ({employees, setEmployees}) => {
+const EmployeeTableBody = ({employees, setEmployees, positions}) => {
 
   const [editEmployeeId, setEditEmployeeId] = useState(null);
   const [editFormData, setEditFormData] = useState({
@@ -55,6 +55,9 @@ const EmployeeTableBody = ({employees, setEmployees}) => {
   };
 
   function saveClickFunction(id) {
+    editFormData['position_ID'] = positions.filter(obj => {
+        return obj.name === editFormData['position_ID']; }
+      )[0]['position_ID']
     axios
       .put(`http://localhost:8080/api/v1/employee/${id}`,
         editFormData,
@@ -86,19 +89,21 @@ const EmployeeTableBody = ({employees, setEmployees}) => {
     employees.map((employee) => (
       <Fragment>
         {editEmployeeId === employee.employee_ID ? (
-          <EditableRow
+          <EditableRowEmployee
             id = {employee.employee_ID}
-            editFormData = {editFormData}
+            rowObject = {_withoutProperties(editFormData, ["position_ID"])}
             handleEditFormChange = {handleEditFormChange}
             handleSaveClick = {saveClickFunction}
             handleCancelClick = {handleCancelFormClick}
+            positions = {positions}
           />
         ) : (
-          <ReadOnlyRow
+          <ReadOnlyRowEmployee
             container = {employee}
             keysList = {_withoutProperties(employee, ["employee_ID"])}
             handleEditClick = {handleEditClick}
             handleDeleteClick = {deleteClickFunction}
+            positions = {positions}
           />
         )}
       </Fragment>
@@ -107,8 +112,8 @@ const EmployeeTableBody = ({employees, setEmployees}) => {
 };
 
 
-const EmployeeTableForm = ({employees, setEmployees}) => {
-  const employeeHeadNames = ['position_ID', 'Name', 'Surname', 'Address', 'Sex', 'Date of birth', 'Telephone', 'Email', 'Number of vacation days', 'Date of employment'];
+const EmployeeTableForm = ({employees, setEmployees, positions}) => {
+  const employeeHeadNames = ['Position', 'Name', 'Surname', 'Address', 'Sex', 'Date of birth', 'Telephone', 'Email', 'Number of vacation days', 'Date of employment'];
 
   const [editEmployeeId, setEditEmployeeId] = useState(null);
   const [editFormData] = useState({
@@ -170,6 +175,7 @@ const EmployeeTableForm = ({employees, setEmployees}) => {
             <EmployeeTableBody
               employees = {employees}
               setEmployees = {setEmployees}
+              positions = {positions}
             />
           </Fragment>
         </tbody>
@@ -179,7 +185,7 @@ const EmployeeTableForm = ({employees, setEmployees}) => {
 };
 
 
-const EmployeeAddFormSubmit = (employees, setEmployees) => {
+const EmployeeAddFormSubmit = ({employees, setEmployees, positions}) => {
   const employeeNames = ['position_ID', 'name', 'surname', 'address', 'sex', 'date_of_birth', 'telephone', 'email', 'number_of_vacation_days', 'date_of_employment'];
 
   const [addFormData, setAddFormData] = useState({
@@ -223,6 +229,10 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
   };
 
   function saveClickFunction() {
+    addFormData['position_ID'] = positions.filter(obj => {
+        return obj.name === addFormData['position_ID']; }
+      )[0]['position_ID']
+    console.log(addFormData)
     axios
       .post("http://localhost:8080/api/v1/employee",
         addFormData,
@@ -237,11 +247,25 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
         });
       });
   };
-
+  
   return (
     <form onSubmit={handleAddFormSubmit}>
+      <select
+        type="text"
+        name="position_ID"
+        required="required"
+        onChange={handleAddFormChange}
+      >
+        <Fragment>
+          {Object.entries(positions).map(([key, value]) => (
+            <option value={value['name']}>
+              {value['name']}
+            </option>
+          ))}
+        </Fragment>
+      </select>
       <Fragment>
-        {Object.entries(employeeNames.slice(0,5)).map(([key, value]) => (
+        {Object.entries(employeeNames.slice(1,4)).map(([key, value]) => (
           <input
             type="text"
             name={value}
@@ -250,6 +274,17 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
             onChange={handleAddFormChange}
           ></input>
         ))}
+      </Fragment>
+      <Fragment>
+        <select
+          type="text"
+          name="sex"
+          required="required"
+          onChange={handleAddFormChange}
+        >
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
       </Fragment>
       <input
         type="date"
@@ -286,13 +321,25 @@ const EmployeeAddFormSubmit = (employees, setEmployees) => {
 
 
 const EmployeeMainHandler = () => {
-const [employees, setEmployees] = useState(null);
+  const [employees, setEmployees] = useState(null);
+  const [positions, setPositions] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/positions").then(res =>{
+      setPositions(res.data);
+    });
+  }, []);
+  
+  if (!positions) return null;
+
   return(
     <div>
       <Fragment>
         <EmployeeTableForm
           employees = {employees}
           setEmployees = {setEmployees}
+          positions = {positions}
         />
       </Fragment>
 
@@ -301,6 +348,7 @@ const [employees, setEmployees] = useState(null);
         <EmployeeAddFormSubmit
           employees = {employees}
           setEmployees = {setEmployees}
+          positions = {positions}
         />
       </Fragment>
     </div>

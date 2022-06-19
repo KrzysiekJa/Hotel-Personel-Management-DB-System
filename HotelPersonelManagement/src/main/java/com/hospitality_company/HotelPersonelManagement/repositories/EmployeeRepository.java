@@ -59,7 +59,7 @@ public class EmployeeRepository {
     public Employee addEmployee(Employee employee) throws SQLException {
         Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call add_employee(?,?,?,?,?,?,?,?,?,?)}");
-        callableStatement.setInt("position_name", (int) employee.getPosition_ID());
+        callableStatement.setInt("position_ID", (int) employee.getPosition_ID());
         callableStatement.setString("name", employee.getName());
         callableStatement.setString("surname", employee.getSurname());
         callableStatement.setString("address", employee.getAddress());
