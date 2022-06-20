@@ -134,13 +134,13 @@ const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees,
     function saveClickFunction() {
         addFormData['employee_ID'] = employee_name_surnames.filter(obj => {
                 return obj.employee_name_surname === addFormData['employee_name_surname']
-            })[0]['employee_ID'];
+            })[0]['id'];
         addFormData['hotel_ID'] = hotel_names.filter(obj => {
                 return obj.hotel_name === addFormData['hotel_name']
-            })[0]['hotel_ID'];
+            })[0]['id'];
         addFormData['shift_ID'] = starting_ending_dates.filter(obj => {
                 return obj.starting_ending_date === addFormData['starting_ending_date']
-            })[0]['shift_ID'];
+            })[0]['id'];
         axios
         .post("http://localhost:8080/api/v1/workplanemployee",
             addFormData,
@@ -207,6 +207,124 @@ const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees,
     );
 };
 
+const WorkPlanEmployeeSearch = ({workPlanEmployees, setWorkPlanEmployees, employee_name_surnames,
+                                            hotel_names, starting_ending_dates}) => {
+
+    const [searchFormData, setSearchFormData] = useState({
+        employee_name_surname: "",
+        employee_ID: "",
+        hotel_name: "",
+        hotel_ID: "",
+        shift_ID: "",
+        starting_ending_date: ""
+    });
+
+    const handleSearchFormChange = (event) => {
+        event.preventDefault();
+        const fieldName = event.target.getAttribute("name");
+        const fieldValue = event.target.value;
+        const newFormData = { ...searchFormData };
+        newFormData[fieldName] = fieldValue;
+        setSearchFormData(newFormData);
+    };
+
+    function searchClickFunction() {
+        
+        if(searchFormData['employee_name_surname'] !== ''){
+            searchFormData['employee_ID'] = employee_name_surnames.filter(obj => {
+                return obj.employee_name_surname === searchFormData['employee_name_surname']
+            })[0]['id'];
+            workPlanEmployees = workPlanEmployees.filter( item =>
+                item.employee_ID === searchFormData['employee_ID']
+            );
+        }
+        if(searchFormData['hotel_name'] !== ''){
+            searchFormData['hotel_ID'] = hotel_names.filter(obj => {
+                return obj.hotel_name === searchFormData['hotel_name']
+            })[0]['id'];
+            workPlanEmployees = workPlanEmployees.filter( item =>
+                item.hotel_ID === searchFormData['hotel_ID']
+            );
+        }
+        if(searchFormData['starting_ending_date'] !== ''){
+            searchFormData['shift_ID'] = starting_ending_dates.filter(obj => {
+                return obj.starting_ending_date === searchFormData['starting_ending_date']
+            })[0]['id'];
+            workPlanEmployees = workPlanEmployees.filter( item =>
+                item.shift_ID === searchFormData['shift_ID']
+            );
+        }
+        setWorkPlanEmployees(workPlanEmployees);
+    };
+
+    function resetClickFunction() {
+        axios
+            .get("http://localhost:8080/api/v1/alldata").then(res =>{
+            setWorkPlanEmployees(res.data);
+        });
+    };
+
+    const tmp_employee_name_surnames = employee_name_surnames.slice();
+    tmp_employee_name_surnames.unshift({"employee_name_surname": 'None', 'id': 9007199254740991})
+    const tmp_hotel_names = hotel_names.slice();
+    tmp_hotel_names.unshift({"hotel_name": 'None', 'id': 9007199254740991})
+    const tmp_starting_ending_dates = starting_ending_dates.slice();
+    tmp_starting_ending_dates.unshift({"starting_ending_date": 'None', 'id': 9007199254740991})
+
+    return (
+        <div>
+            <select
+                type="text"
+                name="employee_name_surname"
+                required="required"
+                onChange={handleSearchFormChange}
+            >
+                <Fragment>
+                    {Object.entries(tmp_employee_name_surnames).map(([key, value]) => (
+                        <option value={value['employee_name_surname']}>
+                            {value['employee_name_surname']}
+                        </option>
+                    ))}
+                </Fragment>
+            </select>
+            <select
+                type="text"
+                name="hotel_name"
+                required="required"
+                onChange={handleSearchFormChange}
+            >
+                <Fragment>
+                    {Object.entries(tmp_hotel_names).map(([key, value]) => (
+                        <option value={value['hotel_name']}>
+                            {value['hotel_name']}
+                        </option>
+                    ))}
+                </Fragment>
+            </select>
+            <select
+                type="text"
+                name="starting_ending_date"
+                required="required"
+                onChange={handleSearchFormChange}
+            >
+                <Fragment>
+                    {Object.entries(tmp_starting_ending_dates).map(([key, value]) => (
+                        <option value={value['starting_ending_date']}>
+                            {value['starting_ending_date']}
+                        </option>
+                    ))}
+                </Fragment>
+            </select>
+            <button type="button" className="button-8" onClick={() => searchClickFunction()}>
+                Search
+            </button>
+            <button type="button" className="button-8" onClick={() => resetClickFunction()}>
+                Reset
+            </button>
+        </div>
+    );
+};
+
 
 
 const WorkPlanEmployeeMainHandler = () => {
@@ -266,6 +384,17 @@ const WorkPlanEmployeeMainHandler = () => {
             <h3>Add a Work Plan element:</h3>
             <Fragment>
                 <WorkPlanEmployeeAddFormSubmit
+                    workPlanEmployees = {workPlanEmployees}
+                    setWorkPlanEmployees = {setWorkPlanEmployees}
+                    employee_name_surnames = {employee_name_surnames}
+                    hotel_names = {hotel_names}
+                    starting_ending_dates = {starting_ending_dates}
+                />
+            </Fragment>
+
+            <h3>Search:</h3>
+            <Fragment>
+                <WorkPlanEmployeeSearch
                     workPlanEmployees = {workPlanEmployees}
                     setWorkPlanEmployees = {setWorkPlanEmployees}
                     employee_name_surnames = {employee_name_surnames}
