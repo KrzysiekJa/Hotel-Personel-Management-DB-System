@@ -10,17 +10,6 @@ import SortTable from "../components/SortTable";
 
 const WorkPlanEmployeeTableBody = ({workPlanEmployees, setWorkPlanEmployees}) => {
 
-    //const [editFormData, setEditFormData] = useState({
-    //  employee_name: "",
-    //  employee_surname: "",
-    //  employee_ID: "",
-    //  hotel_name: "",
-    //  hotel_ID: "",
-    //  shift_ID: "",
-    //  starting_date: "",
-    //  ending_date: ""
-    //});
-
     function deleteClickFunction(workPlanEmployee) {
         axios
             .delete(`http://localhost:8080/api/v1/workplanemployee/${workPlanEmployee.work_plan_Employees_ID}`)
@@ -107,8 +96,8 @@ const WorkPlanEmployeeTableForm = ({workPlanEmployees, setWorkPlanEmployees}) =>
 };
 
 
-const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees}) => {
-    const workPlanEmployeeNames = ['employee_name_surname', 'hotel_name', 'starting_ending_date'];
+const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees, employee_name_surnames,
+                                            hotel_names, starting_ending_dates}) => {
 
     const [addFormData, setAddFormData] = useState({
         employee_name_surname: "",
@@ -122,14 +111,12 @@ const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees}
     const handleAddFormSubmit = (event) => {
         event.preventDefault();
         const newWorkPlanEmployee = {
-            employee_name:  addFormData.employee_name,
-            employee_surname:  addFormData.employee_surname,
+            employee_name_surname:  addFormData.employee_name_surname,
             employee_ID:  addFormData.employee_ID,
             hotel_name:  addFormData.hotel_name,
             hotel_ID:  addFormData.hotel_ID,
             shift_ID:  addFormData.shift_ID,
-            starting_date:  addFormData.starting_date,
-            ending_date: addFormData.ending_date
+            starting_ending_date: addFormData.starting_ending_date
         };
         const newWorkPlanEmployees = [...workPlanEmployees, newWorkPlanEmployee];
         //setPositions(newWorkPlanEmployees);
@@ -145,6 +132,15 @@ const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees}
     };
 
     function saveClickFunction() {
+        addFormData['employee_ID'] = employee_name_surnames.filter(obj => {
+                return obj.employee_name_surname === addFormData['employee_name_surname']
+            })[0]['employee_ID'];
+        addFormData['hotel_ID'] = hotel_names.filter(obj => {
+                return obj.hotel_name === addFormData['hotel_name']
+            })[0]['hotel_ID'];
+        addFormData['shift_ID'] = starting_ending_dates.filter(obj => {
+                return obj.starting_ending_date === addFormData['starting_ending_date']
+            })[0]['shift_ID'];
         axios
         .post("http://localhost:8080/api/v1/workplanemployee",
             addFormData,
@@ -169,9 +165,9 @@ const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees}
                 onChange={handleAddFormChange}
             >
                 <Fragment>
-                    {Object.entries(workPlanEmployeeNames).map(([key, value]) => (
-                        <option value={value['name']}>
-                            {value['name']}
+                    {Object.entries(employee_name_surnames).map(([key, value]) => (
+                        <option value={value['employee_name_surname']}>
+                            {value['employee_name_surname']}
                         </option>
                     ))}
                 </Fragment>
@@ -183,9 +179,9 @@ const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees}
                 onChange={handleAddFormChange}
             >
                 <Fragment>
-                    {Object.entries(workPlanEmployeeNames).map(([key, value]) => (
-                        <option value={value['name']}>
-                            {value['name']}
+                    {Object.entries(hotel_names).map(([key, value]) => (
+                        <option value={value['hotel_name']}>
+                            {value['hotel_name']}
                         </option>
                     ))}
                 </Fragment>
@@ -197,9 +193,9 @@ const WorkPlanEmployeeAddFormSubmit = ({workPlanEmployees, setWorkPlanEmployees}
                 onChange={handleAddFormChange}
             >
                 <Fragment>
-                    {Object.entries(workPlanEmployeeNames).map(([key, value]) => (
-                        <option value={value['name']}>
-                            {value['name']}
+                    {Object.entries(starting_ending_dates).map(([key, value]) => (
+                        <option value={value['starting_ending_date']}>
+                            {value['starting_ending_date']}
                         </option>
                     ))}
                 </Fragment>
@@ -223,6 +219,41 @@ const WorkPlanEmployeeMainHandler = () => {
         });
     }, []);
 
+    if (!workPlanEmployees) return null;
+
+    const employee_name_surnames = workPlanEmployees.map(
+        ({employee_name, employee_surname, employee_ID}) => {
+            return {
+                "employee_name_surname": employee_name.concat(' ', employee_surname),
+                "id": employee_ID
+            };
+        }).filter((value, index, self) =>
+            index === self.findIndex((t) => (
+            t.id === value.id ))
+        )
+
+    const hotel_names = workPlanEmployees.map(
+        ({hotel_name, hotel_ID}) => {
+            return {
+                "hotel_name": hotel_name,
+                "id": hotel_ID
+            };
+        }).filter((value, index, self) =>
+            index === self.findIndex((t) => (
+            t.id === value.id ))
+        )
+
+    const starting_ending_dates = workPlanEmployees.map(
+        ({starting_date, ending_date, shift_ID}) => {
+            return {
+                "starting_ending_date": starting_date.concat(' - ', ending_date),
+                "id": shift_ID
+            };
+        }).filter((value, index, self) =>
+            index === self.findIndex((t) => (
+            t.id === value.id ))
+        )
+
     return(
         <div>
             <Fragment>
@@ -237,6 +268,9 @@ const WorkPlanEmployeeMainHandler = () => {
                 <WorkPlanEmployeeAddFormSubmit
                     workPlanEmployees = {workPlanEmployees}
                     setWorkPlanEmployees = {setWorkPlanEmployees}
+                    employee_name_surnames = {employee_name_surnames}
+                    hotel_names = {hotel_names}
+                    starting_ending_dates = {starting_ending_dates}
                 />
             </Fragment>
 
