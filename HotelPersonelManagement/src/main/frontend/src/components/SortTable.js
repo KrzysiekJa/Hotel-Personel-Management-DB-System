@@ -3,7 +3,7 @@ import { _withoutProperties } from "../types/utils";
 
 
 
-const SortTable = ({items, setItems, strToDel}) => {
+const SortTable = ({items, setItems, strsToDel}) => {
     const [tableKey, setTableKey] = useState(null);
 
     const handleSortFormChange = (event) => {
@@ -35,7 +35,7 @@ const SortTable = ({items, setItems, strToDel}) => {
                 onChange={handleSortFormChange}
             >
                 <Fragment>
-                    {Object.entries(_withoutProperties(items[0], [strToDel]))
+                    {Object.entries(_withoutProperties(items[0], strsToDel))
                         .map(([key, value]) => (
                         <option value={key}>
                             {key}

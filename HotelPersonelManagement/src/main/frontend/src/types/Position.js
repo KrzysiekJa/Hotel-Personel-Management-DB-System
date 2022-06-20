@@ -225,7 +225,7 @@ const PositionMainHandler = () => {
         />
       </Fragment>
 
-      <h3>Add a Position</h3>
+      <h3>Add a Position:</h3>
       <Fragment>
         <PositionAddFormSubmit
           positions = {positions}
@@ -238,7 +238,7 @@ const PositionMainHandler = () => {
         <SortTable
           items = {positions}
           setItems = {setPositions}
-          strToDel = {"position_ID"}
+          strsToDel = {["position_ID"]}
         />
       </Fragment>
     </div>

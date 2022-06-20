@@ -240,7 +240,7 @@ const ShiftMainHandler = () => {
         />
       </Fragment>
 
-      <h3>Add a Shift</h3>
+      <h3>Add a Shift:</h3>
       <Fragment>
         <ShiftAddFormSubmit
           shifts = {shifts}
@@ -253,7 +253,7 @@ const ShiftMainHandler = () => {
         <SortTable
           items = {shifts}
           setItems = {setShifts}
-          strToDel = {"shift_ID"}
+          strsToDel = {["shift_ID"]}
         />
       </Fragment>
     </div>

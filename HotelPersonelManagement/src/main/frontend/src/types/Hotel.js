@@ -275,7 +275,7 @@ const HotelMainHandler = () => {
                 <SortTable
                     items = {hotels}
                     setItems = {setHotels}
-                    strToDel = {"hotel_ID"}
+                    strsToDel = {["hotel_ID"]}
                 />
             </Fragment>
         </div>

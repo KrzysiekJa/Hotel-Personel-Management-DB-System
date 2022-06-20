@@ -343,7 +343,7 @@ const EmployeeMainHandler = () => {
         />
       </Fragment>
 
-      <h3>Add a Employee</h3>
+      <h3>Add a Employee:</h3>
       <Fragment>
         <EmployeeAddFormSubmit
           employees = {employees}
@@ -357,7 +357,7 @@ const EmployeeMainHandler = () => {
         <SortTable
           items = {employees}
           setItems = {setEmployees}
-          strToDel = {"employee_ID"}
+          strsToDel = {["employee_ID"]}
         />
       </Fragment>
     </div>

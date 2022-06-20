@@ -224,7 +224,7 @@ const SkillMainHandler = () => {
         />
       </Fragment>
 
-      <h3>Add a Skill</h3>
+      <h3>Add a Skill:</h3>
       <Fragment>
         <SkillAddFormSubmit
           skills = {skills}
@@ -237,7 +237,7 @@ const SkillMainHandler = () => {
         <SortTable
           items = {skills}
           setItems = {setSkills}
-          strToDel = {"skill_ID"}
+          strsToDel = {["skill_ID"]}
         />
       </Fragment>
     </div>
