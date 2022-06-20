@@ -1,7 +1,6 @@
 package com.hospitality_company.HotelPersonelManagement.repositories;
 
 import com.hospitality_company.HotelPersonelManagement.models.AllData;
-import com.hospitality_company.HotelPersonelManagement.models.WorkPlanEmployees;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -33,7 +32,7 @@ public class AllDataRepository {
             String employee_name = resultSet.getString("name");
             String employee_surname = resultSet.getString("surname");
             long employee_ID = resultSet.getLong("employee_ID");
-            String name = resultSet.getString("name");
+            String name = resultSet.getString(5);
             long hotel_ID = resultSet.getLong("hotel_ID");
             long shift_ID = resultSet.getLong("shift_ID");
             LocalDateTime starting_date = (LocalDateTime) resultSet.getObject("starting_date");
