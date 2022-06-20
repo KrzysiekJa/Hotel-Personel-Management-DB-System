@@ -5,6 +5,7 @@ import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRowShift from "../components/EditableRowShift";
+import SortTable from "../components/SortTable";
 
 
 
@@ -239,11 +240,20 @@ const ShiftMainHandler = () => {
         />
       </Fragment>
 
-      <h3>Add a Shift</h3>
+      <h3>Add a Shift:</h3>
       <Fragment>
         <ShiftAddFormSubmit
           shifts = {shifts}
           setShifts = {setShifts}
+        />
+      </Fragment>
+
+      <h3>Sort:</h3>
+      <Fragment>
+        <SortTable
+          items = {shifts}
+          setItems = {setShifts}
+          strsToDel = {["shift_ID"]}
         />
       </Fragment>
     </div>

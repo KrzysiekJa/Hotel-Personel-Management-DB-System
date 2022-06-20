@@ -5,6 +5,7 @@ import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
+import SortTable from "../components/SortTable";
 
 
 
@@ -266,6 +267,15 @@ const HotelMainHandler = () => {
                 <HotelAddFormSubmit
                     hotels = {hotels}
                     setHotels = {setHotels}
+                />
+            </Fragment>
+
+            <h3>Sort:</h3>
+            <Fragment>
+                <SortTable
+                    items = {hotels}
+                    setItems = {setHotels}
+                    strsToDel = {["hotel_ID"]}
                 />
             </Fragment>
         </div>

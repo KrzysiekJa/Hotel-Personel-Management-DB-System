@@ -468,7 +468,7 @@ public class ApiController {
 
     /********** WorkPlanEmployees endpoints **********/
 
-    @PostMapping("/workplanemployees")
+    @PostMapping("/workplanemployee")
     public ResponseEntity<WorkPlanEmployees> addWorkPlanEmployees(@RequestBody WorkPlanEmployees workPlanEmployees){
         try {
             WorkPlanEmployees createdWorkPlanEmployees = workPlanEmployeesRepository.addWorkPlanEmployees(workPlanEmployees);
@@ -479,7 +479,7 @@ public class ApiController {
         }
     }
 
-    @DeleteMapping("/workplanemployees/{id}")
+    @DeleteMapping("/workplanemployee/{id}")
     public ResponseEntity<Boolean> deleteWorkPlanEmployees(@PathVariable("id") long id){
         try{
             Boolean deletedWorkPlanEmployees = workPlanEmployeesRepository.deleteWorkPlanEmployees(id);

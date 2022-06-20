@@ -5,6 +5,7 @@ import HotelMainHandler from "./types/Hotel";
 import PositionMainHandler from './types/Position';
 import SkillMainHandler from './types/Skill';
 import ShiftMainHandler from './types/Shift';
+import WorkPlanEmployeeMainHandler from './types/WorkPlanEmployee';
 
 
 
@@ -29,6 +30,9 @@ const FrontApp = () => {
           </button>
           <button type="button" className="button-8" onClick={() => setControlValue(5)}>
             WorkPlan
+          </button>
+          <button type="button" className="button-8" onClick={() => setControlValue(6)}>
+            WorkPlanEmployees
           </button>
         </div>
       </div>
@@ -55,6 +59,11 @@ const FrontApp = () => {
         {controlValue === 5 &&
           <Fragment>
             <ShiftMainHandler/>
+          </Fragment>
+        }
+        {controlValue === 6 &&
+          <Fragment>
+            <WorkPlanEmployeeMainHandler/>
           </Fragment>
         }
     </div>

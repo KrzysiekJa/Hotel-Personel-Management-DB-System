@@ -4,6 +4,7 @@ import { _withoutProperties } from "./utils";import "../FrontApp.css";
 import TableHeadRow from "../components/TableHeadRow";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
+import SortTable from "../components/SortTable";
 
 
 
@@ -223,11 +224,20 @@ const SkillMainHandler = () => {
         />
       </Fragment>
 
-      <h3>Add a Skill</h3>
+      <h3>Add a Skill:</h3>
       <Fragment>
         <SkillAddFormSubmit
           skills = {skills}
           setSkills = {setSkills}
+        />
+      </Fragment>
+
+      <h3>Sort:</h3>
+      <Fragment>
+        <SortTable
+          items = {skills}
+          setItems = {setSkills}
+          strsToDel = {["skill_ID"]}
         />
       </Fragment>
     </div>
