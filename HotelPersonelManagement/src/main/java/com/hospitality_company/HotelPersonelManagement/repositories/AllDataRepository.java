@@ -7,6 +7,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,22 +42,34 @@ public class AllDataRepository extends BaseRepository {
     /**
      * Maps a ResultSet row to an AllData object.
      *
-     * @param resultSet the ResultSet containing aggregated data
-     * @return AllData object
-     * @throws SQLException if column retrieval fails
+     * Assumes the stored procedure returns aliased columns matching the model:
+     * work_plan_Employees_ID, employee_name, employee_surname, employee_ID,
+     * hotel_name, hotel_ID, shift_ID, starting_date, ending_date
      */
     private AllData mapResultSetToAllData(ResultSet resultSet) throws SQLException {
+        long workPlan_Employees_ID = resultSet.getLong("work_plan_Employees_ID");
+        String employee_name = resultSet.getString("employee_name");
+        String employee_surname = resultSet.getString("employee_surname");
+        long employee_ID = resultSet.getLong("employee_ID");
+        String hotel_name = resultSet.getString("hotel_name");
+        long hotel_ID = resultSet.getLong("hotel_ID");
+        long shift_ID = resultSet.getLong("shift_ID");
+
+        Timestamp tsStart = resultSet.getTimestamp("starting_date");
+        Timestamp tsEnd = resultSet.getTimestamp("ending_date");
+        LocalDateTime starting_date = (tsStart != null) ? tsStart.toLocalDateTime() : null;
+        LocalDateTime ending_date = (tsEnd != null) ? tsEnd.toLocalDateTime() : null;
+
         return new AllData(
-            resultSet.getLong("work_plan_Employees_ID"),
-            resultSet.getString("name"),  // employee name
-            resultSet.getString("surname"),
-            resultSet.getLong("employee_ID"),
-            resultSet.getString("name"),  // hotel name - TODO: verify if this should be a different column
-            resultSet.getLong("hotel_ID"),
-            resultSet.getLong("shift_ID"),
-            (LocalDateTime) resultSet.getObject("starting_date"),
-            (LocalDateTime) resultSet.getObject("ending_date")
+            workPlan_Employees_ID,
+            employee_name,
+            employee_surname,
+            employee_ID,
+            hotel_name,
+            hotel_ID,
+            shift_ID,
+            starting_date,
+            ending_date
         );
     }
 }
-

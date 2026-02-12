@@ -19,6 +19,4 @@ public class AllData {
     private long shift_ID;
     private LocalDateTime starting_date;
     private LocalDateTime ending_date;
-
-
 }

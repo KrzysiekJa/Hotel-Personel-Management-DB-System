@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: Hotel-Personel-Management
 -- ------------------------------------------------------
--- Server version	8.0.15
+-- Server version	8.4.6
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -19,30 +19,26 @@
 -- Table structure for table `Employees`
 --
 
-CREATE DATABASE IF NOT EXISTS `Hotel-Personel-Management` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci;
-USE `Hotel-Personel-Management`;
-
-
 DROP TABLE IF EXISTS `Employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Employees` (
-  `employee_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `position_ID` int(11) DEFAULT NULL,
-  `name` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `surname` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `address` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `sex` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `employee_ID` int NOT NULL AUTO_INCREMENT,
+  `position_ID` int DEFAULT NULL,
+  `name` char(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `surname` char(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `address` char(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `sex` char(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
   `date_of_birth` date NOT NULL,
-  `telephone` int(11) NOT NULL,
-  `email` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci DEFAULT NULL,
-  `number_of_vacation_days` int(11) NOT NULL,
+  `telephone` int NOT NULL,
+  `email` char(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci DEFAULT NULL,
+  `number_of_vacation_days` int NOT NULL,
   `date_of_employment` date NOT NULL,
   `last_changed` datetime NOT NULL,
   PRIMARY KEY (`employee_ID`),
   KEY `position_ID` (`position_ID`),
   CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`position_ID`) REFERENCES `positions` (`position_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,12 +58,12 @@ DROP TABLE IF EXISTS `EmployeesSkills`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `EmployeesSkills` (
-  `employee_skill_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `employee_ID` int(11) NOT NULL,
-  `skill_ID` int(11) NOT NULL,
+  `employee_skill_ID` int NOT NULL AUTO_INCREMENT,
+  `employee_ID` int NOT NULL,
+  `skill_ID` int NOT NULL,
   PRIMARY KEY (`employee_skill_ID`),
   KEY `employeesskills_ibfk_1_idx` (`employee_ID`,`skill_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,17 +83,17 @@ DROP TABLE IF EXISTS `Hotels`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Hotels` (
-  `hotel_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `address` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `telephone` int(11) DEFAULT NULL,
-  `email` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci DEFAULT NULL,
-  `standard` char(40) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `rooms_number` int(11) NOT NULL,
+  `hotel_ID` int NOT NULL AUTO_INCREMENT,
+  `name` char(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `address` char(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `telephone` int DEFAULT NULL,
+  `email` char(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci DEFAULT NULL,
+  `standard` char(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `rooms_number` int NOT NULL,
   `creation_date` date NOT NULL,
   `last_changed` datetime NOT NULL,
   PRIMARY KEY (`hotel_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,15 +113,15 @@ DROP TABLE IF EXISTS `HotelsEmployees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `HotelsEmployees` (
-  `hotel_employee_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `hotel_ID` int(11) NOT NULL,
-  `employee_ID` int(11) NOT NULL,
+  `hotel_employee_ID` int NOT NULL AUTO_INCREMENT,
+  `hotel_ID` int NOT NULL,
+  `employee_ID` int NOT NULL,
   PRIMARY KEY (`hotel_employee_ID`),
   KEY `hotel_ID` (`hotel_ID`),
   KEY `employee_ID` (`employee_ID`),
   CONSTRAINT `hotelsemployees_ibfk_1` FOREIGN KEY (`hotel_ID`) REFERENCES `hotels` (`hotel_ID`),
   CONSTRAINT `hotelsemployees_ibfk_2` FOREIGN KEY (`employee_ID`) REFERENCES `employees` (`employee_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,11 +141,11 @@ DROP TABLE IF EXISTS `Positions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Positions` (
-  `position_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `description` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `position_ID` int NOT NULL AUTO_INCREMENT,
+  `name` char(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
   PRIMARY KEY (`position_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,11 +165,11 @@ DROP TABLE IF EXISTS `Skills`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Skills` (
-  `skill_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(100) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `description` char(200) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `skill_ID` int NOT NULL AUTO_INCREMENT,
+  `name` char(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
+  `description` char(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
   PRIMARY KEY (`skill_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,13 +189,13 @@ DROP TABLE IF EXISTS `WorkPlan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `WorkPlan` (
-  `shift_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `shift_ID` int NOT NULL AUTO_INCREMENT,
   `starting_date` datetime NOT NULL,
   `ending_date` datetime NOT NULL,
-  `status` char(50) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `status` char(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_polish_ci NOT NULL,
   `last_edition_date` datetime DEFAULT NULL,
   PRIMARY KEY (`shift_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,15 +215,15 @@ DROP TABLE IF EXISTS `WorkPlanEmployees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `WorkPlanEmployees` (
-  `work_plan_Employees_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `hotel_employee_ID` int(11) NOT NULL,
-  `shift_ID` int(11) NOT NULL,
+  `work_plan_Employees_ID` int NOT NULL AUTO_INCREMENT,
+  `hotel_employee_ID` int NOT NULL,
+  `shift_ID` int NOT NULL,
   PRIMARY KEY (`work_plan_Employees_ID`),
   KEY `hotel_employee_ID` (`hotel_employee_ID`),
   KEY `shift_ID` (`shift_ID`),
   CONSTRAINT `workplanemployees_ibfk_1` FOREIGN KEY (`hotel_employee_ID`) REFERENCES `hotelsemployees` (`hotel_employee_ID`),
   CONSTRAINT `workplanemployees_ibfk_2` FOREIGN KEY (`shift_ID`) REFERENCES `workplan` (`shift_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,6 +234,29 @@ LOCK TABLES `WorkPlanEmployees` WRITE;
 /*!40000 ALTER TABLE `WorkPlanEmployees` DISABLE KEYS */;
 /*!40000 ALTER TABLE `WorkPlanEmployees` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `vacation_days` AFTER INSERT ON `workplanemployees` FOR EACH ROW BEGIN
+	IF (SELECT `status` FROM `workplan` WHERE WorkPlan.shift_ID=NEW.shift_ID)="Vacation" THEN
+		SET @e_date=(SELECT ending_date FROM workplan WHERE workplan.shift_ID=NEW.shift_ID);
+        SET @s_date=(SELECT starting_date FROM workplan WHERE workplan.shift_ID=NEW.shift_ID);
+		UPDATE employees
+        SET employees.number_of_vacation_days=employees.number_of_vacation_days-DATEDIFF(@e_date, @s_date)
+        WHERE NEW.hotel_employee_ID=employees.employee_ID;
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Dumping events for database 'Hotel-Personel-Management'
@@ -277,6 +296,28 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `add_employeesskills` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employeesskills`(
+	IN `employee_ID` INT,
+	IN `skill_ID` INT)
+BEGIN
+	INSERT INTO `employeesskills` 
+    VALUES( NULL, employee_ID, skill_ID);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `add_hotel` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -298,6 +339,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_hotel`(
 BEGIN
 	INSERT INTO `Hotels` 
     VALUES( NULL, name, address, telephone, email, standard, rooms_number, creation_date, NOW());
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `add_hotelsemployees` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_hotelsemployees`(
+	IN `hotel_ID` INT,
+	IN `employee_ID` INT)
+BEGIN
+	INSERT INTO `hotelsemployees` 
+    VALUES( NULL, hotel_ID, employee_ID);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -353,9 +416,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = utf8mb3 */ ;
+/*!50003 SET character_set_results = utf8mb3 */ ;
+/*!50003 SET collation_connection  = utf8mb3_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -365,6 +428,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_skill`(
 BEGIN
 	INSERT INTO `Skills` 
     VALUES( NULL, name, description);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `add_workplanemployees` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_workplanemployees`(
+	IN `hotel_employee_ID` INT,
+	IN `shift_ID` INT)
+BEGIN
+	INSERT INTO `WorkPlanEmployees` 
+    VALUES( NULL, hotel_employee_ID, shift_ID);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -405,6 +490,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_employeesskills` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_employeesskills`(
+	IN `employee_skill_ID` INT)
+BEGIN
+	DELETE FROM `EmployeesSkills`
+	WHERE EmployeesSkills.employee_skill_ID = employee_skill_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `delete_hotel` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -430,6 +536,27 @@ BEGIN
     
 	DELETE FROM `Hotels`
 	WHERE Hotels.hotel_ID = hotel_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_hotelsemployees` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_hotelsemployees`(
+	IN `hotel_employee_ID` INT)
+BEGIN
+	DELETE FROM `HotelsEmployees`
+	WHERE HotelsEmployees.hotel_employee_ID = hotel_employee_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -503,6 +630,146 @@ BEGIN
 	
 	DELETE FROM `Skills` 
 	WHERE Skills.skill_ID = skill_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_workplanemployees` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_workplanemployees`(
+	IN `work_plan_Employees_ID` INT)
+BEGIN
+	DELETE FROM `WorkPlanEmployees`
+	WHERE WorkPlanEmployees.work_plan_Employees_ID = work_plan_Employees_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_AllData` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_AllData`()
+BEGIN
+  SELECT
+    we.work_plan_Employees_ID,
+    e.name            AS employee_name,
+    e.surname         AS employee_surname,
+    e.employee_ID,
+    h.name            AS hotel_name,
+    h.hotel_ID,
+    w.shift_ID,
+    w.starting_date,
+    w.ending_date
+  FROM employees AS e
+  INNER JOIN hotelsemployees AS he
+    ON e.employee_ID = he.employee_ID
+  INNER JOIN hotels AS h
+    ON he.hotel_ID = h.hotel_ID
+  INNER JOIN workplanemployees AS we
+    ON he.hotel_employee_ID = we.hotel_employee_ID
+  INNER JOIN workplan AS w
+    ON w.shift_ID = we.shift_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_EmpHotPos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_EmpHotPos`()
+BEGIN
+	SELECT e.name, e.surname, h.name, p.name
+	FROM employees as e
+	INNER JOIN  hotelsemployees as he
+		ON e.employee_ID = he.employee_ID
+	INNER JOIN hotels as h
+		ON he.hotel_ID = h.hotel_ID
+	INNER JOIN positions as p
+		ON e.position_ID = p.position_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_EmpHotShift` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_EmpHotShift`()
+BEGIN
+	SELECT e.name, e.surname, h.name, w.starting_date, w.ending_date, w.status
+	FROM employees as e
+	INNER JOIN  hotelsemployees as he
+		ON e.employee_ID = he.employee_ID
+	INNER JOIN hotels as h
+		ON he.hotel_ID = h.hotel_ID
+	INNER JOIN workplanemployees as we
+		ON he.hotel_employee_ID = we.hotel_employee_ID
+	INNER JOIN workplan as w
+		ON w.shift_ID = we.shift_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_EmpHotSkill` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_EmpHotSkill`()
+BEGIN
+	SELECT e.name, e.surname, h.name, s.name
+	FROM employees as e
+	INNER JOIN  hotelsemployees as he
+		ON e.employee_ID = he.employee_ID
+	INNER JOIN hotels as h
+		ON he.hotel_ID = h.hotel_ID
+	INNER JOIN employeesskills as es
+		ON es.employee_ID = he.employee_ID
+	INNER JOIN skills as s
+		ON s.skill_ID = es.skill_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -589,59 +856,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_work_plan` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_work_plan`()
-BEGIN
-	SELECT * FROM `WorkPlan`;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_skills` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_skills`()
-BEGIN
-	SELECT * FROM `Skills`;
-END ;;
-DELIMITER ;
-
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_positions` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -656,30 +870,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_positions`()
 BEGIN
 	SELECT * FROM `Positions`;
 END ;;
-DELIMITER ;
-
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_skill_by_ID` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_skill_by_ID`(
-	IN skill_ID INT)
-BEGIN
-	SELECT * FROM `Skills`
-    WHERE Skills.skill_ID = skill_ID;
-END ;;
-
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -701,7 +891,6 @@ BEGIN
 	SELECT * FROM `Positions`
     WHERE Positions.position_ID = position_ID;
 END ;;
-
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -723,9 +912,12 @@ BEGIN
 	SELECT * FROM `WorkPlan`
     WHERE WorkPlan.shift_ID = shift_ID;
 END ;;
-
 DELIMITER ;
-/*!50003 DROP PROCEDURE IF EXISTS `add_employeesskills` */;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_skills` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -735,20 +927,16 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_employeesskills`(
-	IN `employee_ID` INT,
-	IN `skill_ID` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_skills`()
 BEGIN
-	INSERT INTO `employeesskills` 
-    VALUES( NULL, employee_ID, skill_ID);
+	SELECT * FROM `Skills`;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `add_hotelsemployees` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_skill_by_ID` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -758,20 +946,18 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_hotelsemployees`(
-	IN `hotel_ID` INT,
-	IN `employee_ID` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_skill_by_ID`(
+	IN skill_ID INT)
 BEGIN
-	INSERT INTO `hotelsemployees` 
-    VALUES( NULL, hotel_ID, employee_ID);
+	SELECT * FROM `Skills`
+    WHERE Skills.skill_ID = skill_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `add_workplanemployees` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_work_plan` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -781,172 +967,15 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_workplanemployees`(
-	IN `hotel_employee_ID` INT,
-	IN `shift_ID` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_work_plan`()
 BEGIN
-	INSERT INTO `WorkPlanEmployees` 
-    VALUES( NULL, hotel_employee_ID, shift_ID);
+	SELECT * FROM `WorkPlan`;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `delete_employeesskills` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_employeesskills`(
-	IN `employee_skill_ID` INT)
-BEGIN
-	DELETE FROM `EmployeesSkills`
-	WHERE EmployeesSkills.employee_skill_ID = employee_skill_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `delete_hotelsemployees` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_hotelsemployees`(
-	IN `hotel_employee_ID` INT)
-BEGIN
-	DELETE FROM `HotelsEmployees`
-	WHERE HotelsEmployees.hotel_employee_ID = hotel_employee_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `delete_workplanemployees` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_workplanemployees`(
-	IN `work_plan_Employees_ID` INT)
-BEGIN
-	DELETE FROM `WorkPlanEmployees`
-	WHERE WorkPlanEmployees.work_plan_Employees_ID = work_plan_Employees_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `update_position` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_position`(
-	IN `position_ID` INT,
-	IN `name` CHAR(100),
-	IN `description` text(500))
-BEGIN
-	UPDATE `Positions`
-	SET Positions.name = name, Positions.description = description
-	WHERE Positions.position_ID = position_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `update_skill` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_skill`(
-	IN `skill_ID` INT,
-	IN `name` CHAR(100),
-	IN `description` CHAR(200))
-BEGIN
-	UPDATE `Skills`
-	SET Skills.name = name, Skills.description = description
-	WHERE Skills.skill_ID = skill_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `update_hotel` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_hotel`(
-	IN `hotel_ID` INT,
-	IN `name` CHAR(200),
-	IN `address` CHAR(200),
-	IN `telephone` INT,
-	IN `email` CHAR(40),
-	IN `standard` CHAR(40),
-	IN `rooms_number` INT,
-	IN `creation_date` date)
-BEGIN
-	UPDATE `Hotels`
-	SET Hotels.name = name,
-	Hotels.address = address,
-	Hotels.telephone = telephone,
-	Hotels.email = email,
-	Hotels.standard = standard,
-	Hotels.rooms_number = rooms_number,
-	Hotels.creation_date = creation_date,
-	Hotels.last_changed = NOW()
-	WHERE Hotels.hotel_ID = hotel_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
 /*!50003 DROP PROCEDURE IF EXISTS `update_employee` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -989,7 +1018,66 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
+/*!50003 DROP PROCEDURE IF EXISTS `update_hotel` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_hotel`(
+	IN `hotel_ID` INT,
+	IN `name` CHAR(200),
+	IN `address` CHAR(200),
+	IN `telephone` INT,
+	IN `email` CHAR(40),
+	IN `standard` CHAR(40),
+	IN `rooms_number` INT,
+	IN `creation_date` date)
+BEGIN
+	UPDATE `Hotels`
+	SET Hotels.name = name,
+	Hotels.address = address,
+	Hotels.telephone = telephone,
+	Hotels.email = email,
+	Hotels.standard = standard,
+	Hotels.rooms_number = rooms_number,
+	Hotels.creation_date = creation_date,
+	Hotels.last_changed = NOW()
+	WHERE Hotels.hotel_ID = hotel_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_position` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_position`(
+	IN `position_ID` INT,
+	IN `name` CHAR(100),
+	IN `description` text(500))
+BEGIN
+	UPDATE `Positions`
+	SET Positions.name = name, Positions.description = description
+	WHERE Positions.position_ID = position_ID;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `update_shift` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1018,37 +1106,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP TRIGGER IF EXISTS `vacation_days` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER //
-CREATE TRIGGER `vacation_days` AFTER INSERT ON `workplanemployees` FOR EACH ROW BEGIN
-	IF (SELECT `status` FROM `workplan` WHERE WorkPlan.shift_ID=NEW.shift_ID)="Vacation" THEN
-		SET @e_date=(SELECT ending_date FROM workplan WHERE workplan.shift_ID=NEW.shift_ID);
-        SET @s_date=(SELECT starting_date FROM workplan WHERE workplan.shift_ID=NEW.shift_ID);
-		UPDATE employees
-        SET employees.number_of_vacation_days=employees.number_of_vacation_days-DATEDIFF(@e_date, @s_date)
-        WHERE NEW.hotel_employee_ID=employees.employee_ID;
-	END IF;
-END;//
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_all_EmpHotPos` */;
+/*!50003 DROP PROCEDURE IF EXISTS `update_skill` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -1058,118 +1116,28 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_EmpHotPos`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_skill`(
+	IN `skill_ID` INT,
+	IN `name` CHAR(100),
+	IN `description` CHAR(200))
 BEGIN
-	SELECT e.name, e.surname, h.name, p.name
-	FROM employees as e
-	INNER JOIN  hotelsemployees as he
-		ON e.employee_ID = he.employee_ID
-	INNER JOIN hotels as h
-		ON he.hotel_ID = h.hotel_ID
-	INNER JOIN positions as p
-		ON e.position_ID = p.position_ID;
+	UPDATE `Skills`
+	SET Skills.name = name, Skills.description = description
+	WHERE Skills.skill_ID = skill_ID;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_EmpHotSkill` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_EmpHotSkill`()
-BEGIN
-	SELECT e.name, e.surname, h.name, s.name
-	FROM employees as e
-	INNER JOIN  hotelsemployees as he
-		ON e.employee_ID = he.employee_ID
-	INNER JOIN hotels as h
-		ON he.hotel_ID = h.hotel_ID
-	INNER JOIN employeesskills as es
-		ON es.employee_ID = he.employee_ID
-	INNER JOIN skills as s
-		ON s.skill_ID = es.skill_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_EmpHotShift` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_EmpHotShift`()
-BEGIN
-	SELECT e.name, e.surname, h.name, w.starting_date, w.ending_date, w.status
-	FROM employees as e
-	INNER JOIN  hotelsemployees as he
-		ON e.employee_ID = he.employee_ID
-	INNER JOIN hotels as h
-		ON he.hotel_ID = h.hotel_ID
-	INNER JOIN workplanemployees as we
-		ON he.hotel_employee_ID = we.hotel_employee_ID
-	INNER JOIN workplan as w
-		ON w.shift_ID = we.shift_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_AllData` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_AllData`()
-BEGIN
-	SELECT we.work_plan_Employees_ID, e.name, e.surname, e.employee_ID, h.name, h.hotel_ID, w.shift_ID, w.starting_date, w.ending_date
-	FROM employees as e
-	INNER JOIN  hotelsemployees as he
-		ON e.employee_ID = he.employee_ID
-	INNER JOIN hotels as h
-		ON he.hotel_ID = h.hotel_ID
-	INNER JOIN workplanemployees as we
-		ON he.hotel_employee_ID = we.hotel_employee_ID
-	INNER JOIN workplan as w
-		ON w.shift_ID = we.shift_ID;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
+-- Dump completed on 2026-02-12 15:12:36
