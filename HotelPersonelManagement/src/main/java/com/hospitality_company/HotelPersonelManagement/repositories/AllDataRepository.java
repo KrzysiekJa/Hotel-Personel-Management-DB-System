@@ -1,8 +1,6 @@
 package com.hospitality_company.HotelPersonelManagement.repositories;
 
 import com.hospitality_company.HotelPersonelManagement.models.AllData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;
@@ -12,39 +10,53 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Repository for AllData database operations.
+ * Provides read-only access to aggregated data across multiple entities.
+ * Uses try-with-resources for proper resource management.
+ */
 @Repository
-public class AllDataRepository {
+public class AllDataRepository extends BaseRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
+    /**
+     * Retrieves all aggregated data from the database.
+     *
+     * @return List of all data combining employees, hotels, and shifts
+     * @throws SQLException if database operation fails
+     */
     public List<AllData> getAllData() throws SQLException {
-        Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call get_AllData}");
-        ResultSet resultSet = callableStatement.executeQuery();
+        try (Connection connection = getConnection();
+             CallableStatement callableStatement = connection.prepareCall("{call get_AllData}");
+             ResultSet resultSet = callableStatement.executeQuery()) {
 
-        List<AllData> list = new ArrayList<>();
-        while (resultSet.next()) {
-
-            long work_plan_Employees_ID = resultSet.getLong("work_plan_Employees_ID");
-            String employee_name = resultSet.getString("name");
-            String employee_surname = resultSet.getString("surname");
-            long employee_ID = resultSet.getLong("employee_ID");
-            String name = resultSet.getString(5);
-            long hotel_ID = resultSet.getLong("hotel_ID");
-            long shift_ID = resultSet.getLong("shift_ID");
-            LocalDateTime starting_date = (LocalDateTime) resultSet.getObject("starting_date");
-            LocalDateTime ending_date = (LocalDateTime) resultSet.getObject("ending_date");
-
-            AllData allData = new AllData(work_plan_Employees_ID, employee_name,
-                    employee_surname, employee_ID, name, hotel_ID, shift_ID, starting_date, ending_date);
-            list.add(allData);
+            List<AllData> list = new ArrayList<>();
+            while (resultSet.next()) {
+                list.add(mapResultSetToAllData(resultSet));
+            }
+            return list;
         }
-        callableStatement.close();
-        connection.close();
+    }
 
-        return list;
+    /**
+     * Maps a ResultSet row to an AllData object.
+     *
+     * @param resultSet the ResultSet containing aggregated data
+     * @return AllData object
+     * @throws SQLException if column retrieval fails
+     */
+    private AllData mapResultSetToAllData(ResultSet resultSet) throws SQLException {
+        return new AllData(
+            resultSet.getLong("work_plan_Employees_ID"),
+            resultSet.getString("name"),  // employee name
+            resultSet.getString("surname"),
+            resultSet.getLong("employee_ID"),
+            resultSet.getString("name"),  // hotel name - TODO: verify if this should be a different column
+            resultSet.getLong("hotel_ID"),
+            resultSet.getLong("shift_ID"),
+            (LocalDateTime) resultSet.getObject("starting_date"),
+            (LocalDateTime) resultSet.getObject("ending_date")
+        );
     }
 }
+

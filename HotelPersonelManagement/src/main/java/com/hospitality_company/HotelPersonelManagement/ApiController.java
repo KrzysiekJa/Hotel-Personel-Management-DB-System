@@ -1,526 +1,441 @@
 package com.hospitality_company.HotelPersonelManagement;
 
-
 import com.hospitality_company.HotelPersonelManagement.models.*;
 import com.hospitality_company.HotelPersonelManagement.repositories.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ApiController {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-    @Autowired
-    private HotelRepository hotelRepository;
-    @Autowired
-    private PositionRepository positionRepository;
-    @Autowired
-    private ShiftRepository shiftRepository;
-    @Autowired
-    private SkillRepository skillRepository;
-    @Autowired
-    private EmployeesSkillsRepository employeesSkillsRepository;
-    @Autowired
-    private  HotelsEmployeesRepository hotelsEmployeesRepository;
-    @Autowired
-    private  WorkPlanEmployeesRepository workPlanEmployeesRepository;
-    @Autowired
-    private AllDataRepository allDataRepository;
+    private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
+    @Autowired private EmployeeRepository employeeRepository;
+    @Autowired private HotelRepository hotelRepository;
+    @Autowired private PositionRepository positionRepository;
+    @Autowired private ShiftRepository shiftRepository;
+    @Autowired private SkillRepository skillRepository;
+    @Autowired private EmployeesSkillsRepository employeesSkillsRepository;
+    @Autowired private HotelsEmployeesRepository hotelsEmployeesRepository;
+    @Autowired private WorkPlanEmployeesRepository workPlanEmployeesRepository;
+    @Autowired private AllDataRepository allDataRepository;
 
     @GetMapping("/test")
-    public int test(){
+    public int test() {
+        logger.info("Health check");
         return 1;
     }
 
-    /********** Employee endpoints **********/
+    private Map<String, Object> error(String msg, HttpStatus status) {
+        Map<String, Object> res = new HashMap<>();
+        res.put("error", msg);
+        res.put("status", status.value());
+        res.put("timestamp", System.currentTimeMillis());
+        return res;
+    }
+
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getAllEmployees(){
-        try{
-            List<Employee> employeeList = employeeRepository.getAllEmployees();
-            return new ResponseEntity<>(employeeList, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exc) {
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> getAllEmployees() {
+        try {
+            List<Employee> list = employeeRepository.getAllEmployees();
+            logger.info("Retrieved {} employees", list.size());
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (SQLException e) {
+            logger.error("Error fetching employees", e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/employee/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") long id){
-        try{
-            Employee employee = employeeRepository.getById(id);
-            return new ResponseEntity<>(employee, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> getEmployeeById(@PathVariable("id") long id) {
+        try {
+            Employee emp = employeeRepository.getById(id);
+            return new ResponseEntity<>(emp, HttpStatus.OK);
+        } catch (SQLException e) {
+            logger.warn("Employee {} not found", id);
+            return new ResponseEntity<>(error("Not found", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/employee")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
+    public ResponseEntity<?> addEmployee(@RequestBody Employee employee) {
         try {
-            Employee createdEmployee = employeeRepository.addEmployee(employee);
-            return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
-        }catch (Exception exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Employee created = employeeRepository.addEmployee(employee);
+            logger.info("Created employee {}", created.getEmployee_ID());
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            logger.warn("Validation: {}", e.getMessage());
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            logger.error("Error creating employee", e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/employee/{id}")
-    public ResponseEntity<Boolean> deleteEmployee(@PathVariable("id") long id){
-        try{
-            Boolean boolDeletedEmployee = employeeRepository.deleteEmployee(id);
-            return new ResponseEntity<>(boolDeletedEmployee, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> deleteEmployee(@PathVariable("id") long id) {
+        try {
+            employeeRepository.deleteEmployee(id);
+            logger.info("Deleted employee {}", id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            logger.error("Error deleting employee {}", id, e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/employee/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") long id, @RequestBody Employee employee){
+    public ResponseEntity<?> updateEmployee(@PathVariable("id") long id, @RequestBody Employee employee) {
         try {
-            Employee updatedEmployee = employeeRepository.updateEmployee(id, employee);
-            return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Employee updated = employeeRepository.updateEmployee(id, employee);
+            logger.info("Updated employee {}", id);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            logger.error("Error updating employee {}", id, e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /********** Hotel endpoints **********/
     @GetMapping("/hotels")
-    public ResponseEntity<List<Hotel>> getAllHotels(){
-        try{
-            List<Hotel> hotelList = hotelRepository.getAllHotels();
-            return new ResponseEntity<>(hotelList, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> getAllHotels() {
+        try {
+            List<Hotel> list = hotelRepository.getAllHotels();
+            logger.info("Retrieved {} hotels", list.size());
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (SQLException e) {
+            logger.error("Error fetching hotels", e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/hotel/{id}")
-    public ResponseEntity<Hotel> getHotelById(@PathVariable("id") long id){
-        try{
+    public ResponseEntity<?> getHotelById(@PathVariable("id") long id) {
+        try {
             Hotel hotel = hotelRepository.getById(id);
             return new ResponseEntity<>(hotel, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Not found", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/hotel")
-    public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel){
+    public ResponseEntity<?> addHotel(@RequestBody Hotel hotel) {
         try {
-            Hotel createdHotel = hotelRepository.addHotel(hotel);
-            return new ResponseEntity<>(createdHotel, HttpStatus.CREATED);
-        }catch (Exception exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Hotel created = hotelRepository.addHotel(hotel);
+            logger.info("Created hotel {}", created.getHotel_ID());
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            logger.error("Error creating hotel", e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/hotel/{id}")
-    public ResponseEntity<Boolean> deleteHotel(@PathVariable("id") long id){
-        try{
-            Boolean boolDeletedHotel = hotelRepository.deleteHotel(id);
-            return new ResponseEntity<>(boolDeletedHotel, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exc){
-            exc.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> deleteHotel(@PathVariable("id") long id) {
+        try {
+            hotelRepository.deleteHotel(id);
+            logger.info("Deleted hotel {}", id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            logger.error("Error deleting hotel", e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/hotel/{id}")
-    public ResponseEntity<Hotel> updateHotel(@PathVariable("id") long id, @RequestBody Hotel hotel){
+    public ResponseEntity<?> updateHotel(@PathVariable("id") long id, @RequestBody Hotel hotel) {
         try {
-            Hotel updatedHotel = hotelRepository.updateHotel(id, hotel);
-            return new ResponseEntity<>(updatedHotel, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    /********** Position endpoints **********/
-
-    @PostMapping("/position")
-    public ResponseEntity<Position> addPosition(@RequestBody Position position){
-        try {
-            Position createdPosition = positionRepository.addPosition(position);
-            return new ResponseEntity<>(createdPosition, HttpStatus.CREATED);
-        }catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @DeleteMapping("/position/{id}")
-    public ResponseEntity<Boolean> deletePosition(@PathVariable("id") long id){
-        try {
-            Boolean deletedPosition = positionRepository.deletePosition(id);
-            return new ResponseEntity<>(deletedPosition, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/position/{id}")
-    public ResponseEntity<Position> getPositionById(@PathVariable("id") long id){
-        try{
-            Position position = positionRepository.getById(id);
-            return new ResponseEntity<>(position, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Hotel updated = hotelRepository.updateHotel(id, hotel);
+            logger.info("Updated hotel {}", id);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            logger.error("Error updating hotel", e);
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/positions")
-    public ResponseEntity<List<Position>> getAllPositions(){
-        try{
-            List<Position> positionsList = positionRepository.getAllPositions();
-            return new ResponseEntity<>(positionsList, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> getAllPositions() {
+        try {
+            List<Position> list = positionRepository.getAllPositions();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/position/{id}")
+    public ResponseEntity<?> getPositionById(@PathVariable("id") long id) {
+        try {
+            Position pos = positionRepository.getById(id);
+            return new ResponseEntity<>(pos, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Not found", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/position")
+    public ResponseEntity<?> addPosition(@RequestBody Position position) {
+        try {
+            Position created = positionRepository.addPosition(position);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/position/{id}")
+    public ResponseEntity<?> deletePosition(@PathVariable("id") long id) {
+        try {
+            positionRepository.deletePosition(id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/position/{id}")
-    public ResponseEntity<Position> updatePosition(@PathVariable("id") long id, @RequestBody Position position){
+    public ResponseEntity<?> updatePosition(@PathVariable("id") long id, @RequestBody Position position) {
         try {
-            Position updatedPosition = positionRepository.updatePosition(id, position);
-            return new ResponseEntity<>(updatedPosition, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Position updated = positionRepository.updatePosition(id, position);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    /********** Shift endpoints **********/
 
     @GetMapping("/shifts")
-    public ResponseEntity<List<Shift>> getWorkPlan(){
-        try{
-            List<Shift> workplan = shiftRepository.getWorkPlan();
-            return new ResponseEntity<>(workplan, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/shift")
-    public ResponseEntity<Shift> addShift(@RequestBody Shift shift){
+    public ResponseEntity<?> getWorkPlan() {
         try {
-            Shift createdShift = shiftRepository.addShift(shift);
-            return new ResponseEntity<>(createdShift, HttpStatus.CREATED);
-        }catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @DeleteMapping("/shift/{id}")
-    public ResponseEntity<Boolean> deleteShift(@PathVariable("id") long id){
-        try {
-            Boolean deletedShift = shiftRepository.deleteShift(id);
-            return new ResponseEntity<>(deletedShift, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            List<Shift> list = shiftRepository.getWorkPlan();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/shift/{id}")
-    public ResponseEntity<Shift> getShiftById(@PathVariable("id") long id){
-        try{
+    public ResponseEntity<?> getShiftById(@PathVariable("id") long id) {
+        try {
             Shift shift = shiftRepository.getById(id);
             return new ResponseEntity<>(shift, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Not found", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/shift")
+    public ResponseEntity<?> addShift(@RequestBody Shift shift) {
+        try {
+            Shift created = shiftRepository.addShift(shift);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/shift/{id}")
+    public ResponseEntity<?> deleteShift(@PathVariable("id") long id) {
+        try {
+            shiftRepository.deleteShift(id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/shift/{id}")
-    public ResponseEntity<Shift> updateShift(@PathVariable("id") long id, @RequestBody Shift shift){
+    public ResponseEntity<?> updateShift(@PathVariable("id") long id, @RequestBody Shift shift) {
         try {
-            Shift updatedShift = shiftRepository.updateShift(id, shift);
-            return new ResponseEntity<>(updatedShift, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    /********** Skill endpoints **********/
-
-    @PostMapping("/skill")
-    public ResponseEntity<Skill> addSkill(@RequestBody Skill skill){
-        try {
-            Skill createdSkill = skillRepository.addSkill(skill);
-            return new ResponseEntity<>(createdSkill, HttpStatus.CREATED);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @DeleteMapping("/skill/{id}")
-    public ResponseEntity<Boolean> deleteSkill(@PathVariable("id") long id){
-        try {
-            Boolean deletedSkill = skillRepository.deleteSkill(id);
-            return new ResponseEntity<>(deletedSkill, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/skill/{id}")
-    public ResponseEntity<Skill> getSkillById(@PathVariable("id") long id){
-        try{
-            Skill skill = skillRepository.getById(id);
-            return new ResponseEntity<>(skill, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Shift updated = shiftRepository.updateShift(id, shift);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/skills")
-    public ResponseEntity<List<Skill>> getAllSkills(){
-        try{
-            List<Skill> skillsList = skillRepository.getAllSkills();
-            return new ResponseEntity<>(skillsList, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> getAllSkills() {
+        try {
+            List<Skill> list = skillRepository.getAllSkills();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/skill/{id}")
+    public ResponseEntity<?> getSkillById(@PathVariable("id") long id) {
+        try {
+            Skill skill = skillRepository.getById(id);
+            return new ResponseEntity<>(skill, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Not found", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/skill")
+    public ResponseEntity<?> addSkill(@RequestBody Skill skill) {
+        try {
+            Skill created = skillRepository.addSkill(skill);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/skill/{id}")
+    public ResponseEntity<?> deleteSkill(@PathVariable("id") long id) {
+        try {
+            skillRepository.deleteSkill(id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/skill/{id}")
-    public ResponseEntity<Skill> updateSkill(@PathVariable("id") long id, @RequestBody Skill skill){
+    public ResponseEntity<?> updateSkill(@PathVariable("id") long id, @RequestBody Skill skill) {
         try {
-            Skill updatedSkill = skillRepository.updateSkill(id, skill);
-            return new ResponseEntity<>(updatedSkill, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Skill updated = skillRepository.updateSkill(id, skill);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /********** EmployeesSkill endpoints **********/
-
     @PostMapping("/employeesskills")
-    public ResponseEntity<EmployeesSkills> addEmployeesSkills(@RequestBody EmployeesSkills employeesSkills){
+    public ResponseEntity<?> addEmployeesSkills(@RequestBody EmployeesSkills employeesSkills) {
         try {
-            EmployeesSkills createdEmployeesSkills = employeesSkillsRepository.addEmployeesSkills(employeesSkills);
-            return new ResponseEntity<>(createdEmployeesSkills, HttpStatus.CREATED);
-        }catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            EmployeesSkills created = employeesSkillsRepository.addEmployeesSkills(employeesSkills);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/employeesskills/{id}")
-    public ResponseEntity<Boolean> deleteEmployeesSkills(@PathVariable("id") long id){
-        try{
-            Boolean deletedEmployeesSkills = employeesSkillsRepository.deleteEmployeesSkills(id);
-            return new ResponseEntity<>(deletedEmployeesSkills, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> deleteEmployeesSkills(@PathVariable("id") long id) {
+        try {
+            employeesSkillsRepository.deleteEmployeesSkills(id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/employeesskillshotels")
-    public ResponseEntity<List<List>> getEmployeeSkillsHotels(){
-        try{
-            List<List> list = employeesSkillsRepository.getEmployeeHotelSkills();
+    public ResponseEntity<?> getEmployeeSkillsHotels() {
+        try {
+            List<List<String>> list = employeesSkillsRepository.getEmployeeHotelSkills();
             return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /********** HotelsEmployees endpoints **********/
-
     @PostMapping("/hotelsemployees")
-    public ResponseEntity<HotelsEmployees> addHotelsEmployees(@RequestBody HotelsEmployees hotelsEmployees){
+    public ResponseEntity<?> addHotelsEmployees(@RequestBody HotelsEmployees hotelsEmployees) {
         try {
-            HotelsEmployees createdHotelsEmployees = hotelsEmployeesRepository.addHotelsEmployees(hotelsEmployees);
-            return new ResponseEntity<>(createdHotelsEmployees, HttpStatus.CREATED);
-        }catch (Exception exception){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            HotelsEmployees created = hotelsEmployeesRepository.addHotelsEmployees(hotelsEmployees);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/hotelsemployees/{id}")
-    public ResponseEntity<Boolean> deleteHotelsEmployees(@PathVariable("id") long id){
-        try{
-            Boolean deletedHotelsEmployees = hotelsEmployeesRepository.deleteHotelsEmployees(id);
-            return new ResponseEntity<>(deletedHotelsEmployees, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> deleteHotelsEmployees(@PathVariable("id") long id) {
+        try {
+            hotelsEmployeesRepository.deleteHotelsEmployees(id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/hotelsemployeespositions")
-    public ResponseEntity<List<List>> getEmployeeHotelPosition(){
-        try{
-            List<List> list = hotelsEmployeesRepository.getEmployeeHotelPosition();
+    public ResponseEntity<?> getEmployeeHotelPosition() {
+        try {
+            List<List<String>> list = hotelsEmployeesRepository.getEmployeeHotelPosition();
             return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /********** WorkPlanEmployees endpoints **********/
-
     @PostMapping("/workplanemployee")
-    public ResponseEntity<WorkPlanEmployees> addWorkPlanEmployees(@RequestBody WorkPlanEmployees workPlanEmployees){
+    public ResponseEntity<?> addWorkPlanEmployees(@RequestBody WorkPlanEmployees workPlanEmployees) {
         try {
-            WorkPlanEmployees createdWorkPlanEmployees = workPlanEmployeesRepository.addWorkPlanEmployees(workPlanEmployees);
-            return new ResponseEntity<>(createdWorkPlanEmployees, HttpStatus.CREATED);
-        }catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            WorkPlanEmployees created = workPlanEmployeesRepository.addWorkPlanEmployees(workPlanEmployees);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(error(e.getMessage(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/workplanemployee/{id}")
-    public ResponseEntity<Boolean> deleteWorkPlanEmployees(@PathVariable("id") long id){
-        try{
-            Boolean deletedWorkPlanEmployees = workPlanEmployeesRepository.deleteWorkPlanEmployees(id);
-            return new ResponseEntity<>(deletedWorkPlanEmployees, HttpStatus.CREATED);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> deleteWorkPlanEmployees(@PathVariable("id") long id) {
+        try {
+            workPlanEmployeesRepository.deleteWorkPlanEmployees(id);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/workplanemployees")
-    public ResponseEntity<List<List>> getWorkPlanEmployees(){
-        try{
-            List<List> list = workPlanEmployeesRepository.getWorkPlanEmployees();
+    public ResponseEntity<?> getWorkPlanEmployees() {
+        try {
+            List<List<?>> list = workPlanEmployeesRepository.getWorkPlanEmployees();
             return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    /********** AllData endpoints **********/
 
     @GetMapping("/alldata")
-    public ResponseEntity<List<AllData>> getAllData(){
-        try{
+    public ResponseEntity<?> getAllData() {
+        try {
             List<AllData> list = allDataRepository.getAllData();
             return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (EmptyResultDataAccessException exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception exception){
-            exception.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(error("Database error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
