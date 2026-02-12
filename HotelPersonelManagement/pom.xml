@@ -8,7 +8,7 @@
 		<version>2.6.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.hospitality_company</groupId>
+	<groupId>com</groupId>
 	<artifactId>HotelPersonelManagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>HotelPersonelManagement</name>

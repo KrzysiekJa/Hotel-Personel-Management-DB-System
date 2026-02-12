@@ -1,4 +1,4 @@
-package com.hospitality_company.HotelPersonelManagement.models;
+package com.HotelPersonelManagement.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

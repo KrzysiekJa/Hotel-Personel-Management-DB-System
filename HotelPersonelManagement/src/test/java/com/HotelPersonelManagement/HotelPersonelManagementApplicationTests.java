@@ -1,4 +1,4 @@
-package com.hospitality_company.HotelPersonelManagement;
+package com.HotelPersonelManagement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

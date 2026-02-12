@@ -1,14 +1,15 @@
-package com.hospitality_company.HotelPersonelManagement.models;
+package com.HotelPersonelManagement.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeesSkills {
-    private long employee_skill_ID;
-    private long employee_ID;
+public class Skill {
     private long skill_ID;
+    private String name;
+    private String description;
 }

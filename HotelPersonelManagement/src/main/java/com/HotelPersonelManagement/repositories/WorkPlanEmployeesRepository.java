@@ -1,6 +1,6 @@
-package com.hospitality_company.HotelPersonelManagement.repositories;
+package com.HotelPersonelManagement.repositories;
 
-import com.hospitality_company.HotelPersonelManagement.models.WorkPlanEmployees;
+import com.HotelPersonelManagement.models.WorkPlanEmployees;
 import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;

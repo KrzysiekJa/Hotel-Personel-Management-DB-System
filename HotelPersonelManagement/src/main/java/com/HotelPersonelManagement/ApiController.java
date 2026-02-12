@@ -1,7 +1,7 @@
-package com.hospitality_company.HotelPersonelManagement;
+package com.HotelPersonelManagement;
 
-import com.hospitality_company.HotelPersonelManagement.models.*;
-import com.hospitality_company.HotelPersonelManagement.repositories.*;
+import com.HotelPersonelManagement.models.*;
+import com.HotelPersonelManagement.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
